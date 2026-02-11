@@ -1,13 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Layers, CircleAlert, Plus, GripVertical  } from "lucide-react";
+import {
+  Layers,
+  CircleAlert,
+  Plus,
+  GripVertical,
+  Minus,
+  Trash2,
+  Sparkles,
+  ArrowLeft,
+  ArrowRight,
+} from "lucide-react";
 
 export default function DocTypeSize() {
+  const Navigate = useNavigate();
   const [slideCount, setSlideCount] = useState(10); //update from prev section
   const [allocatedSlideCount, setAllocatedSlideCount] = useState(0);
   const [remainingSlides, setRemainingSlides] = useState(2);
   const [status, setStatus] = useState("red");
-  const [secnStatus, setsecnStatus] = useState(0);
+  const [showAddSection, setShowAddSection] = useState(false);
+  const [newSectionName, setNewSectionName] = useState("");
+  const [isValid, setIsValid] = useState(false);
 
   const statusColorMap = {
     green: {
@@ -59,18 +72,21 @@ export default function DocTypeSize() {
 
     if (remaining === 0) {
       setStatus("green");
+      setIsValid(true);
     } else if (remaining > 0) {
       setStatus("yellow");
+      setIsValid(false);
     } else {
+      setIsValid(false)
       setStatus("red");
     }
   }, [slideCount, allocatedSlideCount]);
 
   const [sections, setSections] = useState([
     { id: 1, name: "Title Slide", count: 1, locked: true },
-    { id: 2, name: "Introduction", count: 2, locked: false },
-    { id: 3, name: "Main Content", count: 8, locked: false },
-    { id: 4, name: "Conclusion", count: 2, locked: false },
+    { id: 2, name: "Introduction", count: 1, locked: false },
+    { id: 3, name: "Main Content", count: 1, locked: false },
+    { id: 4, name: "Conclusion", count: 1, locked: false },
     { id: 5, name: "References", count: 1, locked: false },
   ]);
 
@@ -82,6 +98,38 @@ export default function DocTypeSize() {
     setAllocatedSlideCount(allotedSlides);
   }, [sections]);
 
+  const handleDeleteSection = (idx) => {
+    setSections((prevSections) =>
+      prevSections.filter((section) => section.id !== idx),
+    );
+  };
+
+  const handleIncrement = (id) => {
+    setSections((prevSections) =>
+      prevSections.map((section) =>
+        section.id === id ? { ...section, count: section.count + 1 } : section,
+      ),
+    );
+  };
+
+  const handleDecrement = (id) => {
+    setSections((prevSections) =>
+      prevSections.map((section) =>
+        section.id === id
+          ? { ...section, count: Math.max(0, section.count - 1) }
+          : section,
+      ),
+    );
+  };
+
+  const handleManualChange = (id, value) => {
+    if (value < 0) return;
+
+    setSections((prev) =>
+      prev.map((obj) => (obj.id === id ? { ...obj, count: value } : obj)),
+    );
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-cyan-50 to-blue-100">
       {/* Progress Bar */}
@@ -89,14 +137,14 @@ export default function DocTypeSize() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between mb-2">
             <span className="text-sm font-medium text-blue-600">
-              Step 3 of 5
+              Step 3 of 4
             </span>
             <span className="text-sm text-gray-500">Document Structure</span>
           </div>
           <div className="w-full bg-gray-200 rounded-full h-2">
             <div
               className="bg-gradient-to-r from-blue-500 to-cyan-500 h-2 rounded-full transition-all duration-500"
-              style={{ width: "60%" }}
+              style={{ width: "75%" }}
             ></div>
           </div>
         </div>
@@ -128,7 +176,7 @@ export default function DocTypeSize() {
                   Allocation status
                 </span>
                 <div className="flex gap-2 align-middle ">
-                  <span className="text-[35px] font-medium font-archivo ">
+                  <span className="text-[35px] font-bold ">
                     {allocatedSlideCount}
                   </span>
                   <span className="mt-5 text-lg text-gray-700">
@@ -139,7 +187,7 @@ export default function DocTypeSize() {
               <div className="font-medium flex flex-col">
                 <span className="text-gray-700 font-medium">Remaining</span>
                 <div
-                  className={`${statusColorMap[status].text} text-[35px] font-medium font-archivo`}
+                  className={`${statusColorMap[status].text} text-[35px] font-medium  `}
                 >
                   {remainingSlides}
                 </div>
@@ -156,18 +204,208 @@ export default function DocTypeSize() {
           <section className="flex flex-col mt-5">
             <div className="flex justify-between">
               <div>Document Sections</div>
-              <div className="flex gap-1 text-blue-700 cursor-pointer">
+              <div
+                className="flex gap-1 text-blue-700 cursor-pointer"
+                onClick={() => setShowAddSection(true)}
+              >
                 <Plus className="font-bold" />
                 <span className="font-medium">Add section</span>
               </div>
             </div>
 
             <div>
-              
+              {sections.map((obj, idx) => {
+                return (
+                  <div className="mt-3 border border-gray-200 bg-slate-50 rounded-lg flex justify-between p-3">
+                    <div className="flex gap-3 items-center">
+                      <GripVertical className="text-gray-400" />
+
+                      <span className="inline-flex items-center justify-center min-w-[2rem] h-8 px-2 bg-gradient-to-br from-blue-500 to-cyan-500 font-medium text-[16px] text-white rounded-lg">
+                        {idx + 1}
+                      </span>
+
+                      <div className="flex flex-col leading-tight">
+                        <span className="text-[16px] font-medium">
+                          {obj.name}
+                        </span>
+                        <span className="text-sm text-gray-600">
+                          {obj.count} slides
+                        </span>
+                      </div>
+                    </div>
+                    <div className="flex gap-2 items-center">
+                      <div
+                        className={`flex items-center justify-center text-[20px] border-2 rounded-md h-8 w-8 ${obj.locked ? "border-gray-200 text-gray-300 cursor-not-allowed" : "border-gray-300 cursor-pointer"}`}
+                        onClick={() => !obj.locked && handleDecrement(obj.id)}
+                      >
+                        <Minus className="h-4 w-4" />
+                      </div>
+
+                      <input
+                        type="number"
+                        value={obj.count}
+                        disabled={obj.locked}
+                        onChange={(e) =>
+                          handleManualChange(obj.id, Number(e.target.value))
+                        }
+                        className={`bg-white text-center border-2 font-medium rounded-md h-8 w-14 outline-none${obj.locked ? "border-gray-200 text-gray-400" : "border-gray-300"}`}
+                      />
+
+                      <div
+                        className={`flex items-center justify-center text-[20px] border-2 rounded-md h-8 w-8${obj.locked ? "border-gray-200 text-gray-300 cursor-not-allowed" : "border-gray-300 cursor-pointer"}`}
+                        onClick={() => !obj.locked && handleIncrement(obj.id)}
+                      >
+                        <Plus className="h-4 w-4" />
+                      </div>
+
+                      <button
+                        disabled={obj.locked}
+                        onClick={() => handleDeleteSection(obj.id)}
+                        className={`w-8 h-8 rounded-lg transition flex items-center justify-center ${obj.locked ? "text-gray-300 cursor-not-allowed" : "text-gray-400 hover:bg-red-50 hover:text-red-600"}`}
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
 
-            <div></div>
+            {showAddSection && (
+              <div className="mt-4 bg-blue-50 border border-blue-200 rounded-xl p-5">
+                <h3 className="font-semibold text-gray-900 mb-3">
+                  Add New Section
+                </h3>
+
+                <label className="text-sm text-gray-700 block mb-2">
+                  Custom Section Name
+                </label>
+
+                <div className="flex gap-3 mb-4">
+                  <input
+                    type="text"
+                    placeholder="Enter section name..."
+                    value={newSectionName}
+                    onChange={(e) => setNewSectionName(e.target.value)}
+                    className="flex-1 px-3 py-2 border border-gray-300 rounded-lg outline-none"
+                  />
+
+                  <button
+                    className="px-5 py-2 bg-blue-500 text-white rounded-lg"
+                    onClick={() => {
+                      if (!newSectionName.trim()) return;
+
+                      setSections((prev) => [
+                        ...prev,
+                        {
+                          id: Date.now(),
+                          name: newSectionName,
+                          count: 1,
+                          locked: false,
+                        },
+                      ]);
+
+                      setNewSectionName("");
+                      setShowAddSection(false);
+                    }}
+                  >
+                    Add
+                  </button>
+                </div>
+
+                <p className="text-sm text-gray-600 mb-2">
+                  Or choose from common sections:
+                </p>
+
+                <div className="flex flex-wrap gap-2">
+                  {[
+                    "Table of Contents",
+                    "Background",
+                    "Methodology",
+                    "Analysis",
+                    "Results",
+                    "Discussion",
+                    "Recommendations",
+                    "Q&A",
+                    "Appendix",
+                  ].map((item) => (
+                    <button
+                      key={item}
+                      className="px-3 py-1.5 border border-blue-300 rounded-full text-sm text-blue-700 hover:bg-blue-100"
+                      onClick={() => {
+                        setSections((prev) => [
+                          ...prev,
+                          {
+                            id: Date.now(),
+                            name: item,
+                            count: 1,
+                            locked: false,
+                          },
+                        ]);
+                        setShowAddSection(false);
+                      }}
+                    >
+                      + {item}
+                    </button>
+                  ))}
+                </div>
+
+                <div className="text-right mt-4">
+                  <button
+                    className="text-sm text-gray-500 hover:text-red-500"
+                    onClick={() => setShowAddSection(false)}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            )}
           </section>
+
+          {/* Tips Card */}
+          <div className="bg-gradient-to-r mt-10 from-blue-50 to-cyan-50 rounded-xl p-6 mb-8 border border-blue-100">
+            <div className="flex items-start space-x-3">
+              <div className="flex-shrink-0">
+                <div className="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center">
+                  <Sparkles className="w-5 h-5 text-white" />
+                </div>
+              </div>
+              <div>
+                <h3 className="font-semibold text-gray-900 mb-2">Pro Tips</h3>
+                <ul className="text-sm text-gray-600 space-y-1">
+                  <li>• Drag sections to reorder them</li>
+                  <li>• Use auto-distribute for even allocation</li>
+                  <li>• You can always adjust counts later</li>
+                  <li>
+                    • Title and key sections are recommended for all documents
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex items-center justify-between pt-6 border-t border-gray-200">
+            <button
+              className="flex items-center space-x-2 px-6 py-3 text-gray-600 hover:text-white hover:bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full transition"
+              onClick={() => Navigate("../TopicName")}
+            >
+              <ArrowLeft className="w-5 h-5" />
+              <span className="font-medium">Back</span>
+            </button>
+
+            <button
+              onClick={() => Navigate("../LastStep")}
+              disabled={!isValid}
+              className={`flex items-center space-x-2 px-8 py-3 rounded-xl font-semibold transition transform ${
+                isValid
+                  ? "bg-gradient-to-r from-blue-500 to-cyan-500 text-white hover:shadow-lg hover:scale-105"
+                  : "bg-gray-200 text-gray-400 cursor-not-allowed"
+              }`}
+            >
+              <span>Continue</span>
+              <ArrowRight className="w-5 h-5" />
+            </button>
+          </div>
         </div>
       </main>
 
@@ -180,13 +418,7 @@ export default function DocTypeSize() {
               <div className="w-5 h-5 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center flex-shrink-0 mt-0.5">
                 <span className="text-xs font-bold">4</span>
               </div>
-              <span>Set sections & format</span>
-            </li>
-            <li className="flex items-start space-x-2">
-              <div className="w-5 h-5 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center flex-shrink-0 mt-0.5">
-                <span className="text-xs font-bold">5</span>
-              </div>
-              <span>Upload templates & rules</span>
+              <span>Customize & Generate</span>
             </li>
           </ul>
         </div>

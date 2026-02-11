@@ -50,12 +50,12 @@ export default function HeroSec() {
     },
     {
       number: "02",
-      title: "Set Structure",
-      description: "Define number of slides/pages and document type",
+      title: "Select Document Type & Size",
+      description: "Choose your document type and specify how many slides you need.",
     },
     {
       number: "03",
-      title: "Choose Format",
+      title: "Define your structure",
       description: "Select sections: intro, contents, body, conclusion, etc.",
     },
     {

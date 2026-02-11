@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {
   FileText,
-  Presentation,
   ArrowRight,
   ArrowLeft,
   Lightbulb,
@@ -62,14 +61,14 @@ export default function TopicName() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between mb-2">
             <span className="text-sm font-medium text-blue-600">
-              Step 1 of 5
+              Step 1 of 4
             </span>
             <span className="text-sm text-gray-500">Topic Selection</span>
           </div>
           <div className="w-full bg-gray-200 rounded-full h-2">
             <div
               className="bg-gradient-to-r from-blue-500 to-cyan-500 h-2 rounded-full transition-all duration-500"
-              style={{ width: "20%" }}
+              style={{ width: "25%" }}
             ></div>
           </div>
         </div>
@@ -266,13 +265,7 @@ export default function TopicName() {
               <div className="w-5 h-5 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center flex-shrink-0 mt-0.5">
                 <span className="text-xs font-bold">4</span>
               </div>
-              <span>Set sections & format</span>
-            </li>
-            <li className="flex items-start space-x-2">
-              <div className="w-5 h-5 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center flex-shrink-0 mt-0.5">
-                <span className="text-xs font-bold">5</span>
-              </div>
-              <span>Upload templates & rules</span>
+              <span>Customize & Generate</span>
             </li>
           </ul>
         </div>
