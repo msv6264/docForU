@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import {
   Layers,
   CircleAlert,
@@ -13,14 +13,52 @@ import {
 } from "lucide-react";
 
 export default function DocTypeSize() {
-  const Navigate = useNavigate();
-  const [slideCount, setSlideCount] = useState(10); //update from prev section
+  const navigate = useNavigate();
+  const [slideCount, setSlideCount] = useState(0); //update from prev section
   const [allocatedSlideCount, setAllocatedSlideCount] = useState(0);
-  const [remainingSlides, setRemainingSlides] = useState(2);
+  const [remainingSlides, setRemainingSlides] = useState(0);
   const [status, setStatus] = useState("red");
   const [showAddSection, setShowAddSection] = useState(false);
   const [newSectionName, setNewSectionName] = useState("");
   const [isValid, setIsValid] = useState(false);
+  const [draggedId, setDraggedId] = useState(null); //which item is being dragged
+
+  const handleDragStart = (id) => {
+    setDraggedId(id);
+  };
+
+  const handleDrop = (e, targetId) => {
+    e.preventDefault();
+
+    if (draggedId === null || draggedId === targetId) return;
+
+    setSections((prev) => {
+      const updated = [...prev];
+
+      const draggedIdx = updated.findIndex(
+        (section) => section.id === draggedId,
+      );
+
+      const targetIdx = updated.findIndex((section) => section.id === targetId);
+
+      if (draggedIdx === -1 || targetIdx === -1) return prev;
+
+      const [movedItem] = updated.splice(draggedIdx, 1);
+      updated.splice(targetIdx, 0, movedItem);
+
+      return updated;
+    });
+
+    setDraggedId(null);
+  };
+
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.state?.cnt !== undefined) {
+      setSlideCount(location.state.cnt);
+    }
+  }, [location.state]);
 
   const statusColorMap = {
     green: {
@@ -77,7 +115,7 @@ export default function DocTypeSize() {
       setStatus("yellow");
       setIsValid(false);
     } else {
-      setIsValid(false)
+      setIsValid(false);
       setStatus("red");
     }
   }, [slideCount, allocatedSlideCount]);
@@ -205,8 +243,15 @@ export default function DocTypeSize() {
             <div className="flex justify-between">
               <div>Document Sections</div>
               <div
-                className="flex gap-1 text-blue-700 cursor-pointer"
-                onClick={() => setShowAddSection(true)}
+                className={`flex gap-1 ${
+                  status === "red"
+                    ? "text-gray-400 cursor-not-allowed"
+                    : "text-blue-700 cursor-pointer"
+                }`}
+                onClick={() => {
+                  if (status === "red") return;
+                  setShowAddSection(true);
+                }}
               >
                 <Plus className="font-bold" />
                 <span className="font-medium">Add section</span>
@@ -216,9 +261,22 @@ export default function DocTypeSize() {
             <div>
               {sections.map((obj, idx) => {
                 return (
-                  <div className="mt-3 border border-gray-200 bg-slate-50 rounded-lg flex justify-between p-3">
+                  <div
+                    key={obj.id}
+                    draggable={!obj.locked}
+                    onDragStart={() => handleDragStart(obj.id)}
+                    onDragOver={(e) => e.preventDefault()}
+                    onDrop={(e) => handleDrop(e, obj.id)}
+                    className="mt-3 border border-gray-200 bg-slate-50 rounded-lg flex justify-between p-3"
+                  >
                     <div className="flex gap-3 items-center">
-                      <GripVertical className="text-gray-400" />
+                      <GripVertical
+                        className={`${
+                          obj.locked
+                            ? "text-gray-300 cursor-not-allowed"
+                            : "text-gray-400 cursor-grab"
+                        }`}
+                      />
 
                       <span className="inline-flex items-center justify-center min-w-[2rem] h-8 px-2 bg-gradient-to-br from-blue-500 to-cyan-500 font-medium text-[16px] text-white rounded-lg">
                         {idx + 1}
@@ -248,7 +306,7 @@ export default function DocTypeSize() {
                         onChange={(e) =>
                           handleManualChange(obj.id, Number(e.target.value))
                         }
-                        className={`bg-white text-center border-2 font-medium rounded-md h-8 w-14 outline-none${obj.locked ? "border-gray-200 text-gray-400" : "border-gray-300"}`}
+                        className={`bg-white text-center border-2 font-medium rounded-md h-8 w-14 outline-none ${obj.locked ? "border-gray-200 text-gray-400" : "border-gray-300"}`}
                       />
 
                       <div
@@ -387,14 +445,14 @@ export default function DocTypeSize() {
           <div className="flex items-center justify-between pt-6 border-t border-gray-200">
             <button
               className="flex items-center space-x-2 px-6 py-3 text-gray-600 hover:text-white hover:bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full transition"
-              onClick={() => Navigate("../TopicName")}
+              onClick={() => navigate("../DocTypeSize")}
             >
               <ArrowLeft className="w-5 h-5" />
               <span className="font-medium">Back</span>
             </button>
 
             <button
-              onClick={() => Navigate("../LastStep")}
+              onClick={() => navigate("../LastStep")}
               disabled={!isValid}
               className={`flex items-center space-x-2 px-8 py-3 rounded-xl font-semibold transition transform ${
                 isValid

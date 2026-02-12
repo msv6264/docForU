@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   FileText,
   ArrowRight,
@@ -200,9 +200,7 @@ export default function TopicName() {
               <div>
                 <h3 className="font-semibold text-gray-900 mb-1">Pro Tip</h3>
                 <p className="text-sm text-gray-600">
-                  The more specific your topic, the better our AI can generate
-                  relevant content. Include key terms or focus areas for best
-                  results!
+                  The more specific your topic, the better our AI can generate relevant content. Include key terms or focus areas for best results!
                 </p>
               </div>
             </div>
@@ -244,7 +242,7 @@ export default function TopicName() {
         </div>
       </main>
 
-      {/* Side Info Panel (Optional - visible on larger screens) */}
+      {/* Side Info Panel */}
       <div className="hidden lg:block fixed right-8 top-1/2 transform -translate-y-1/2 w-64">
         <div className="bg-white rounded-xl shadow-lg p-6 border border-blue-100">
           <h3 className="font-bold text-gray-900 mb-4">What Happens Next?</h3>

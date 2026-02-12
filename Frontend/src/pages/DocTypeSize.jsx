@@ -92,10 +92,10 @@ export default function DocTypeSize() {
     }
   };
 
-  const handleContinue = () => {
-    console.log("Proceeding with:", { documentType, slideCount, unitName });
-    // Navigate to next step
-  };
+  // const handleContinue = () => {
+  //   console.log("Proceeding with:", { documentType, slideCount, unitName });
+  //   // Navigate to next step
+  // };
 
   const getRecommendation = () => {
     if (slideCount <= 5) return "Quick overview";
@@ -104,6 +104,14 @@ export default function DocTypeSize() {
     if (slideCount <= 30) return "Comprehensive";
     return "Extensive material";
   };
+
+  const sendingSlideCount = () => {
+    Navigate("/StrucOfDoc", {
+      state: {
+        cnt: slideCount,
+      }
+    })
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-cyan-50 to-blue-100">
@@ -368,7 +376,7 @@ export default function DocTypeSize() {
             </button>
 
             <button
-              onClick={() => Navigate("../StrucOfDoc")}
+              onClick={sendingSlideCount}
               className="flex items-center space-x-2 px-8 py-3 rounded-xl font-semibold bg-gradient-to-r from-blue-500 to-cyan-500 text-white hover:shadow-lg transition transform hover:scale-105"
             >
               <span>Continue</span>

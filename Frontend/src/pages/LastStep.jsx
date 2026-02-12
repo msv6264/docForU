@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  FileText,
-  Presentation,
   ArrowRight,
   ArrowLeft,
   Sparkles,
@@ -10,7 +8,6 @@ import {
   X,
   FileCheck,
   AlertCircle,
-  Download,
   Check,
   Zap,
   PlayCircle,
@@ -44,7 +41,6 @@ export default function LastStep() {
   };
 
   const handleFileUpload = (file) => {
-    // Validate file type
     const validTypes = [".pptx", ".docx", ".pdf"];
     const fileExtension = "." + file.name.split(".").pop().toLowerCase();
 
@@ -72,7 +68,6 @@ export default function LastStep() {
 
   const handleGenerate = () => {
     setIsGenerating(true);
-    // Simulate generation process
     console.log("Generating document with:", {
       template: uploadedFile,
       rules: customRules,
