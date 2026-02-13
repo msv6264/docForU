@@ -12,11 +12,10 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-export default function TopicName() {
-  const [topic, setTopic] = useState("");
-  const [description, setDescription] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("");
+export default function TopicName({ docData, setDocData }) {
   const Navigate = useNavigate();
+  const selectedCategory = docData.category;
+  const topic = docData.topicName || "";
 
   const categories = [
     {
@@ -41,6 +40,29 @@ export default function TopicName() {
     },
   ];
 
+  const colorMap = {
+    blue: {
+      border: "border-blue-500",
+      bg: "bg-blue-50",
+      text: "text-blue-600",
+    },
+    cyan: {
+      border: "border-cyan-500",
+      bg: "bg-cyan-50",
+      text: "text-cyan-600",
+    },
+    indigo: {
+      border: "border-indigo-500",
+      bg: "bg-indigo-50",
+      text: "text-indigo-600",
+    },
+    purple: {
+      border: "border-purple-500",
+      bg: "bg-purple-50",
+      text: "text-purple-600",
+    },
+  };
+
   const suggestions = [
     "Climate Change and Its Global Impact",
     "Machine Learning Fundamentals",
@@ -51,7 +73,17 @@ export default function TopicName() {
   ];
 
   const handleSuggestionClick = (suggestion) => {
-    setTopic(suggestion);
+    setDocData({
+      ...docData,
+      topicName: suggestion,
+    });
+  };
+
+  const handleCategory = (categoryName) => {
+    setDocData({
+      ...docData,
+      category: categoryName,
+    });
   };
 
   return (
@@ -100,17 +132,17 @@ export default function TopicName() {
               {categories.map((category, index) => (
                 <button
                   key={index}
-                  onClick={() => setSelectedCategory(category.name)}
+                  onClick={() => handleCategory(category.name)}
                   className={`p-4 rounded-xl border-2 transition transform hover:scale-105 ${
                     selectedCategory === category.name
-                      ? `border-${category.color}-500 bg-${category.color}-50`
+                      ? `${colorMap[category.color].border} ${colorMap[category.color].bg}`
                       : "border-gray-200 hover:border-blue-300 bg-white"
                   }`}
                 >
                   <div
                     className={`flex flex-col items-center space-y-2 ${
                       selectedCategory === category.name
-                        ? `text-${category.color}-600`
+                        ? colorMap[category.color].text
                         : "text-gray-600"
                     }`}
                   >
@@ -134,8 +166,13 @@ export default function TopicName() {
               <input
                 type="text"
                 id="topic"
-                value={topic}
-                onChange={(e) => setTopic(e.target.value)}
+                value={docData.topicName}
+                onChange={(e) =>
+                  setDocData({
+                    ...docData,
+                    topicName: e.target.value,
+                  })
+                }
                 placeholder="e.g., The Impact of Artificial Intelligence on Healthcare"
                 className="w-full px-4 py-4 text-lg border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none transition"
               />
@@ -157,14 +194,19 @@ export default function TopicName() {
             </label>
             <textarea
               id="description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
+              value={docData.focusAreaOfTopic}
+              onChange={(e) =>
+                setDocData({
+                  ...docData,
+                  focusAreaOfTopic: e.target.value,
+                })
+              }
               placeholder="Add any specific focus areas, perspectives, or context you'd like to include..."
               rows="4"
               className="w-full px-4 py-4 text-lg border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none transition resize-none"
             ></textarea>
             <p className="text-sm text-gray-500 mt-2">
-              {description.length}/500 characters
+              {docData.focusAreaOfTopic?.length || 0}/500 characters
             </p>
           </div>
 
@@ -200,7 +242,9 @@ export default function TopicName() {
               <div>
                 <h3 className="font-semibold text-gray-900 mb-1">Pro Tip</h3>
                 <p className="text-sm text-gray-600">
-                  The more specific your topic, the better our AI can generate relevant content. Include key terms or focus areas for best results!
+                  The more specific your topic, the better our AI can generate
+                  relevant content. Include key terms or focus areas for best
+                  results!
                 </p>
               </div>
             </div>

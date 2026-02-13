@@ -13,12 +13,21 @@ import {
   Minus,
 } from "lucide-react";
 
-export default function DocTypeSize() {
-  const [slideCount, setSlideCount] = useState(10);
-  const [documentType, setDocumentType] = useState("presentation");
+export default function DocTypeSize({ docData, setDocData }) {
   const [customCount, setCustomCount] = useState("");
   const [showCustomInput, setShowCustomInput] = useState(false);
-  const Navigate = useNavigate() 
+  const navigate = useNavigate();
+  const slideCount = docData.noOfSlides || 10;
+  const documentType = docData.docType || "presentation";
+
+  const colorMap = {
+    blue: {
+      border: "border-blue-500",
+      bg: "bg-blue-50",
+      text: "text-blue-600",
+      softBg: "bg-blue-100",
+    },
+  };
 
   const documentTypes = [
     {
@@ -66,27 +75,39 @@ export default function DocTypeSize() {
 
   const handleIncrement = () => {
     if (slideCount < 30) {
-      setSlideCount(slideCount + 1);
+      setDocData({
+        ...docData,
+        noOfSlides: slideCount + 1,
+      });
       setShowCustomInput(false);
     }
   };
 
   const handleDecrement = () => {
     if (slideCount > 1) {
-      setSlideCount(slideCount - 1);
+      setDocData({
+        ...docData,
+        noOfSlides: slideCount - 1,
+      });
       setShowCustomInput(false);
     }
   };
 
   const handlePresetClick = (count) => {
-    setSlideCount(count);
+    setDocData({
+      ...docData,
+      noOfSlides: count,
+    });
     setShowCustomInput(false);
   };
 
   const handleCustomSubmit = () => {
     const count = parseInt(customCount);
     if (count >= 1 && count <= 30) {
-      setSlideCount(count);
+      setDocData({
+        ...docData,
+        noOfSlides: count,
+      });
       setShowCustomInput(false);
       setCustomCount("");
     }
@@ -106,12 +127,12 @@ export default function DocTypeSize() {
   };
 
   const sendingSlideCount = () => {
-    Navigate("/StrucOfDoc", {
+    navigate("/StrucOfDoc", {
       state: {
         cnt: slideCount,
-      }
-    })
-  }
+      },
+    });
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-cyan-50 to-blue-100">
@@ -161,24 +182,29 @@ export default function DocTypeSize() {
               {documentTypes.map((type) => (
                 <button
                   key={type.id}
-                  onClick={() => setDocumentType(type.id)}
+                  onClick={() =>
+                    setDocData({
+                      ...docData,
+                      docType: type.id,
+                    })
+                  }
                   className={`p-5 rounded-xl border-2 transition transform hover:scale-105 ${
                     documentType === type.id
-                      ? `border-${type.color}-500 bg-${type.color}-50 shadow-md`
+                      ? `${colorMap.blue.border} ${colorMap.blue.bg} shadow-md`
                       : "border-gray-200 hover:border-blue-300 bg-white"
                   }`}
                 >
                   <div
                     className={`flex flex-col items-center space-y-3 ${
                       documentType === type.id
-                        ? `text-${type.color}-600`
+  ? colorMap.blue.text
                         : "text-gray-600"
                     }`}
                   >
                     <div
                       className={`p-3 rounded-lg ${
                         documentType === type.id
-                          ? `bg-${type.color}-100`
+  ? colorMap.blue.softBg
                           : "bg-gray-100"
                       }`}
                     >

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   ArrowRight,
@@ -13,12 +13,18 @@ import {
   PlayCircle,
 } from "lucide-react";
 
-export default function LastStep() {
+export default function RulesForDoc({ docData, setDocData }) {
   const [uploadedFile, setUploadedFile] = useState(null);
-  const [customRules, setCustomRules] = useState("");
   const [isDragging, setIsDragging] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
   const Navigate = useNavigate();
+
+  const updateRulesForDoc = (value) => {
+    setDocData((prev) => ({
+      ...prev,
+      rulesForDoc: value,
+    }));
+  };
 
   const handleDragOver = (e) => {
     e.preventDefault();
@@ -70,7 +76,7 @@ export default function LastStep() {
     setIsGenerating(true);
     console.log("Generating document with:", {
       template: uploadedFile,
-      rules: customRules,
+      rules: docData.rulesForDoc,
     });
   };
 
@@ -243,8 +249,8 @@ export default function LastStep() {
               </div>
 
               <textarea
-                value={customRules}
-                onChange={(e) => setCustomRules(e.target.value)}
+                value={docData.rulesForDoc}
+                onChange={(e) => updateRulesForDoc(e.target.value)}
                 placeholder="Example rules:
                 • Use company colors: #003366 (blue) and #FFB81C (yellow)
                 • Include our logo on every slide
@@ -257,7 +263,7 @@ export default function LastStep() {
               ></textarea>
 
               <p className="text-sm text-gray-500 mt-2">
-                {customRules.length}/1000 characters
+                {docData.rulesForDoc.length}/1000 characters
               </p>
 
               {/* Rules Examples */}
@@ -276,9 +282,9 @@ export default function LastStep() {
                     <button
                       key={index}
                       onClick={() =>
-                        setCustomRules(
-                          customRules +
-                            (customRules ? "\n" : "") +
+                        updateRulesForDoc(
+                          docData.rulesForDoc +
+                            (docData.rulesForDoc ? "\n" : "") +
                             "• " +
                             example,
                         )
@@ -315,7 +321,7 @@ export default function LastStep() {
               </button>
 
               {/* Skip Button */}
-              {!uploadedFile && !customRules && (
+              {!uploadedFile && !docData.rulesForDoc && (
                 <button
                   onClick={handleSkipAndGenerate}
                   disabled={isGenerating}

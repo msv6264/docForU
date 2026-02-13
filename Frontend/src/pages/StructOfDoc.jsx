@@ -12,7 +12,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 
-export default function DocTypeSize() {
+export default function DocTypeSize({ docData, setDocData }) {
   const navigate = useNavigate();
   const [slideCount, setSlideCount] = useState(0); //update from prev section
   const [allocatedSlideCount, setAllocatedSlideCount] = useState(0);
@@ -32,23 +32,17 @@ export default function DocTypeSize() {
 
     if (draggedId === null || draggedId === targetId) return;
 
-    setSections((prev) => {
-      const updated = [...prev];
+    const updated = [...sections];
 
-      const draggedIdx = updated.findIndex(
-        (section) => section.id === draggedId,
-      );
+    const draggedIdx = updated.findIndex((section) => section.id === draggedId);
+    const targetIdx = updated.findIndex((section) => section.id === targetId);
 
-      const targetIdx = updated.findIndex((section) => section.id === targetId);
+    if (draggedIdx === -1 || targetIdx === -1) return;
 
-      if (draggedIdx === -1 || targetIdx === -1) return prev;
+    const [movedItem] = updated.splice(draggedIdx, 1);
+    updated.splice(targetIdx, 0, movedItem);
 
-      const [movedItem] = updated.splice(draggedIdx, 1);
-      updated.splice(targetIdx, 0, movedItem);
-
-      return updated;
-    });
-
+    updateSections(updated);
     setDraggedId(null);
   };
 
@@ -59,6 +53,15 @@ export default function DocTypeSize() {
       setSlideCount(location.state.cnt);
     }
   }, [location.state]);
+
+  const sections = docData.sections || [];
+
+  const updateSections = (updatedSections) => {
+    setDocData((prev) => ({
+      ...prev, //prev === current docData at the moment of update
+      sections: updatedSections,
+    }));
+  };
 
   const statusColorMap = {
     green: {
@@ -120,14 +123,6 @@ export default function DocTypeSize() {
     }
   }, [slideCount, allocatedSlideCount]);
 
-  const [sections, setSections] = useState([
-    { id: 1, name: "Title Slide", count: 1, locked: true },
-    { id: 2, name: "Introduction", count: 1, locked: false },
-    { id: 3, name: "Main Content", count: 1, locked: false },
-    { id: 4, name: "Conclusion", count: 1, locked: false },
-    { id: 5, name: "References", count: 1, locked: false },
-  ]);
-
   useEffect(() => {
     const allotedSlides = sections.reduce(
       (sum, section) => sum + section.count,
@@ -137,22 +132,20 @@ export default function DocTypeSize() {
   }, [sections]);
 
   const handleDeleteSection = (idx) => {
-    setSections((prevSections) =>
-      prevSections.filter((section) => section.id !== idx),
-    );
+    updateSections(sections.filter((section) => section.id !== idx));
   };
 
   const handleIncrement = (id) => {
-    setSections((prevSections) =>
-      prevSections.map((section) =>
+    updateSections(
+      sections.map((section) =>
         section.id === id ? { ...section, count: section.count + 1 } : section,
       ),
     );
   };
 
   const handleDecrement = (id) => {
-    setSections((prevSections) =>
-      prevSections.map((section) =>
+    updateSections(
+      sections.map((section) =>
         section.id === id
           ? { ...section, count: Math.max(0, section.count - 1) }
           : section,
@@ -163,8 +156,8 @@ export default function DocTypeSize() {
   const handleManualChange = (id, value) => {
     if (value < 0) return;
 
-    setSections((prev) =>
-      prev.map((obj) => (obj.id === id ? { ...obj, count: value } : obj)),
+    updateSections(
+      sections.map((obj) => (obj.id === id ? { ...obj, count: value } : obj)),
     );
   };
 
@@ -353,8 +346,8 @@ export default function DocTypeSize() {
                     onClick={() => {
                       if (!newSectionName.trim()) return;
 
-                      setSections((prev) => [
-                        ...prev,
+                      updateSections([
+                        ...sections,
                         {
                           id: Date.now(),
                           name: newSectionName,
@@ -391,8 +384,8 @@ export default function DocTypeSize() {
                       key={item}
                       className="px-3 py-1.5 border border-blue-300 rounded-full text-sm text-blue-700 hover:bg-blue-100"
                       onClick={() => {
-                        setSections((prev) => [
-                          ...prev,
+                        updateSections([
+                          ...sections,
                           {
                             id: Date.now(),
                             name: item,
@@ -400,6 +393,7 @@ export default function DocTypeSize() {
                             locked: false,
                           },
                         ]);
+
                         setShowAddSection(false);
                       }}
                     >
@@ -452,7 +446,7 @@ export default function DocTypeSize() {
             </button>
 
             <button
-              onClick={() => navigate("../LastStep")}
+              onClick={() => navigate("../RulesForDoc")}
               disabled={!isValid}
               className={`flex items-center space-x-2 px-8 py-3 rounded-xl font-semibold transition transform ${
                 isValid
