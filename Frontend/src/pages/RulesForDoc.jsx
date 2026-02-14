@@ -72,17 +72,30 @@ export default function RulesForDoc({ docData, setDocData }) {
     setUploadedFile(null);
   };
 
+  const handleSubmit = async() => {
+    try{
+      const response = await fetch("http://localhost:5000/receive-data", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(docData),
+      });
+
+      const data = await response.json();
+      console.log("Response from backend: ", data);
+    } catch (error) {
+      console.log("Error sending data: ", error);
+    }
+  };
+
   const handleGenerate = () => {
     setIsGenerating(true);
-    console.log("Generating document with:", {
-      template: uploadedFile,
-      rules: docData.rulesForDoc,
-    });
+    handleSubmit();
   };
 
   const handleSkipAndGenerate = () => {
     setIsGenerating(true);
-    console.log("Generating with defaults");
   };
 
   return (
