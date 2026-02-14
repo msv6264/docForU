@@ -1,7 +1,7 @@
-const express = require("express");
-const cors = require("cors");
+const express = require("express"); //importing packages
+const cors = require("cors"); // importing cors to avoid cors error, they usually occur, coz browser wont allow any backend due to security reasons
 
-const app = express();
+const app = express(); //to use express
 
 app.use(cors());
 app.use(express.json());
