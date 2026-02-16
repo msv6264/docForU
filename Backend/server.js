@@ -1,20 +1,38 @@
-const express = require("express"); //importing packages
-const cors = require("cors"); // importing cors to avoid cors error, they usually occur, coz browser wont allow any backend due to security reasons
+const express = require("express");
+const cors = require("cors");
+const multer = require("multer");
 
-const app = express(); //to use express
+const app = express();
 
 app.use(cors());
 app.use(express.json());
 
-app.post("/receive-data", (req, res) => {
-    console.log("Data from frontend: ", req.body);
+// const upload = multer({
+//   limits: { fileSize: 10 * 1024 * 1024 },
+//   fileFilter: function (req, file, callback) {
+//     const allowedTypes = {
+//       report: ["pdf", "docx"],
+//       detailedReport: ["pdf", "docx", "pptx", "xlsx"],
+//       handout: ["pdf", "docx", "pptx"],
+//       referenceMaterial: ["pdf", "docx", "txt", "md", "xlsx"],
+//     };
 
-    res.json({
-        message: "Backend received your data successfully",
-        receivedData: req.body
-    });
+//     const docData = JSON.parse(req.body.docData || "{}");
+//     const category = docData.category; this is not wanted category !!!!
+
+//     if (!ca)
+// });
+
+app.post("/receive-data", upload.single("file"), (req, res) => {
+  console.log("file:", req.file);
+  console.log("raw data:", req.body);
+
+  const docData = JSON.parse(req.body.docData || "{}");
+  console.log("Parsed data:", docData);
+
+  res.json({ message: "Received successfully" });
 });
 
 app.listen(5000, () => {
-    console.log("Server running on port 5000");
-})
+  console.log("Server running on port 5000");
+});

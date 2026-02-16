@@ -50,15 +50,17 @@ export default function RulesForDoc({ docData, setDocData }) {
     const validTypes = [".pptx", ".docx", ".pdf"];
     const fileExtension = "." + file.name.split(".").pop().toLowerCase();
 
-    if (validTypes.includes(fileExtension)) {
-      setUploadedFile({
-        name: file.name,
-        size: (file.size / 1024 / 1024).toFixed(2), // Convert to MB
-        type: fileExtension,
-      });
-    } else {
-      alert("Please upload a .pptx, .docx, or .pdf file");
+    if (file.size > 10 * 1024 * 1024) {
+      alert("Please upload file of maximum 10MB");
+      return;
     }
+
+    if (!validTypes.includes(fileExtension)) {
+      alert("Please upload a .pptx, .docx, or .pdf file");
+      return;
+    }
+
+    setUploadedFile(file);
   };
 
   const handleFileInputChange = (e) => {
@@ -72,14 +74,15 @@ export default function RulesForDoc({ docData, setDocData }) {
     setUploadedFile(null);
   };
 
-  const handleSubmit = async() => {
-    try{
+  const handleSubmit = async () => {
+    const formData = new FormData();
+    formData.append("file", uploadedFile);
+    formData.append("data", JSON.stringify(docData));
+
+    try {
       const response = await fetch("http://localhost:5000/receive-data", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(docData),
+        body: formData,
       });
 
       const data = await response.json();
