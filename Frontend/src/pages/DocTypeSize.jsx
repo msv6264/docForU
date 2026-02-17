@@ -113,11 +113,6 @@ export default function DocTypeSize({ docData, setDocData }) {
     }
   };
 
-  // const handleContinue = () => {
-  //   console.log("Proceeding with:", { documentType, slideCount, unitName });
-  //   // Navigate to next step
-  // };
-
   const getRecommendation = () => {
     if (slideCount <= 5) return "Quick overview";
     if (slideCount <= 10) return "Standard length";
