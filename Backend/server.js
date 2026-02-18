@@ -34,9 +34,6 @@ const upload = multer({
 });
 
 app.post("/receive-data", upload.single("file"), (req, res) => {
-  console.log("file:", req.file);
-  console.log("raw data:", req.body);
-
   const docData = JSON.parse(req.body.docData || "{}");
   console.log("Parsed data:", docData);
 

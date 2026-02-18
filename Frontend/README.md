@@ -1,16 +1,68 @@
-# React + Vite
+# DocForU 🚀
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+AI-powered resume enhancement and formatting tool.
 
-Currently, two official plugins are available:
+DocForU allows users to upload resumes (PDF/DOCX/Image), securely validates the file using magic number detection, extracts text, and sends it to an AI API for improvement and restructuring.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## ✨ Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- 📂 Resume Upload (PDF, DOCX, JPG, PNG)
+- 🔐 Secure File Validation using Magic Numbers
+- 📏 File Size Limit (10MB)
+- 🧠 AI-powered resume enhancement
+- ⚡ Memory-based file handling (no unsafe disk writes)
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🛠 Tech Stack
+
+### Backend
+- Node.js
+- Express.js
+- Multer (file upload handling)
+- file-type (magic number validation)
+- pdf-parse (PDF text extraction)
+- mammoth (DOCX text extraction)
+
+### Frontend
+- React.js
+- Tailwind CSS
+
+### AI Integration
+- External AI API (for resume enhancement)
+
+---
+
+## 🔐 Security Measures
+
+- File validation using **magic number detection** (not just extension or MIME type)
+- File size limited to **10MB**
+- Memory storage used before validation
+- Invalid file types are rejected immediately
+
+---
+
+## 📦 Installation
+
+### 1️⃣ Clone the repository
+
+```bash
+git clone <your-repo-url>
+cd DocForU
+```
+
+---
+
+### 2️⃣ Install Backend Dependencies
+```bash
+cd backend
+npm install
+```
+
+### 3️⃣ Install Frontend Dependencies
+```bash
+cd frontend
+npm install
+```
