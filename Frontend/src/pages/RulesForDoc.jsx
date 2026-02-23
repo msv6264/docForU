@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import Loader from "../components/loadingComp/Loader";
 import {
   ArrowRight,
   ArrowLeft,
@@ -17,6 +19,8 @@ export default function RulesForDoc({ docData, setDocData }) {
   const [uploadedFile, setUploadedFile] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
+  const [generatedData, setGeneratedData] = useState(null);
+  const [error, setError] = useState(null);
   const Navigate = useNavigate();
 
   const updateRulesForDoc = (value) => {
@@ -92,9 +96,23 @@ export default function RulesForDoc({ docData, setDocData }) {
     }
   };
 
-  const handleGenerate = () => {
-    setIsGenerating(true);
-    handleSubmit();
+  const handleGenerate = async () => {
+    try {
+      setIsGenerating(true);
+      setError(null);
+
+      const response = await axios.post(
+        "http://localhost:5000/generate",
+        docData,
+      );
+
+      setGeneratedData(response.data);
+    } catch (err) {
+      console.error(err);
+      setError("Generation failed. please try again");
+    } finally {
+      setIsGenerating(false);
+    }
   };
 
   const handleSkipAndGenerate = () => {
@@ -314,27 +332,20 @@ export default function RulesForDoc({ docData, setDocData }) {
               </div>
             </div>
 
-            {/* Action Buttons */}
             <div className="space-y-4">
-              {/* Primary Generate Button */}
-              <button
-                onClick={handleGenerate}
-                disabled={isGenerating}
-                className="w-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-8 py-5 rounded-xl font-bold text-lg hover:shadow-xl transition transform hover:scale-105 flex items-center justify-center space-x-3 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
-              >
                 {isGenerating ? (
-                  <>
-                    <div className="w-6 h-6 border-3 border-white border-t-transparent rounded-full animate-spin"></div>
-                    <span>Generating Your Document...</span>
-                  </>
+                  <Loader />
                 ) : (
-                  <>
+                  <button
+                    onClick={handleGenerate}
+                    disabled={isGenerating}
+                    className="w-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-8 py-5 rounded-xl font-bold text-lg hover:shadow-xl transition transform hover:scale-105 flex items-center justify-center space-x-3 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                  >
                     <Zap className="w-6 h-6" />
                     <span>Generate My Document</span>
                     <ArrowRight className="w-6 h-6" />
-                  </>
+                  </button>
                 )}
-              </button>
 
               {/* Skip Button */}
               {!uploadedFile && !docData.rulesForDoc && (
