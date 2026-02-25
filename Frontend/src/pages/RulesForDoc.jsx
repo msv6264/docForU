@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Loader from "../components/loadingComp/Loader";
@@ -78,16 +78,23 @@ export default function RulesForDoc({ docData, setDocData }) {
     setUploadedFile(null);
   };
 
-  const handleSubmit = async () => {
+  // useEffect(() => {
+
+  // })
+
+  const handleGenerate = async () => {
     const formData = new FormData();
     formData.append("file", uploadedFile);
     formData.append("data", JSON.stringify(docData));
+    setIsGenerating(true);
+    setError(null);
 
     try {
       const response = await fetch("http://localhost:5000/receive-data", {
         method: "POST",
         body: formData,
       });
+      setGeneratedData(response.data);
 
       const data = await response.json();
       console.log("Response from backend: ", data);
@@ -96,27 +103,8 @@ export default function RulesForDoc({ docData, setDocData }) {
     }
   };
 
-  const handleGenerate = async () => {
-    try {
-      setIsGenerating(true);
-      setError(null);
-
-      const response = await axios.post(
-        "http://localhost:5000/generate",
-        docData,
-      );
-
-      setGeneratedData(response.data);
-    } catch (err) {
-      console.error(err);
-      setError("Generation failed. please try again");
-    } finally {
-      setIsGenerating(false);
-    }
-  };
-
   const handleSkipAndGenerate = () => {
-    setIsGenerating(true);
+    handleGenerate();
   };
 
   return (
@@ -384,7 +372,7 @@ export default function RulesForDoc({ docData, setDocData }) {
                 </div>
                 <div className="flex items-start space-x-2">
                   <Check className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
-                  <span>Typically takes 30-60 seconds to generate</span>
+                  <span>Typically takes 5 -10 seconds to generate</span>
                 </div>
               </div>
             </div>
