@@ -14,7 +14,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function TopicName({ docData, setDocData }) {
   const Navigate = useNavigate();
-  const selectedCategory = docData.category;
+  const selectedCategory = docData.categoryOfFile;
   const topic = docData.topicName || "";
 
   const categories = [
@@ -82,7 +82,7 @@ export default function TopicName({ docData, setDocData }) {
   const handleCategory = (categoryName) => {
     setDocData({
       ...docData,
-      category: categoryName,
+      categoryOfFile: categoryName,
     });
   };
 
@@ -129,25 +129,25 @@ export default function TopicName({ docData, setDocData }) {
               Select Category (Optional)
             </label>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-              {categories.map((category, index) => (
+              {categories.map((categoryOfFile, index) => (
                 <button
                   key={index}
-                  onClick={() => handleCategory(category.name)}
+                  onClick={() => handleCategory(categoryOfFile.name)}
                   className={`p-4 rounded-xl border-2 transition transform hover:scale-105 ${
-                    selectedCategory === category.name
-                      ? `${colorMap[category.color].border} ${colorMap[category.color].bg}`
+                    selectedCategory === categoryOfFile.name
+                      ? `${colorMap[categoryOfFile.color].border} ${colorMap[categoryOfFile.color].bg}`
                       : "border-gray-200 hover:border-blue-300 bg-white"
                   }`}
                 >
                   <div
                     className={`flex flex-col items-center space-y-2 ${
-                      selectedCategory === category.name
-                        ? colorMap[category.color].text
+                      selectedCategory === categoryOfFile.name
+                        ? colorMap[categoryOfFile.color].text
                         : "text-gray-600"
                     }`}
                   >
-                    {category.icon}
-                    <span className="text-sm font-medium">{category.name}</span>
+                    {categoryOfFile.icon}
+                    <span className="text-sm font-medium">{categoryOfFile.name}</span>
                   </div>
                 </button>
               ))}

@@ -1,0 +1,33 @@
+sections: [
+  { id: 1, name: "Title Slide", count: 1 },
+  { id: 2, name: "Introduction", count: 2 }
+]
+
+       ||
+       \/
+
+Title Slide – 1 page
+Introduction – 2 pages
+Main Content – 5 pages
+Conclusion – 1 page
+References – 1 page
+
+🔹 If category = Academic
+Formal tone
+Citations style references
+Evidence-based explanations
+
+🔹 If category = Business
+Strategic tone
+Actionable insights
+ROI, impact, metrics
+
+🔹 If category = Research
+Analytical
+Hypothesis-driven
+Data-heavy
+
+🔹 If category = Educational
+Easy to understand
+Examples
+Teaching tone

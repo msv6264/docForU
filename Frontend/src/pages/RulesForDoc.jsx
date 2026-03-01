@@ -85,7 +85,7 @@ export default function RulesForDoc({ docData, setDocData }) {
   const handleGenerate = async () => {
     const formData = new FormData();
     formData.append("file", uploadedFile);
-    formData.append("data", JSON.stringify(docData));
+    formData.append("docData", JSON.stringify(docData));
     setIsGenerating(true);
     setError(null);
 
