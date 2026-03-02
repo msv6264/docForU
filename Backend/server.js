@@ -66,11 +66,11 @@ const upload = multer({
 app.post("/receive-data", upload.single("file"), async(req, res) => {
   // req.body has file and docData 2 obj's and docData is obj only
   // req.body.docData gives the docDaa obj
-
-  const docObj = req.body.docData
-  const templatePath = path.join(dirName, "prompts.txt");
-  const prompTemp = await fs.promises.readFile(templatePath, "utf8");
-  const text = fillPrompTemplate(prompTemp, docObj);
+              
+  const docObj = req.body.docData //contains docData obj
+  const templatePath = path.join(dirName, "prompts.txt"); //contains path of file
+  const prompTemp = await fs.promises.readFile(templatePath, "utf8"); //reading the file and storing its data
+  const text = fillPrompTemplate(prompTemp, docObj); // replaces placeholders witth data of obj
 
   console.log(text);
   res.json({ message: "Received successfully" });
