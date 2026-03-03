@@ -78,25 +78,35 @@ export default function RulesForDoc({ docData, setDocData }) {
     setUploadedFile(null);
   };
 
-  // useEffect(() => {
+  useEffect(() => {
+    if (isGenerating) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
 
-  // })
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [isGenerating])
 
   const handleGenerate = async () => {
     const formData = new FormData();
-    formData.append("file", uploadedFile);
+    if (uploadedFile) {
+      formData.append("file", uploadedFile);
+    }
     formData.append("docData", JSON.stringify(docData));
     setIsGenerating(true);
     setError(null);
 
     try {
-      const response = await fetch("http://localhost:5000/receive-data", {
+      const response = await fetch("http://localhost:5000/generate", {
         method: "POST",
         body: formData,
       });
-      setGeneratedData(response.data);
-
       const data = await response.json();
+      setGeneratedData(data);
+
       console.log("Response from backend: ", data);
     } catch (error) {
       console.log("Error sending data: ", error);
@@ -109,6 +119,11 @@ export default function RulesForDoc({ docData, setDocData }) {
 
   return (
     <div>
+      { isGenerating && (
+        <div className="fixed inset-0 bg-white/80 overflow-hidden backdrop-blur-sm flex items-center justify-center z-50">
+          <Loader />
+        </div>
+      )}
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-cyan-50 to-blue-100">
         {/* Progress Bar */}
         <div className="bg-white border-b border-blue-100">
@@ -321,19 +336,15 @@ export default function RulesForDoc({ docData, setDocData }) {
             </div>
 
             <div className="space-y-4">
-                {isGenerating ? (
-                  <Loader />
-                ) : (
-                  <button
-                    onClick={handleGenerate}
-                    disabled={isGenerating}
-                    className="w-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-8 py-5 rounded-xl font-bold text-lg hover:shadow-xl transition transform hover:scale-105 flex items-center justify-center space-x-3 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
-                  >
-                    <Zap className="w-6 h-6" />
-                    <span>Generate My Document</span>
-                    <ArrowRight className="w-6 h-6" />
-                  </button>
-                )}
+              <button
+                onClick={handleGenerate}
+                disabled={isGenerating}
+                className="w-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-8 py-5 rounded-xl font-bold text-lg hover:shadow-xl transition transform hover:scale-105 flex items-center justify-center space-x-3 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+              >
+                <Zap className="w-6 h-6" />
+                <span>Generate My Document</span>
+                <ArrowRight className="w-6 h-6" />
+              </button>
 
               {/* Skip Button */}
               {!uploadedFile && !docData.rulesForDoc && (
