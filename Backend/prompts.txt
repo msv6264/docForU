@@ -20,7 +20,7 @@ Total Slides/Pages Required: {{noOfSlides}}
 Tone Guideline:{{categoryToneInstruction}}
 
 Sections Breakdown:
-{{sections}}
+{{sectionBreakdown}}
 
 Instructions:
 
