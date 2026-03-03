@@ -15,5 +15,3 @@ export async function generateResp(prompt) {
 
   return response.choices[0].message.content;
 }
-
-main();

@@ -4,7 +4,7 @@ import multer from "multer";
 import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
-// import { generateResp } from "./apiConnect.js";
+import { generateResp } from "./apiConnect.js";
 
 
 const app = express();
@@ -99,8 +99,10 @@ app.post("/generate", upload.single("file"), async (req, res) => {
 
     const result = await genDocument(preparedDocObj);
 
-    console.log(result)
-    res.json({ generatedText: result });
+    const aiResponse = await generateResp(result);
+    console.log(aiResponse);
+
+    res.json({ generatedText: aiResponse });
 
   } catch (err) {
     console.error(err);
