@@ -101,7 +101,7 @@ async function prepareDocObject(rawData) {
   if (!rawData.rulesForDoc){
     if (rawData.category == "Presentation"){
       rawData.specs = "Use 4–6 bullet points per slide, Keep sentences short and concise, Avoid long paragraphs, Maintain simple language for audience, Emphasize key concepts"
-    } else if (rawData.category == "Document"){
+    } else if (rawData.category == "document"){
       rawData.specs = "Write in formal paragraph format with detailed explanations. Maintain logical flow between sections and avoid bullet points."
     } else if (rawData.category == "report") {
       rawData.specs = "Maintain an analytical tone with structured sections and data-based explanations. Use subheadings and summarize key insights clearly."
@@ -126,10 +126,6 @@ app.post("/generate", upload.single("file"), async (req, res) => {
     const updatedDocObj = await prepareDocObject(docData);
 
     console.log(updatedDocObj);
-
-    // const toneForUser = await(refineTone(req.body.docData.rulesForDoc));
-
-    // console.log(toneForUser);
 
     const filledPrompt = await plcHoldrsOfPrmtTmplt(updatedDocObj);
 
