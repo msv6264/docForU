@@ -13,6 +13,7 @@
   "dependencies": {
     "@cerebras/cerebras_cloud_sdk": "^1.64.1",
     "@google/genai": "^1.43.0",
+    "@openrouter/sdk": "^0.9.11",
     "cors": "^2.8.6",
     "dotenv": "^17.3.1",
     "express": "^5.2.1",

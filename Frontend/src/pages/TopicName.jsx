@@ -184,32 +184,6 @@ export default function TopicName({ docData, setDocData }) {
             </div>
           </div>
 
-          {/* Description Input */}
-          <div className="mb-8">
-            <label
-              htmlFor="description"
-              className="block text-sm font-semibold text-gray-700 mb-3"
-            >
-              Additional Details (Optional)
-            </label>
-            <textarea
-              id="description"
-              value={docData.focusAreaOfTopic}
-              onChange={(e) =>
-                setDocData({
-                  ...docData,
-                  focusAreaOfTopic: e.target.value,
-                })
-              }
-              placeholder="Add any specific focus areas, perspectives, or context you'd like to include..."
-              rows="4"
-              className="w-full px-4 py-4 text-lg border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none transition resize-none"
-            ></textarea>
-            <p className="text-sm text-gray-500 mt-2">
-              {docData.focusAreaOfTopic?.length || 0}/500 characters
-            </p>
-          </div>
-
           {/* Suggestions */}
           <div className="mb-10">
             <div className="flex items-center space-x-2 mb-3">

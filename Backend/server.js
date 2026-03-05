@@ -1,10 +1,11 @@
-import express from "express";
+import express, { raw } from "express";
 import cors from "cors";
 import multer from "multer";
 import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
-import { generateResp } from "./apiConnect.js";
+import { prmptToCerbras } from "./ai/cerebras.js";
+import { sendToOpenRouter } from "./ai/openrouter.js";
 
 
 const app = express();
@@ -20,7 +21,7 @@ const fileName = fileURLToPath(import.meta.url);
 const dirName = path.dirname(fileName);
 
 // in place of obj docData obj is sent
-function fillPrompTemplate(prompTemplate, obj) {
+function fillPromptTemplate(prompTemplate, obj) {
   return prompTemplate.replace(/{{(.*?)}}/g, (_, key) => {
     return obj[key.trim()] ?? "";
   });
@@ -63,43 +64,76 @@ const upload = multer({
   },
 });
 
-async function genDocument(docObj) {
-  const templatePath = path.join(dirName, "prompts.txt"); //contains path of file
-  const prompTemp = await fs.promises.readFile(templatePath, "utf8"); //reading the file and storing its data
+async function plcHoldrsOfPrmtTmplt(docObj) {
+  const templatePath = path.join(dirName, "prompts", "prompts.txt");
 
-  const text = fillPrompTemplate(prompTemp, docObj); // replaces placeholders witth data of obj
+  const prompTemp = await fs.promises.readFile(templatePath, "utf8");
+
+  const text = fillPromptTemplate(prompTemp, docObj);
 
   return text;
 }
 
-function prepareDocObject(rawData) {
-  // req.body has file and docData 2 obj's and docData is obj only
-  // req.body.docData gives the docDaa obj
-              
-  const docObj = JSON.parse(rawData);//contains docData obj
-    // without json.parse docData is received as string
+async function refineTone(tone){
 
-  if (!docObj.docType){
-    docObj.docType = "PPT"
+  const refPrompt = path.join(dirName, "prompts", "promptRefinement.txt");
+
+  const readPrompt = await fs.promises.readFile(refPrompt, "utf8");
+
+  const fillPrompt = fillPromptTemplate(readPrompt, { tone });
+
+  const finalTone = await prmptToCerbras(fillPrompt);
+
+  return finalTone;
+}
+
+async function prepareDocObject(rawData) {
+
+  if (!rawData.docType){
+    rawData.docType = "Presentation"
   }
 
-  const formattedSec = (docObj.sections || [])
+  if (rawData.rulesForDoc){
+    rawData.rulesForDoc = await refineTone(rawData.rulesForDoc);
+    console.log("refine prompt replaced, value is: ", rawData.rulesForDoc);
+  }
+
+  if (!rawData.rulesForDoc){
+    if (rawData.category == "Presentation"){
+      rawData.specs = "Use 4–6 bullet points per slide, Keep sentences short and concise, Avoid long paragraphs, Maintain simple language for audience, Emphasize key concepts"
+    } else if (rawData.category == "Document"){
+      rawData.specs = "Write in formal paragraph format with detailed explanations. Maintain logical flow between sections and avoid bullet points."
+    } else if (rawData.category == "report") {
+      rawData.specs = "Maintain an analytical tone with structured sections and data-based explanations. Use subheadings and summarize key insights clearly."
+    } else {
+      rawData.specs = "Create a concise handout using bullet points and short explanations. Highlight key concepts and include simple definitions."
+    }
+  }
+
+  const formattedSec = (rawData.sections || [])
     .map(section => `${section.name} : ${section.count}`)
     .join("\n");
 
   return {
-    ...docObj,
+    ...rawData,
     sectionBreakdown: formattedSec
   };
 }
 
 app.post("/generate", upload.single("file"), async (req, res) => {
   try {
-    const preparedDocObj = prepareDocObject(req.body.docData);
+    const docData = JSON.parse(req.body.docData);
+    const updatedDocObj = await prepareDocObject(docData);
 
-    const result = await genDocument(preparedDocObj);
+    console.log(updatedDocObj);
 
-    const aiResponse = await generateResp(result);
+    // const toneForUser = await(refineTone(req.body.docData.rulesForDoc));
+
+    // console.log(toneForUser);
+
+    const filledPrompt = await plcHoldrsOfPrmtTmplt(updatedDocObj);
+
+    const aiResponse = await prmptToCerbras(filledPrompt);
     console.log(aiResponse);
 
     res.json({ generatedText: aiResponse });

@@ -1,0 +1,525 @@
+sections: [
+  { id: 1, name: "Title Slide", count: 1 },
+  { id: 2, name: "Introduction", count: 2 }
+]
+
+       ||
+       \/
+
+Title Slide – 1 page
+Introduction – 2 pages
+Main Content – 5 pages
+Conclusion – 1 page
+References – 1 page
+
+🔹 If category = Academic
+Formal tone
+Citations style references
+Evidence-based explanations
+
+🔹 If category = Business
+Strategic tone
+Actionable insights
+ROI, impact, metrics
+
+🔹 If category = Research
+Analytical
+Hypothesis-driven
+Data-heavy
+
+🔹 If category = Educational
+Easy to understand
+Examples
+Teaching tone
+
+PS C:\docForU\Backend> node server.js
+[dotenv@17.3.1] injecting env (2) from .env -- tip: 🛠️  run anywhere with `dotenvx run -- yourcommand`
+(node:13848) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+Server running on port 5000
+{
+  "title": "Marketing Strategy for Startups",
+  "sections": [
+    {
+      "sectionName": "Title Slide",
+      "pages": [
+        {
+          "pageTitle": "Marketing Strategy for Startups - Page 1",
+          "content": []
+        }
+      ]
+    },
+    {
+      "sectionName": "Introduction",
+      "pages": [
+        {
+          "pageTitle": "Introduction - Page 2",
+          "content": [
+            "Purpose: Outline a scalable marketing framework for early‑stage startups",
+            "Key challenges: limited budget, brand awareness, rapid iteration",
+            "Target audience: investors, founders, and marketing teams",
+            "Why strategy matters: drives growth, aligns resources, measures success",
+            "Overview of upcoming sections"
+          ]
+        }
+      ]
+    },
+    {
+      "sectionName": "Main Content",
+      "pages": [
+        {
+          "pageTitle": "Core Strategies - Page 3",
+          "content": [
+            "Market research: identify niche, customer pain points, and competitor gaps",
+            "Positioning & messaging: craft a unique value proposition aligned with buyer personas",
+            "Channel mix: prioritize low‑cost digital channels (SEO, content, social, email)",
+            "Budget allocation: 40% test/learn, 30% acquisition, 20% retention, 10% analytics",
+            "KPIs & metrics: CAC, LTV, conversion rates, organic reach, churn"
+          ]
+        }
+      ]
+    },
+    {
+      "sectionName": "Conclusion",
+      "pages": [
+        {
+          "pageTitle": "Conclusion & Next Steps - Page 4",
+          "content": [
+            "Recap of the strategic pillars",
+            "Key take‑aways for immediate implementation",
+            "Action plan: 30‑day pilot, A/B testing, performance review",
+            "Call to action: align team, set measurable goals, secure budget",
+            "Projected impact: accelerated growth and investor confidence"
+          ]
+        }
+      ]
+    },
+    {
+    {
+      "sectionName": "References",
+      "pages": [
+        {
+          "pageTitle": "References - Page 5",
+          "content": [
+            "Startup Marketing Handbook, 2023 – Author Name",
+            "Global Digital Marketing Trends Report, 2024 – Research Firm",
+            "HubSpot State of Marketing Report, 2024 – HubSpot",
+            "Statista – Startup Funding Statistics 2023",
+            "Google Analytics Benchmark Data, 2024"
+          ]
+      "pages": [
+        {
+          "pageTitle": "References - Page 5",
+          "content": [
+            "Startup Marketing Handbook, 2023 – Author Name",
+            "Global Digital Marketing Trends Report, 2024 – Research Firm",
+            "HubSpot State of Marketing Report, 2024 – HubSpot",
+            "Statista – Startup Funding Statistics 2023",
+            "Google Analytics Benchmark Data, 2024"
+          ]
+          "pageTitle": "References - Page 5",
+          "content": [
+            "Startup Marketing Handbook, 2023 – Author Name",
+            "Global Digital Marketing Trends Report, 2024 – Research Firm",
+            "HubSpot State of Marketing Report, 2024 – HubSpot",
+            "Statista – Startup Funding Statistics 2023",
+            "Google Analytics Benchmark Data, 2024"
+          ]
+          "content": [
+            "Startup Marketing Handbook, 2023 – Author Name",
+            "Global Digital Marketing Trends Report, 2024 – Research Firm",
+            "HubSpot State of Marketing Report, 2024 – HubSpot",
+            "Statista – Startup Funding Statistics 2023",
+            "Google Analytics Benchmark Data, 2024"
+          ]
+        }
+      ]
+    }
+            "Statista – Startup Funding Statistics 2023",
+            "Google Analytics Benchmark Data, 2024"
+          ]
+        }
+      ]
+    }
+        }
+      ]
+    }
+  ]
+}
+
+
+
+fist response
+
+You are NOT a chatbot.
+You are a structured document generation engine.
+Return only JSON.
+Do not add explanations.
+Do not add extra text outside JSON.
+
+You are an expert professional content creator specializing in Research documents.
+
+Your task is to generate high-quality structured content based on the following inputs:
+
+Category: Research
+Topic Name: Machine Learning Fundamentals
+Focus Area:
+Document Type: PPT
+Total Slides/Pages Required:
+Tone Guideline: Use company colors: #003366 (blue) and #FFB81C (yellow)
+Include our logo on every slide
+Keep fonts: Arial for headings, Calibri for body
+Maximum 5 bullet points per slide
+Add page numbers
+Include data sources at bottom of charts
+
+Sections Breakdown:
+Title Slide : 1
+Table of Contents : 1
+Introduction : 1
+Main Content : 3
+Methodology : 2
+Conclusion : 1
+References : 1
+
+Instructions:
+1. Generate content strictly according to the section distribution provided.
+2. Each section must contain exactly the number of slides/pages specified in its count.
+3. Maintain clarity, depth, and logical flow.
+4. Do NOT include design instructions.
+5. Only generate pure content.
+6. Avoid repetition.
+7. There should be no
+
+Output Format (STRICTLY FOLLOW):
+
+{
+  "title": "",
+  "sections": [
+    {
+      "sectionName": "",
+      "pages": [
+        {
+          "pageTitle": "",
+          "content": [
+            "bullet point 1",
+            "bullet point 2"
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+PS C:\docForU\Backend> node server.js
+[dotenv@17.3.1] injecting env (3) from .env -- tip: ⚙️  write to custom object with { processEnv: myObject }
+[dotenv@17.3.1] injecting env (0) from .env -- tip: ⚙️  override existing env vars with { override: true }
+(node:7020) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+Server running on port 5000
+{
+  categoryOfFile: 'Academic',
+  topicName: 'chocolate',
+  focusAreaOfTopic: '',
+  docType: 'report',
+  noOfSlides: 10,
+  sections: [
+    { id: 1, name: 'Title Slide', count: 1, locked: true },
+    {
+      id: 1772706879816,
+      name: 'Table of Contents',
+      count: 1,
+      locked: false
+    },
+    { id: 2, name: 'Introduction', count: 1, locked: false },
+    { id: 3, name: 'Main Content', count: 2, locked: false },
+    { id: 1772706895164, name: 'Methodology', count: 1, locked: false },
+    { id: 1772706903739, name: 'Background', count: 1, locked: false },
+    { id: 4, name: 'Conclusion', count: 1, locked: false },
+    { id: 5, name: 'References', count: 1, locked: false },
+    { id: 1772706890850, name: 'Thank you', count: 1, locked: false }
+  ],
+  rulesForDoc: '',
+  specs: 'Create a concise handout using bullet points and short explanations. Highlight key concepts and include simple definitions.',
+  sectionBreakdown: 'Title Slide : 1\n' +
+    'Table of Contents : 1\n' +
+    'Introduction : 1\n' +
+    'Main Content : 2\n' +
+    'Methodology : 1\n' +
+    'Background : 1\n' +
+    'Conclusion : 1\n' +
+    'References : 1\n' +
+    'Thank you : 1'
+}
+{
+  "title": "Chocolate Report",
+  "sections": [
+    {
+      "sectionName": "Title Slide",
+      "pages": [
+        {
+          "pageTitle": "Chocolate Report",
+          "content": [
+            "Chocolate"
+          ]
+        }
+      ]
+    },
+    {
+      "sectionName": "Table of Contents",
+      "pages": [
+        {
+          "pageTitle": "Contents",
+          "content": [
+            "Title Slide",
+            "Table of Contents",
+            "Introduction",
+            "Composition and Types",
+            "Health Benefits and Market",
+            "Methodology",
+            "Background",
+            "Conclusion",
+            "References",
+            "Thank You"
+          ]
+        }
+      ]
+    },
+    {
+      "sectionName": "Introduction",
+      "pages": [
+        {
+          "pageTitle": "Introduction",
+          "pageNo": 1,
+          "content": [
+            "Definition of chocolate as a product derived from cacao beans",
+            "Purpose of the report to examine composition, health aspects and market trends",
+            "Scope limited to scientific and economic perspectives"
+          ]
+        }
+      ]
+    },
+    {
+      "sectionName": "Main Content",
+      "pages": [
+        {
+          "pageTitle": "Composition and Types",
+          "pageNo": 2,
+          "content": [
+            "Cacao beans contain cocoa solids and cocoa butter",
+            "Major types include dark, milk and white chocolate",
+            "Processing steps involve fermentation, drying, roasting, grinding and conching"
+          ]
+        },
+        {
+          "pageTitle": "Health Benefits and Market",
+          "pageNo": 3,
+          "content": [
+            "Flavonoids provide antioxidant activity",
+            "Moderate consumption linked to cardiovascular health",
+            "Global chocolate market valued at over $100 billion with growth in emerging economies"
+          ]
+        }
+      ]
+    },
+    {
+      "sectionName": "Methodology",
+      "pages": [
+        {
+          "pageTitle": "Methodology",
+          "pageNo": 4,
+          "content": [
+            "Literature review of peer‑reviewed journals",
+            "Data collection from industry reports and market databases",
+            "Comparative analysis of nutritional composition across chocolate types"
+          ]
+        }
+      ]
+    },
+    {
+      "sectionName": "Background",
+      "pages": [
+        {
+          "pageTitle": "Background",
+          "pageNo": 5,
+          "content": [
+            "Cacao domesticated in Mesoamerica over 3000 years ago",
+            "Introduced to Europe in the 16th century as a luxury beverage",
+            "Industrialization in the 19th century enabled solid chocolate production"
+          ]
+        }
+      ]
+    },
+    {
+      "sectionName": "Conclusion",
+      "pages": [
+        {
+          "pageTitle": "Conclusion",
+          "pageNo": 6,
+          "content": [
+            "Chocolate combines complex chemistry with cultural significance",
+            "Health benefits are dose‑dependent and vary by type",
+            "Market trends indicate rising demand for premium and ethically sourced products"
+          ]
+        }
+      ]
+    },
+    {
+      "sectionName": "References",
+      "pages": [
+        {
+          "pageTitle": "References",
+          "pageNo": 7,
+          "content": [
+            "Smith et al. 2022 Journal of Food Science",
+            "World Cocoa Economy 2023 International Cocoa Organization",
+            "Brown 2021 Nutrition Reviews"
+          ]
+        }
+      ]
+    },
+    {
+      "sectionName": "",
+      "pages": [
+        {
+            "Market trends indicate rising demand for premium and ethically sourced products"
+          ]
+        }
+      ]
+    },
+    {
+      "sectionName": "References",
+      "pages": [
+        {
+          "pageTitle": "References",
+          "pageNo": 7,
+          "content": [
+            "Smith et al. 2022 Journal of Food Science",
+            "World Cocoa Economy 2023 International Cocoa Organization",
+            "Brown 2021 Nutrition Reviews"
+          ]
+        }
+      ]
+    },
+    {
+      "sectionName": "",
+      "pages": [
+        {
+        }
+      ]
+    },
+    {
+      "sectionName": "References",
+      "pages": [
+        {
+          "pageTitle": "References",
+          "pageNo": 7,
+          "content": [
+            "Smith et al. 2022 Journal of Food Science",
+            "World Cocoa Economy 2023 International Cocoa Organization",
+            "Brown 2021 Nutrition Reviews"
+          ]
+        }
+      ]
+    },
+    {
+      "sectionName": "",
+      "pages": [
+        {
+    },
+    {
+      "sectionName": "References",
+      "pages": [
+        {
+          "pageTitle": "References",
+          "pageNo": 7,
+          "content": [
+            "Smith et al. 2022 Journal of Food Science",
+            "World Cocoa Economy 2023 International Cocoa Organization",
+            "Brown 2021 Nutrition Reviews"
+          ]
+        }
+      ]
+    },
+    {
+      "sectionName": "",
+      "pages": [
+        {
+      "sectionName": "References",
+      "pages": [
+        {
+          "pageTitle": "References",
+          "pageNo": 7,
+          "content": [
+            "Smith et al. 2022 Journal of Food Science",
+            "World Cocoa Economy 2023 International Cocoa Organization",
+            "Brown 2021 Nutrition Reviews"
+          ]
+        }
+      ]
+    },
+    {
+      "sectionName": "",
+      "pages": [
+        {
+          "pageNo": 7,
+          "content": [
+            "Smith et al. 2022 Journal of Food Science",
+            "World Cocoa Economy 2023 International Cocoa Organization",
+            "Brown 2021 Nutrition Reviews"
+          ]
+        }
+      ]
+    },
+    {
+      "sectionName": "",
+      "pages": [
+        {
+            "Smith et al. 2022 Journal of Food Science",
+            "World Cocoa Economy 2023 International Cocoa Organization",
+            "Brown 2021 Nutrition Reviews"
+          ]
+        }
+      ]
+    },
+    {
+      "sectionName": "",
+      "pages": [
+        {
+            "Brown 2021 Nutrition Reviews"
+          ]
+        }
+      ]
+    },
+    {
+      "sectionName": "",
+      "pages": [
+        {
+        }
+      ]
+    },
+    {
+      "sectionName": "",
+      "pages": [
+        {
+    },
+    {
+      "sectionName": "",
+      "pages": [
+        {
+          "pageTitle": "Thank You",
+      "pages": [
+        {
+          "pageTitle": "Thank You",
+          "content": "Thank You"
+        {
+          "pageTitle": "Thank You",
+          "content": "Thank You"
+          "pageTitle": "Thank You",
+          "content": "Thank You"
+          "content": "Thank You"
+        }
+      ]
+    }
+  ]
+}
