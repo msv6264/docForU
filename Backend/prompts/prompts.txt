@@ -37,18 +37,21 @@ Instructions
 4. Content must be informative and concise.
 5. Do NOT include design instructions, formatting instructions, or layout suggestions.
 6. Avoid repeating ideas across slides or sections.
-7. Bullet points inside the content array must be plain descriptive phrases or sentences only.
-8. Do NOT use label value patterns inside bullet points.
-9. Do NOT use colon characters inside bullet points.
-10. Do NOT include numbering inside bullet points.
-11. Bullet points must not resemble key value pairs such as "Topic explanation".
-12. Page numbers must increase sequentially starting from 1.
+7. If the document type is presentation or handout, the content must be written strictly as bullet points.
+8. Bullet points must be concise phrases or short sentences.
+9. Bullet points must not contain numbering or label value patterns.
+10. If the document type is report or document, the content must be written strictly as detailed paragraphs.
+11. Paragraphs must contain multiple sentences explaining the topic in depth.
+12. Bullet points are strictly forbidden for report and document types.
 13. Follow the JSON schema exactly and do not add or remove fields.
 14. DO NOT GIVE pageNo for slides like title slide, contents.
-15. The specifications are {{specs}} "
+15. The specifications are {{specs}}
 16. If user wants any thank you slide, dont give any sectionName i.e "sectionName": "", and "content": "Thank You"
+17. For report and document types, each content element must be a full paragraph containing at least 4 to 6 sentences.
+18. Paragraphs must provide explanation, analysis, or discussion rather than short statements.
 
 Output Format (STRICTLY FOLLOW)
+(para will come in documents and reports, UNLESS and until there is any restriction in tone guideline)
 
 {
   "title": "",
@@ -60,9 +63,9 @@ Output Format (STRICTLY FOLLOW)
           "pageTitle": "",
           "pageNo": 1,
           "content": [
-            "bullet point",
-            "bullet point",
-            "bullet point"
+          "content block",
+          "content block",
+          "content block"
           ]
         }
       ]

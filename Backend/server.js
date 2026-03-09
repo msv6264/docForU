@@ -6,7 +6,7 @@ import fs from "fs";
 import { fileURLToPath } from "url";
 import { prmptToCerbras } from "./ai/cerebras.js";
 import { sendToOpenRouter } from "./ai/openrouter.js";
-
+import axios from "axios";
 
 const app = express();
 
@@ -27,7 +27,7 @@ function fillPromptTemplate(prompTemplate, obj) {
   });
 }
 
-const upload = multer({
+const isValidFile = multer({
   limits: { fileSize: 10 * 1024 * 1024 },
 
   fileFilter: function (req, file, cb) {
@@ -74,71 +74,104 @@ async function plcHoldrsOfPrmtTmplt(docObj) {
   return text;
 }
 
-async function refineTone(tone){
-
+async function refineTone(tone, type) {
   const refPrompt = path.join(dirName, "prompts", "promptRefinement.txt");
 
   const readPrompt = await fs.promises.readFile(refPrompt, "utf8");
 
-  const fillPrompt = fillPromptTemplate(readPrompt, { tone });
+  let uncertainTone = "";
+  if (type == "Presentation") {
+    uncertainTone =
+      "Use 4–6 bullet points per slide, Keep sentences short and concise, Avoid long paragraphs, Maintain simple language for audience, Emphasize key concepts";
+  } else if (type == "document") {
+    uncertainTone =
+      "Write in formal paragraph format with detailed explanations. Maintain logical flow between sections and avoid bullet points.";
+  } else if (type == "report") {
+    uncertainTone =
+      "Maintain an analytical tone with structured sections and data-based explanations. Use subheadings and summarize key insights clearly.";
+  } else {
+    uncertainTone =
+      "Create a concise handout using bullet points and short explanations. Highlight key concepts and include simple definitions.";
+  }
 
-  const finalTone = await prmptToCerbras(fillPrompt);
+  const finPrompt = fillPromptTemplate(readPrompt, {
+    tone,
+    type,
+    uncertainTone,
+  });
+
+  const finalTone = await sendToOpenRouter(finPrompt);
 
   return finalTone;
 }
 
 async function prepareDocObject(rawData) {
-
-  if (!rawData.docType){
-    rawData.docType = "Presentation"
+  if (!rawData.docType) {
+    rawData.docType = "Presentation";
   }
 
-  if (rawData.rulesForDoc){
-    rawData.rulesForDoc = await refineTone(rawData.rulesForDoc);
+  if (rawData.rulesForDoc) {
+    rawData.rulesForDoc = await refineTone(
+      rawData.rulesForDoc,
+      rawData.docType,
+    );
     console.log("refine prompt replaced, value is: ", rawData.rulesForDoc);
-  }
-
-  if (!rawData.rulesForDoc){
-    if (rawData.category == "Presentation"){
-      rawData.specs = "Use 4–6 bullet points per slide, Keep sentences short and concise, Avoid long paragraphs, Maintain simple language for audience, Emphasize key concepts"
-    } else if (rawData.category == "document"){
-      rawData.specs = "Write in formal paragraph format with detailed explanations. Maintain logical flow between sections and avoid bullet points."
-    } else if (rawData.category == "report") {
-      rawData.specs = "Maintain an analytical tone with structured sections and data-based explanations. Use subheadings and summarize key insights clearly."
+  } else {
+    if (rawData.docType == "Presentation") {
+      rawData.rulesForDoc =
+        "Use 4–6 bullet points per slide, Keep sentences short and concise, Avoid long paragraphs, Maintain simple language for audience, Emphasize key concepts";
+    } else if (rawData.docType == "document") {
+      rawData.rulesForDoc =
+        "Write in formal paragraph format with detailed explanations. Maintain logical flow between sections and avoid bullet points.";
+    } else if (rawData.docType == "report") {
+      rawData.rulesForDoc =
+        "Maintain an analytical tone with structured sections and data-based explanations. Use subheadings and summarize key insights clearly.";
     } else {
-      rawData.specs = "Create a concise handout using bullet points and short explanations. Highlight key concepts and include simple definitions."
+      rawData.rulesForDoc =
+        "Create a concise handout using bullet points and short explanations. Highlight key concepts and include simple definitions.";
     }
   }
 
   const formattedSec = (rawData.sections || [])
-    .map(section => `${section.name} : ${section.count}`)
+    .map((section) => `${section.name} : ${section.count}`)
     .join("\n");
 
   return {
     ...rawData,
-    sectionBreakdown: formattedSec
+    sectionBreakdown: formattedSec,
   };
 }
 
-app.post("/generate", upload.single("file"), async (req, res) => {
+app.post("/generate", isValidFile.single("file"), async (req, res) => {
   try {
     const docData = JSON.parse(req.body.docData);
     const updatedDocObj = await prepareDocObject(docData);
 
-    console.log(updatedDocObj);
+    // console.log(updatedDocObj);
 
     const filledPrompt = await plcHoldrsOfPrmtTmplt(updatedDocObj);
+    // console.log(filledPrompt);
 
-    const aiResponse = await prmptToCerbras(filledPrompt);
+    const aiResponse = await sendToOpenRouter(filledPrompt);
     console.log(aiResponse);
 
-    res.json({ generatedText: aiResponse });
+    // res.json({ generatedText: aiResponse });
+
+    const fastApiPost = await axios.post("http://127.0.0.1:8000/genDoc", {
+      dataJSON: aiResponse,
+      docType: docData.docType
+    });
+
+    return res.json({
+      generatedText: aiResponse,
+      document: fastApiPost.data
+    });
 
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Generation failed" });
   }
-})
+});
 
 app.listen(5000, () => {
   console.log("Server running on port 5000");

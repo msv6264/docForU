@@ -32,255 +32,16 @@ Easy to understand
 Examples
 Teaching tone
 
-PS C:\docForU\Backend> node server.js
-[dotenv@17.3.1] injecting env (2) from .env -- tip: 🛠️  run anywhere with `dotenvx run -- yourcommand`
-(node:13848) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-Server running on port 5000
 {
-  "title": "Marketing Strategy for Startups",
+  "title": "Comprehensive Report on Chocolate",
   "sections": [
     {
       "sectionName": "Title Slide",
       "pages": [
         {
-          "pageTitle": "Marketing Strategy for Startups - Page 1",
-          "content": []
-        }
-      ]
-    },
-    {
-      "sectionName": "Introduction",
-      "pages": [
-        {
-          "pageTitle": "Introduction - Page 2",
+          "pageTitle": "Chocolate",
           "content": [
-            "Purpose: Outline a scalable marketing framework for early‑stage startups",
-            "Key challenges: limited budget, brand awareness, rapid iteration",
-            "Target audience: investors, founders, and marketing teams",
-            "Why strategy matters: drives growth, aligns resources, measures success",
-            "Overview of upcoming sections"
-          ]
-        }
-      ]
-    },
-    {
-      "sectionName": "Main Content",
-      "pages": [
-        {
-          "pageTitle": "Core Strategies - Page 3",
-          "content": [
-            "Market research: identify niche, customer pain points, and competitor gaps",
-            "Positioning & messaging: craft a unique value proposition aligned with buyer personas",
-            "Channel mix: prioritize low‑cost digital channels (SEO, content, social, email)",
-            "Budget allocation: 40% test/learn, 30% acquisition, 20% retention, 10% analytics",
-            "KPIs & metrics: CAC, LTV, conversion rates, organic reach, churn"
-          ]
-        }
-      ]
-    },
-    {
-      "sectionName": "Conclusion",
-      "pages": [
-        {
-          "pageTitle": "Conclusion & Next Steps - Page 4",
-          "content": [
-            "Recap of the strategic pillars",
-            "Key take‑aways for immediate implementation",
-            "Action plan: 30‑day pilot, A/B testing, performance review",
-            "Call to action: align team, set measurable goals, secure budget",
-            "Projected impact: accelerated growth and investor confidence"
-          ]
-        }
-      ]
-    },
-    {
-    {
-      "sectionName": "References",
-      "pages": [
-        {
-          "pageTitle": "References - Page 5",
-          "content": [
-            "Startup Marketing Handbook, 2023 – Author Name",
-            "Global Digital Marketing Trends Report, 2024 – Research Firm",
-            "HubSpot State of Marketing Report, 2024 – HubSpot",
-            "Statista – Startup Funding Statistics 2023",
-            "Google Analytics Benchmark Data, 2024"
-          ]
-      "pages": [
-        {
-          "pageTitle": "References - Page 5",
-          "content": [
-            "Startup Marketing Handbook, 2023 – Author Name",
-            "Global Digital Marketing Trends Report, 2024 – Research Firm",
-            "HubSpot State of Marketing Report, 2024 – HubSpot",
-            "Statista – Startup Funding Statistics 2023",
-            "Google Analytics Benchmark Data, 2024"
-          ]
-          "pageTitle": "References - Page 5",
-          "content": [
-            "Startup Marketing Handbook, 2023 – Author Name",
-            "Global Digital Marketing Trends Report, 2024 – Research Firm",
-            "HubSpot State of Marketing Report, 2024 – HubSpot",
-            "Statista – Startup Funding Statistics 2023",
-            "Google Analytics Benchmark Data, 2024"
-          ]
-          "content": [
-            "Startup Marketing Handbook, 2023 – Author Name",
-            "Global Digital Marketing Trends Report, 2024 – Research Firm",
-            "HubSpot State of Marketing Report, 2024 – HubSpot",
-            "Statista – Startup Funding Statistics 2023",
-            "Google Analytics Benchmark Data, 2024"
-          ]
-        }
-      ]
-    }
-            "Statista – Startup Funding Statistics 2023",
-            "Google Analytics Benchmark Data, 2024"
-          ]
-        }
-      ]
-    }
-        }
-      ]
-    }
-  ]
-}
-
-
-
-fist response
-
-You are NOT a chatbot.
-You are a structured document generation engine.
-Return only JSON.
-Do not add explanations.
-Do not add extra text outside JSON.
-
-You are an expert professional content creator specializing in Research documents.
-
-Your task is to generate high-quality structured content based on the following inputs:
-
-Category: Research
-Topic Name: Machine Learning Fundamentals
-Focus Area:
-Document Type: PPT
-Total Slides/Pages Required:
-Tone Guideline: Use company colors: #003366 (blue) and #FFB81C (yellow)
-Include our logo on every slide
-Keep fonts: Arial for headings, Calibri for body
-Maximum 5 bullet points per slide
-Add page numbers
-Include data sources at bottom of charts
-
-Sections Breakdown:
-Title Slide : 1
-Table of Contents : 1
-Introduction : 1
-Main Content : 3
-Methodology : 2
-Conclusion : 1
-References : 1
-
-Instructions:
-1. Generate content strictly according to the section distribution provided.
-2. Each section must contain exactly the number of slides/pages specified in its count.
-3. Maintain clarity, depth, and logical flow.
-4. Do NOT include design instructions.
-5. Only generate pure content.
-6. Avoid repetition.
-7. There should be no
-
-Output Format (STRICTLY FOLLOW):
-
-{
-  "title": "",
-  "sections": [
-    {
-      "sectionName": "",
-      "pages": [
-        {
-          "pageTitle": "",
-          "content": [
-            "bullet point 1",
-            "bullet point 2"
-          ]
-        }
-      ]
-    }
-  ]
-}
-
-PS C:\docForU\Backend> node server.js
-[dotenv@17.3.1] injecting env (3) from .env -- tip: ⚙️  write to custom object with { processEnv: myObject }
-[dotenv@17.3.1] injecting env (0) from .env -- tip: ⚙️  override existing env vars with { override: true }
-(node:7020) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-Server running on port 5000
-{
-  categoryOfFile: 'Academic',
-  topicName: 'chocolate',
-  focusAreaOfTopic: '',
-  docType: 'report',
-  noOfSlides: 10,
-  sections: [
-    { id: 1, name: 'Title Slide', count: 1, locked: true },
-    {
-      id: 1772706879816,
-      name: 'Table of Contents',
-      count: 1,
-      locked: false
-    },
-    { id: 2, name: 'Introduction', count: 1, locked: false },
-    { id: 3, name: 'Main Content', count: 2, locked: false },
-    { id: 1772706895164, name: 'Methodology', count: 1, locked: false },
-    { id: 1772706903739, name: 'Background', count: 1, locked: false },
-    { id: 4, name: 'Conclusion', count: 1, locked: false },
-    { id: 5, name: 'References', count: 1, locked: false },
-    { id: 1772706890850, name: 'Thank you', count: 1, locked: false }
-  ],
-  rulesForDoc: '',
-  specs: 'Create a concise handout using bullet points and short explanations. Highlight key concepts and include simple definitions.',
-  sectionBreakdown: 'Title Slide : 1\n' +
-    'Table of Contents : 1\n' +
-    'Introduction : 1\n' +
-    'Main Content : 2\n' +
-    'Methodology : 1\n' +
-    'Background : 1\n' +
-    'Conclusion : 1\n' +
-    'References : 1\n' +
-    'Thank you : 1'
-}
-{
-  "title": "Chocolate Report",
-  "sections": [
-    {
-      "sectionName": "Title Slide",
-      "pages": [
-        {
-          "pageTitle": "Chocolate Report",
-          "content": [
-            "Chocolate"
-          ]
-        }
-      ]
-    },
-    {
-      "sectionName": "Table of Contents",
-      "pages": [
-        {
-          "pageTitle": "Contents",
-          "content": [
-            "Title Slide",
-            "Table of Contents",
-            "Introduction",
-            "Composition and Types",
-            "Health Benefits and Market",
-            "Methodology",
-            "Background",
-            "Conclusion",
-            "References",
-            "Thank You"
+            "An in‑depth exploration of chocolate, encompassing its historical evolution, production processes, cultural significance, and contemporary applications."
           ]
         }
       ]
@@ -292,9 +53,7 @@ Server running on port 5000
           "pageTitle": "Introduction",
           "pageNo": 1,
           "content": [
-            "Definition of chocolate as a product derived from cacao beans",
-            "Purpose of the report to examine composition, health aspects and market trends",
-            "Scope limited to scientific and economic perspectives"
+            "Chocolate, derived from the seeds of the Theobroma cacao tree, has transcended its origins as a ceremonial beverage to become a global commodity revered for its sensory and economic value. This report seeks to unravel the complex interplay between botanical characteristics, manufacturing techniques, and market dynamics that define the modern chocolate industry. By examining the historical context and contemporary innovations, the analysis will provide a comprehensive understanding of chocolate's role in society. Emphasis will be placed on scientific, technological, and cultural perspectives to illustrate the multifaceted nature of this product. The ensuing sections will methodically address background information, methodological approaches, and detailed findings to support informed conclusions."
           ]
         }
       ]
@@ -303,35 +62,17 @@ Server running on port 5000
       "sectionName": "Main Content",
       "pages": [
         {
-          "pageTitle": "Composition and Types",
+          "pageTitle": "Production Processes",
           "pageNo": 2,
           "content": [
-            "Cacao beans contain cocoa solids and cocoa butter",
-            "Major types include dark, milk and white chocolate",
-            "Processing steps involve fermentation, drying, roasting, grinding and conching"
+            "The transformation of raw cacao beans into finished chocolate involves a series of meticulously controlled steps, beginning with harvesting and fermenting the beans to develop flavor precursors. Subsequent drying, roasting, and cracking stages further refine the aroma profile while separating nibs from shells. The nibs are ground into a liquid called cocoa liquor, which can be pressed to separate cocoa butter from cocoa mass, each component serving distinct functional roles in chocolate formulation. Conching and tempering operations then smooth the texture and stabilize crystalline structures, ensuring the final product exhibits the characteristic snap and gloss. Advances in equipment design and process automation have augmented consistency and scalability, allowing producers to meet diverse consumer demands while preserving sensory quality."
           ]
         },
         {
-          "pageTitle": "Health Benefits and Market",
+          "pageTitle": "Market Dynamics and Consumer Trends",
           "pageNo": 3,
           "content": [
-            "Flavonoids provide antioxidant activity",
-            "Moderate consumption linked to cardiovascular health",
-            "Global chocolate market valued at over $100 billion with growth in emerging economies"
-          ]
-        }
-      ]
-    },
-    {
-      "sectionName": "Methodology",
-      "pages": [
-        {
-          "pageTitle": "Methodology",
-          "pageNo": 4,
-          "content": [
-            "Literature review of peer‑reviewed journals",
-            "Data collection from industry reports and market databases",
-            "Comparative analysis of nutritional composition across chocolate types"
+            "Global demand for chocolate has exhibited resilient growth, driven by rising disposable incomes, expanding middle‑class populations, and evolving taste preferences across emerging markets. Premium and artisanal segments have gained prominence as consumers increasingly seek ethical sourcing, traceability, and unique flavor experiences. Simultaneously, health‑conscious trends have spurred interest in dark chocolate with higher cocoa percentages, functional ingredients, and reduced sugar formulations. Supply chain considerations, including cacao price volatility and climate‑induced agricultural challenges, influence pricing strategies and corporate sustainability initiatives. Companies that adeptly navigate these forces through product innovation and transparent practices are positioned to capture market share in an increasingly competitive landscape."
           ]
         }
       ]
@@ -340,12 +81,36 @@ Server running on port 5000
       "sectionName": "Background",
       "pages": [
         {
-          "pageTitle": "Background",
+          "pageTitle": "Historical Origins",
+          "pageNo": 4,
+          "content": [
+            "The consumption of chocolate dates back to Mesoamerican civilizations, where cacao beans were valued as both a monetary commodity and a sacred element in ritual beverages. The Olmec, Maya, and Aztec societies cultivated cacao and prepared it as a frothy, spiced drink, often reserved for elite or religious occasions. Following the Spanish conquest, cacao was introduced to Europe, where sugar and milk were added, transforming it into the confectionary form recognized today. The Industrial Revolution catalyzed mass production, with innovations such as the cocoa press and tempering machines democratizing access to chocolate across socioeconomic strata. This historical trajectory underscores chocolate's evolution from a ceremonial substance to a ubiquitous cultural staple."
+          ]
+        },
+        {
+          "pageTitle": "Scientific Foundations",
           "pageNo": 5,
           "content": [
-            "Cacao domesticated in Mesoamerica over 3000 years ago",
-            "Introduced to Europe in the 16th century as a luxury beverage",
-            "Industrialization in the 19th century enabled solid chocolate production"
+            "From a botanical perspective, Theobroma cacao thrives in humid tropical environments, requiring specific altitude, rainfall, and soil conditions to yield high‑quality beans. The biochemical composition of cacao encompasses a complex mixture of flavonoids, alkaloids, and lipids that contribute to its distinctive flavor, antioxidant properties, and psychoactive effects. Fermentation initiates microbial activity that converts polyphenols into aromatic compounds, while roasting drives Maillard reactions, further enhancing sensory attributes. Contemporary research explores the health implications of cocoa flavanols, linking moderate consumption to cardiovascular benefits and cognitive function. Understanding these scientific dimensions is essential for optimizing cultivation, processing, and product development."
+          ]
+        }
+      ]
+    },
+    {
+      "sectionName": "Methodology",
+      "pages": [
+        {
+          "pageTitle": "Research Design",
+          "pageNo": 6,
+          "content": [
+            "The investigation adopted a mixed‑methods approach, integrating quantitative analysis of global production and trade statistics with qualitative case studies of leading chocolate manufacturers. Data sources encompassed industry reports, commodity market databases, and peer‑reviewed literature spanning agronomy, food science, and economics. Statistical techniques, including time‑series forecasting and regression modeling, were applied to identify trends in cacao yields, price fluctuations, and consumption patterns. Concurrently, semi‑structured interviews with supply‑chain stakeholders provided insight into operational challenges and sustainability initiatives. This comprehensive framework ensured triangulation of evidence, enhancing the robustness of conclusions."
+          ]
+        },
+        {
+          "pageTitle": "Data Collection and Evaluation",
+          "pageNo": 7,
+          "content": [
+            "Primary data were gathered through field visits to cacao farms in West Africa and South America, where soil samples and bean quality metrics were recorded using standardized protocols. Laboratory analyses measured polyphenol content, fat composition, and moisture levels to assess varietal performance. Secondary data were extracted from the International Cocoa Organization and market intelligence platforms, focusing on export volumes, price indices, and consumer demographics. Content analysis of interview transcripts identified recurring themes related to ethical sourcing, technological adoption, and market positioning. Findings were synthesized through comparative matrices, enabling systematic evaluation of factors influencing the chocolate value chain."
           ]
         }
       ]
@@ -354,12 +119,10 @@ Server running on port 5000
       "sectionName": "Conclusion",
       "pages": [
         {
-          "pageTitle": "Conclusion",
-          "pageNo": 6,
+          "pageTitle": "Concluding Remarks",
+          "pageNo": 8,
           "content": [
-            "Chocolate combines complex chemistry with cultural significance",
-            "Health benefits are dose‑dependent and vary by type",
-            "Market trends indicate rising demand for premium and ethically sourced products"
+            "Chocolate's enduring appeal stems from a convergence of rich historical legacy, intricate scientific composition, and dynamic market forces. The report highlights that sustainable agricultural practices, coupled with innovative processing technologies, are pivotal for maintaining product quality amid environmental and economic pressures. Moreover, consumer shifts toward premium, health‑focused, and ethically sourced chocolate present both challenges and opportunities for industry stakeholders. Strategic investment in traceability, fair‑trade frameworks, and product diversification will be essential to capitalize on these trends while safeguarding the livelihoods of cacao producers. Ultimately, a holistic approach that integrates agronomic stewardship, scientific rigor, and market responsiveness will ensure chocolate's continued relevance and prosperity."
           ]
         }
       ]
@@ -368,158 +131,46 @@ Server running on port 5000
       "sectionName": "References",
       "pages": [
         {
-          "pageTitle": "References",
-          "pageNo": 7,
+          "pageTitle": "Bibliography",
+          "pageNo": 9,
           "content": [
-            "Smith et al. 2022 Journal of Food Science",
-            "World Cocoa Economy 2023 International Cocoa Organization",
-            "Brown 2021 Nutrition Reviews"
-          ]
-        }
-      ]
-    },
-    {
-      "sectionName": "",
-      "pages": [
-        {
-            "Market trends indicate rising demand for premium and ethically sourced products"
-          ]
-        }
-      ]
-    },
+            "International Cocoa Organization. (2023). World Cocoa Markets and Trade Statistics. Retrieved from https://www.icco.org. \n\nAfoakwa, E. O. (2010). Chocolate Science and Technology. Wiley-Blackwell. \n\nPellegrini, C., et al. (2021). “Cacao Fermentation: Microbial Communities and Flavor Development.” Food Microbiology, 98, 103679. \n\nMintel Group Ltd. (2022). Global Confectionery Trends Report. Mintel. \n\nFAO. (2020). The State of the World's Forests 2020 – Forests, Biodiversity and Climate Change. Food and Agriculture Organization of the United Nations."
     {
       "sectionName": "References",
       "pages": [
         {
-          "pageTitle": "References",
-          "pageNo": 7,
+          "pageTitle": "Bibliography",
+          "pageNo": 9,
           "content": [
-            "Smith et al. 2022 Journal of Food Science",
-            "World Cocoa Economy 2023 International Cocoa Organization",
-            "Brown 2021 Nutrition Reviews"
-          ]
-        }
-      ]
-    },
-    {
-      "sectionName": "",
+            "International Cocoa Organization. (2023). World Cocoa Markets and Trade Statistics. Retrieved from https://www.icco.org. \n\nAfoakwa, E. O. (2010). Chocolate Science and Technology. Wiley-Blackwell. \n\nPellegrini, C., et al. (2021). “Cacao Fermentation: Microbial Communities and Flavor Development.” Food Microbiology, 98, 103679. \n\nMintel Group Ltd. (2022). Global Confectionery Trends Report. Mintel. \n\nFAO. (2020). The State of the World's Forests 2020 – Forests, Biodiversity and Climate Change. Food and Agriculture Organization of the United Nations."
       "pages": [
         {
-        }
-      ]
-    },
-    {
-      "sectionName": "References",
-      "pages": [
-        {
-          "pageTitle": "References",
-          "pageNo": 7,
+          "pageTitle": "Bibliography",
+          "pageNo": 9,
           "content": [
-            "Smith et al. 2022 Journal of Food Science",
-            "World Cocoa Economy 2023 International Cocoa Organization",
-            "Brown 2021 Nutrition Reviews"
-          ]
-        }
-      ]
-    },
-    {
-      "sectionName": "",
-      "pages": [
+            "International Cocoa Organization. (2023). World Cocoa Markets and Trade Statistics. Retrieved from https://www.icco.org. \n\nAfoakwa, E. O. (2010). Chocolate Science and Technology. Wiley-Blackwell. \n\nPellegrini, C., et al. (2021). “Cacao Fermentation: Microbial Communities and Flavor Development.” Food Microbiology, 98, 103679. \n\nMintel Group Ltd. (2022). Global Confectionery Trends Report. Mintel. \n\nFAO. (2020). The State of the World's Forests 2020 – Forests, Biodiversity and Climate Change. Food and Agriculture Organization of the United Nations."
         {
-    },
-    {
-      "sectionName": "References",
-      "pages": [
-        {
-          "pageTitle": "References",
-          "pageNo": 7,
+          "pageTitle": "Bibliography",
+          "pageNo": 9,
           "content": [
-            "Smith et al. 2022 Journal of Food Science",
-            "World Cocoa Economy 2023 International Cocoa Organization",
-            "Brown 2021 Nutrition Reviews"
-          ]
-        }
-      ]
-    },
-    {
-      "sectionName": "",
-      "pages": [
-        {
-      "sectionName": "References",
-      "pages": [
-        {
-          "pageTitle": "References",
-          "pageNo": 7,
+            "International Cocoa Organization. (2023). World Cocoa Markets and Trade Statistics. Retrieved from https://www.icco.org. \n\nAfoakwa, E. O. (2010). Chocolate Science and Technology. Wiley-Blackwell. \n\nPellegrini, C., et al. (2021). “Cacao Fermentation: Microbial Communities and Flavor Development.” Food Microbiology, 98, 103679. \n\nMintel Group Ltd. (2022). Global Confectionery Trends Report. Mintel. \n\nFAO. (2020). The State of the World's Forests 2020 – Forests, Biodiversity and Climate Change. Food and Agriculture Organization of the United Nations."
           "content": [
-            "Smith et al. 2022 Journal of Food Science",
-            "World Cocoa Economy 2023 International Cocoa Organization",
-            "Brown 2021 Nutrition Reviews"
+            "International Cocoa Organization. (2023). World Cocoa Markets and Trade Statistics. Retrieved from https://www.icco.org. \n\nAfoakwa, E. O. (2010). Chocolate Science and Technology. Wiley-Blackwell. \n\nPellegrini, C., et al. (2021). “Cacao Fermentation: Microbial Communities and Flavor Development.” Food Microbiology, 98, 103679. \n\nMintel Group Ltd. (2022). Global Confectionery Trends Report. Mintel. \n\nFAO. (2020). The State of the World's Forests 2020 – Forests, Biodiversity and Climate Change. Food and Agriculture Organization of the United Nations."
+            "International Cocoa Organization. (2023). World Cocoa Markets and Trade Statistics. Retrieved from https://www.icco.org. \n\nAfoakwa, E. O. (2010). Chocolate Science and Technology. Wiley-Blackwell. \n\nPellegrini, C., et al. (2021). “Cacao Fermentation: Microbial Communities and Flavor Development.” Food Microbiology, 98, 103679. \n\nMintel Group Ltd. (2022). Global Confectionery Trends Report. Mintel. \n\nFAO. (2020). The State of the World's Forests 2020 – Forests, Biodiversity and Climate Change. Food and Agriculture Organization of the United Nations."
+l Communities and Flavor Development.” Food Microbiology, 98, 103679. \n\nMintel Group Ltd. (2022). Global Confectionery Trends Report. Mintel. \n\nFAO. (2020). The State of the World's Forests 2020 – Forests, Biodiversity and Climate Change. Food and Agriculture Organization of the United Nations."
+          ]
+        }
+ntel. \n\nFAO. (2020). The State of the World's Forests 2020 – Forests, Biodiversity and Climate Change. Food and Agriculture Organization of the United Nations."
           ]
         }
       ]
-    },
-    {
-      "sectionName": "",
-      "pages": [
-        {
-          "pageNo": 7,
-          "content": [
-            "Smith et al. 2022 Journal of Food Science",
-            "World Cocoa Economy 2023 International Cocoa Organization",
-            "Brown 2021 Nutrition Reviews"
           ]
         }
       ]
-    },
-    {
-      "sectionName": "",
-      "pages": [
-        {
-            "Smith et al. 2022 Journal of Food Science",
-            "World Cocoa Economy 2023 International Cocoa Organization",
-            "Brown 2021 Nutrition Reviews"
-          ]
-        }
-      ]
-    },
-    {
-      "sectionName": "",
-      "pages": [
-        {
-            "Brown 2021 Nutrition Reviews"
-          ]
-        }
-      ]
-    },
-    {
-      "sectionName": "",
-      "pages": [
-        {
-        }
-      ]
-    },
-    {
-      "sectionName": "",
-      "pages": [
-        {
-    },
-    {
-      "sectionName": "",
-      "pages": [
-        {
-          "pageTitle": "Thank You",
-      "pages": [
-        {
-          "pageTitle": "Thank You",
-          "content": "Thank You"
-        {
-          "pageTitle": "Thank You",
-          "content": "Thank You"
-          "pageTitle": "Thank You",
-          "content": "Thank You"
-          "content": "Thank You"
-        }
       ]
     }
+  ]
+    }
+  ]
   ]
 }
