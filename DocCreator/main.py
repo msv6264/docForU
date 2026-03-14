@@ -20,6 +20,7 @@ def genDoc(req: docRequest):
 
     print(req.docType)
     print(req.dataJSON)
+    print("fastAPI received data")
 
     data = json.loads(req.dataJSON)
 
