@@ -1,36 +1,105 @@
-# Project Summary: docForU
+# Project Summary: docForU (Updated)
 
-**docForU** is a multi-service web application designed to help users generate documents and presentations (such as PDFs, DOCX, PPTX files) using AI. The project is separated into three main parts: 
+## 🚀 Overview
+
+**docForU** is an AI-powered document and presentation generation platform designed to help users create **structured, ready-to-use academic content** such as PPTs and documents with precise control over headings, sections, and content distribution.
+
+Unlike traditional AI generators that produce generic outputs, **docForU focuses on controlled generation**, where users can define how content should be structured (e.g., specific headings, number of slides/pages per section, and tone).
+
+---
+
+## 🎯 Current Focus (v1)
+
+The system currently supports:
+
+- AI-generated **structured JSON output**
+- Conversion of structured data into **PowerPoint presentations (PPTX)**
+- End-to-end flow from user input → AI → PPT download
+
+---
+
+## 🧩 System Architecture
+
+The application follows a **multi-service architecture** with three main components:
+
+---
 
 ## 1. Frontend (React + Vite + TailwindCSS)
-- **Role:** The user-facing application where the user configures the document they want to generate.
-- **Structure:** It's built as a step-by-step wizard using React Router. The user progresses through several screens to define their document:
-  - `Home`
-  - `TopicName` (Topic and focus area)
-  - `DocTypeSize` (Type of document and number of slides/pages)
-  - `StrucOfDoc` (Sections and structuring, e.g., Introduction, Main Content, Conclusion)
-  - `RulesForDoc` (Tone and specific rules)
-- **State Management:** All document requirements are collected into a `docData` state object which is passed along the routes.
+
+### Role
+User interface for collecting document requirements.
+
+### Features
+- User inputs:
+  - Topic
+  - Document type (PPT)
+  - Number of slides
+  - Optional structure and tone
+- Data is stored in a unified `docData` object
+
+### Goal
+Simplify the experience into fewer steps for faster generation.
+
+---
 
 ## 2. Backend (Node.js + Express)
-- **Role:** The AI Prompting and Orchestration layer.
-- **AI Integrations:** It utilizes the `@openrouter/sdk`, `@cerebras/cerebras_cloud_sdk`, and `@google/genai`. 
-- **Core Logic ([server.js](file:///c:/docForU/Backend/server.js)):** 
-  - Exposes a POST `/generate` endpoint.
-  - Takes the `docData` from the Frontend.
-  - Checks if the user has requested a specific tone (`rulesForDoc`). If so, it uses **OpenRouter** to refine and format the tone/instructions for the system.
-  - Constructs a detailed prompt using predefined templates in the `prompts` directory.
-  - Sends this prompt to **Cerebras** to generate the actual textual content for the document.
 
-## 3. DocCreator (Python + FastAPI)
-- **Role:** The Document Generation/Conversion microservice.
-- **Current State:** 
-  - Contains a `services/` directory with [docx_service.py](file:///c:/docForU/DocCreator/services/docx_service.py), [pdf_service.py](file:///c:/docForU/DocCreator/services/pdf_service.py), and [ppt_service.py](file:///c:/docForU/DocCreator/services/ppt_service.py), indicating its primary job is to take generated text and convert it into downloadable `.docx`, `.pdf`, or `.pptx` files.
-  - It uses FastAPI ([main.py](file:///c:/docForU/DocCreator/main.py) is present with health check routes).
-  - Parts of this service might still be a work-in-progress (e.g., [routes/generate.py](file:///c:/docForU/DocCreator/routes/generate.py) was found empty).
+### Role
+AI orchestration and request handling.
 
-### Synthesis
-The system architecture flows roughly like this:
-1. **User (Frontend)** configures document parameters ->
-2. **Backend (Node.js)** receives parameters, refines the AI prompt, and hits an LLM (Cerebras) to generate the raw text and structure ->
-3. **DocCreator (FastAPI)** (presumably) will take that structured text to compile the final `.pdf/.docx/.pptx` file.
+### Core Responsibilities
+- Exposes a `POST /generate` endpoint
+- Receives structured input from frontend
+- Constructs a controlled prompt using templates
+- Sends request to AI model (currently Cerebras / single provider focus)
+- Ensures output is in **strict JSON format**
+
+### Key Improvement
+- Shift from raw text generation → **structured JSON generation**
+- Enables reliable document creation
+
+---
+
+## 3. DocCreator Service (Python + FastAPI)
+
+### Role
+Document rendering engine (JSON → file)
+
+### Current Implementation
+- `ppt_service.py`
+  - Converts structured JSON into PPT slides
+  - Handles:
+    - Title slide
+    - Section slides
+    - Bullet points
+
+### Work in Progress
+- `docx_service.py` → DOCX generation
+- `pdf_service.py` → PDF generation
+- `routes/generate.py` → API integration
+
+---
+
+## 🔄 System Flow
+
+1. User inputs topic and requirements (Frontend)  
+2. Backend processes input and sends structured prompt to AI  
+3. AI returns **structured JSON output**  
+4. JSON is parsed and sent to DocCreator  
+5. DocCreator generates PPT file  
+6. File is returned to user for download  
+
+---
+
+## 📦 Example JSON Structure
+
+```json
+{
+  "title": "Artificial Intelligence",
+  "slides": [
+    {
+      "heading": "Introduction",
+      "points": ["Definition of AI", "Importance of AI"]
+    }
+  ]
+}

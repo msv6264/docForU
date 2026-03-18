@@ -87,8 +87,7 @@ export default function DocTypeSize({ docData, setDocData }) {
         <div className="flex items-start align-middle space-x-2">
           <CircleAlert className="w-5 h-5 mt-[3px]" />
           <span>
-            You have {remainingSlides} unallocated slides. Distribute them or
-            use auto-distribute.
+            You have {remainingSlides} unallocated slides. Distribute them.
           </span>
         </div>
       );
@@ -426,7 +425,6 @@ export default function DocTypeSize({ docData, setDocData }) {
                 <h3 className="font-semibold text-gray-900 mb-2">Pro Tips</h3>
                 <ul className="text-sm text-gray-600 space-y-1">
                   <li>• Drag sections to reorder them</li>
-                  <li>• Use auto-distribute for even allocation</li>
                   <li>• You can always adjust counts later</li>
                   <li>
                     • Title and key sections are recommended for all documents

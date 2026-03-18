@@ -38,7 +38,7 @@ Instructions
 5. Do NOT include design instructions, formatting instructions, or layout suggestions.
 6. Avoid repeating ideas across slides or sections.
 7. If the document type is presentation or handout, the content must be written strictly as bullet points.
-8. Bullet points must be concise phrases or short sentences.
+8. Bullet points should be concise phrases or short sentences for handout 
 9. Bullet points must not contain numbering or label value patterns.
 10. If the document type is report or document, the content must be written strictly as detailed paragraphs.
 11. Paragraphs must contain multiple sentences explaining the topic in depth.
@@ -49,6 +49,7 @@ Instructions
 16. If user wants any thank you slide, dont give any sectionName i.e "sectionName": "", and "content": "Thank You"
 17. For report and document types, each content element must be a full paragraph containing at least 4 to 6 sentences.
 18. Paragraphs must provide explanation, analysis, or discussion rather than short statements.
+19. Bullet points should be long and detailed sentences for presentations
 
 Output Format (STRICTLY FOLLOW)
 (para will come in documents and reports, UNLESS and until there is any restriction in tone guideline)
