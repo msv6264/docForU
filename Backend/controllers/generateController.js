@@ -4,7 +4,7 @@ import fs from "fs";
 
 import { prepareDocObject } from "../services/docService.js";
 import { prmptToCerbras } from "../aiService/cerebras.js";
-import { fillPromptTemplate } from "../utils/templateUtils.js";
+import { plcHoldrsOfPrmtTmplt } from "../utils/promptPlaceHolders.js"
 
 export async function generateDoc(req, res) {
   try {
@@ -21,39 +21,21 @@ export async function generateDoc(req, res) {
     console.log("docData:", docData);
 
     const finalDocObj = await prepareDocObject(docData);
+    console.log('final doc obj in genController: ', finalDocObj);
 
-    const filledPrompt = await fillPromptTemplate(finalDocObj);
+    const filledPrompt = await plcHoldrsOfPrmtTmplt(finalDocObj);
 
     const aiResponse = await prmptToCerbras(filledPrompt);
     console.log("AI responded:", aiResponse);
 
-    const formData = new FormData();
-
-    formData.append("docType", docData.docType);
-    formData.append("dataJSON", JSON.stringify(aiResponse));
-
-    if (file) {
-      formData.append("file", fs.createReadStream(file.path));
-    }
-
-    const fastApiResponse = await axios.post(
-      "http://127.0.0.1:8000/genDoc",
-      formData,
-      {
-        headers: formData.getHeaders(),
-      }
-    );
-    
-    if (file) {
-      fs.unlink(file.path, (err) => {
-        if (err) console.error("File delete failed:", err);
-      });
-    }
+    const fastApiPost = await axios.post("http://127.0.0.1:8000/genDoc", {
+      dataJSON: aiResponse,
+      docType: docData.docType
+    });
 
     return res.json({
-      success: true,
       generatedText: aiResponse,
-      document: fastApiResponse.data,
+      document: fastApiPost.data
     });
 
   } catch (err) {

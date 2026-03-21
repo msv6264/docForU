@@ -13,7 +13,7 @@ export async function prmptToCerbras(prompt) {
     messages: [
       { role: "user", content: prompt }
     ],
-    model: "gpt-oss-120b",
+    model: "qwen-3-235b-a22b-instruct-2507",
   });
 
   return response.choices[0].message.content;

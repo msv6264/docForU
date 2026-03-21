@@ -9,7 +9,7 @@ const upload = multer({ dest: "uploads/" });
 
 app.use(cors({ origin: "http://localhost:5173" }));
 app.use(express.json());
-
+``
 app.post("/generate", upload.single("file"), (req, res) => {
   generateDoc(req, res);
 });

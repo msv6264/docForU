@@ -18,18 +18,14 @@ export async function prepareDocObject(rawData) {
     } else if (rawData.docType == "document") {
       rawData.rulesForDoc =
         "Write in formal paragraph format with detailed explanations. Maintain logical flow between sections and avoid bullet points.";
-    } else if (rawData.docType == "report") {
-      rawData.rulesForDoc =
-        "Maintain an analytical tone with structured sections and data-based explanations. Use subheadings and summarize key insights clearly.";
-    } else {
-      rawData.rulesForDoc =
-        "Create a concise handout using bullet points and short explanations. Highlight key concepts and include simple definitions.";
     }
   }
 
   const formattedSec = (rawData.sections || [])
     .map((section) => `${section.name} : ${section.count}`)
     .join("\n");
+
+  console.log("formatted section in docService: ", formattedSec);
 
   return {
     ...rawData,
