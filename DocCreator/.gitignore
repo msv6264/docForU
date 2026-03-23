@@ -1,5 +1,3 @@
 /__pycache__/
 /venv/
-output.pptx
-beautiful_output.pptx
-~$beautiful_output.pptx
+generated_files/

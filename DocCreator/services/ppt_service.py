@@ -3,8 +3,9 @@ from pptx.util import Inches, Pt
 from pptx.dml.color import RGBColor
 from pptx.enum.text import PP_ALIGN
 import os
+import uuid
 
-output_path = "../generated_files/output.pptx"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 def create_ppt(data):
 
@@ -73,6 +74,10 @@ def create_ppt(data):
                 # alignment
                 p.alignment = PP_ALIGN.LEFT
 
-    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    file_name = f"{uuid.uuid4()}.pptx"
+    output_path = os.path.abspath(
+        os.path.join(BASE_DIR, "..", "generated_files", file_name)
+    )
 
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
     prs.save(output_path)
