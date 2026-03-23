@@ -1,6 +1,6 @@
 # docForU: System Architecture
 
-The **docForU** project is designed as a multi-tier web application, separating concerns into a distinct frontend, an AI-orchestration backend, and a specialized document generation microservice.
+The **docForU** project is designed as a multi-tier web application. Recently refactored to enforce separation of concerns, the architecture relies on a distinct front end, an MVC/Service-oriented Node.js AI orchestration backend, and a specialized Python document generation microservice.
 
 ## High-Level Architecture Diagram
 
@@ -15,18 +15,28 @@ graph TD
         Router[React Router Wizards]
     end
     
-    subgraph Backend [Backend: Node.js + Express]
-        API[Express API: /generate]
-        PromptBuilder[Prompt Builder & Templates]
-        OpenRouterClient[OpenRouter Client]
-        CerebrasClient[Cerebras AI Client]
+    subgraph Backend [Backend: Node.js + Express (MVC)]
+        APIRoute[Routes: API Endpoints]
+        Controller[Controllers: Request Handling]
+        
+        subgraph Services [Business Logic]
+            ToneSvc[Tone Service]
+            DocSvc[Doc Service]
+        end
+        
+        subgraph AIServices [AI Interfaces]
+            OpenRouterSvc[OpenRouter Client]
+            CerebrasSvc[Cerebras AI Client]
+        end
     end
     
     subgraph DocCreator [DocCreator: Python + FastAPI]
-        DocServices[Document Services]
-        PDF[PDF Generator]
-        DOCX[DOCX Generator]
-        PPT[PPTX Generator]
+        DocAPIRoute[Routes: API Endpoints]
+        subgraph PythonServices [Document Compilers]
+            PDF[pdf_service.py]
+            DOCX[docx_service.py]
+            PPT[ppt_service.py]
+        end
     end
 
     %% External APIs
@@ -36,25 +46,28 @@ graph TD
     %% Data Flow
     User -->|Interacts with wizard| UI
     UI -->|Updates state| State
-    State -->|POST /generate docData| API
+    State -->|POST /generate docData| APIRoute
     
-    API -->|1. Refines prompt formatting/tone| OpenRouterClient
-    OpenRouterClient <-->|LLM Tone Refinement| OpenRouterAPI
+    APIRoute -->|Forwards Request| Controller
     
-    API -->|2. Injects user inputs into templates| PromptBuilder
-    PromptBuilder -->|3. Content Generation| CerebrasClient
-    CerebrasClient <-->|LLM Content Gen| CerebrasAPI
+    Controller -->|Refines instructions| ToneSvc
+    ToneSvc -->|Formats Constraints| OpenRouterSvc
+    OpenRouterSvc <-->|LLM Tone Refinement| OpenRouterAPI
     
-    API -.->|4. Forward text/structure| DocCreator
+    Controller -->|Builds prompts| DocSvc
+    DocSvc -->|Requests Content| CerebrasSvc
+    CerebrasSvc <-->|LLM Content Generation| CerebrasAPI
     
-    DocCreator -->|Parse structured text| DocServices
-    DocServices --> PDF
-    DocServices --> DOCX
-    DocServices --> PPT
+    Controller -.->|Delegates Payload| DocAPIRoute
+    
+    DocAPIRoute -->|Parses structured text| PythonServices
+    PythonServices --> PDF
+    PythonServices --> DOCX
+    PythonServices --> PPT
     
     PDF -.->|Returns document| User
     DOCX -.->|Returns document| User
-    PPT -.->|Returns document| User
+    PPT -.->|Returns presentation| User
 
     %% Styling
     classDef frontend fill:#61DAFB,stroke:#333,stroke-width:2px,color:#000;
@@ -71,23 +84,22 @@ graph TD
 ---
 
 ## 1. Frontend Layer (React + Vite)
-- **Role:** Web client providing a user-friendly configuration wizard.
+- **Role:** Web client providing a user-friendly document configuration wizard.
 - **Tech Stack:** React, Vite, Tailwind CSS, React Router DOM.
-- **Flow:** Users progress through multiple wizard pages (`Home` -> `TopicName` -> `DocTypeSize` -> `StrucOfDoc` -> `RulesForDoc`). The application state (`docData`) aggregates all selections (e.g., topic name, number of slides, sections like Introduction/Conclusion, and specific tone instructions) and submits this payload to the backend upon completion.
+- **Flow:** Users progress through multiple wizard pages configuring topics, document types, sizes, structure, and rules. The accumulated settings (`docData`) are submitted to the backend sequentially.
 
-## 2. Backend API Layer (Node.js + Express)
-- **Role:** Acts as the AI Orchestration component and central middleware.
-- **Tech Stack:** Node.js, Express, Axios, Multer (for file handling).
-- **Flow (`server.js`):** 
-  - Receives the JSON configuration payload (`docData`).
-  - **Tone Refinement:** It utilizes the `@openrouter/sdk` to take the user's raw instructions (`rulesForDoc`) and translates them into explicit formatting instructions (e.g., forcing concise bullet points for a presentation vs. formal paragraphs for a report).
-  - **Content Generation:** It populates predefined prompt templates in the `/prompts` folder with the refined user instructions. It then calls the `@cerebras/cerebras_cloud_sdk` to generate the raw textual content at scale and speed.
-  - **Delegation:** (Planned/Inferred) It takes the structured markdown/text returned by Cerebras and delegates file compilation to the Python microservice.
+## 2. Backend Orchestration Layer (Node.js + Express)
+- **Role:** Central middleware organizing the business logic and managing AI LLM integrations in an MVC pattern.
+- **Tech Stack:** Node.js, Express.
+- **Structural Layout:** 
+  - **`routes/` (e.g., `generateRoute.js`):** Intercepts API payloads from the Frontend and routes them to particular controller actions.
+  - **`controllers/` (e.g., `generateController.js`):** Directs the overall request logic, ensuring data passes safely across different application units.
+  - **`services/` (e.g., `toneService.js`, `docService.js`):** Contains pure business operations such as preparing generation templates (`prompts/`) and compiling instructions based on user choices.
+  - **`aiService/` (e.g., `openrouter.js`, `cerebras.js`):** Exclusively manages external LLM providers and HTTP requests fetching AI results.
 
 ## 3. DocCreator Microservice (Python + FastAPI)
-- **Role:** A dedicated worker service for building native documents.
+- **Role:** A dedicated worker service for building native documents. Utilizing Python explicitly takes advantage of its robust native rendering libraries.
 - **Tech Stack:** Python, FastAPI.
-- **Flow:** 
-  - Separated from the Node.js backend to take advantage of superior Python libraries for document rendering (e.g., `python-docx`, `python-pptx`, PDF generation tools).
-  - Contains distinct service modules: `docx_service.py`, `pdf_service.py`, `ppt_service.py`.
-  - Exposes an internal API (`routes/generate.py`) that the Node backend will call to request final compilation, returning the generated file to be served back to the user interface.
+- **Structural Layout:** 
+  - **`routes/` (e.g., `generate.py`):** The internal API called by the Node backend upon the completion of language generation.
+  - **`services/` (e.g., `ppt_service.py`):** Domain-specific compilation scripts that parse the structured JSON returned from Cerebras/Node and stitch together exact file equivalents (presentations, word documents, PDFs).

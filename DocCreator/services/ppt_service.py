@@ -2,6 +2,9 @@ from pptx import Presentation
 from pptx.util import Inches, Pt
 from pptx.dml.color import RGBColor
 from pptx.enum.text import PP_ALIGN
+import os
+
+output_path = "../generated_files/output.pptx"
 
 def create_ppt(data):
 
@@ -70,4 +73,6 @@ def create_ppt(data):
                 # alignment
                 p.alignment = PP_ALIGN.LEFT
 
-    prs.save("output.pptx")
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+
+    prs.save(output_path)

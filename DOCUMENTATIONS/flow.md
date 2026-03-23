@@ -1,6 +1,6 @@
 # docForU: Generation Data Flow
 
-This document outlines the step-by-step process of how user requests are handled by the system, from the initial upload to the final AI-generated response.
+This document outlines the step-by-step process of how user requests are internally routed inside the newly structured MVC backend before finally resolving as a generated presentation or document.
 
 ## Flow Visualization
 
@@ -8,40 +8,58 @@ This document outlines the step-by-step process of how user requests are handled
 sequenceDiagram
     autonumber
     participant User as User / Frontend
-    participant Server as Express Backend
-    participant Storage as File System / Templates
-    participant AI as Cerebras AI / OpenRouter
+    participant Route as Express Router
+    participant Controller as Controller
+    participant Service as Business Services
+    participant AIService as AI Interfaces
+    participant Python as DocCreator Service
 
-    User->>Server: HTTP POST /generate<br/>(File + docData JSON)
-    activate Server
+    User->>Route: HTTP POST /generate<br/>(File + docData JSON)
+    activate Route
     
-    Server->>Server: Validate File <br/>(MIME type & size using multer)
-    Note right of Server: Verifies allowed formats<br/>(images/documents)
+    Route->>Controller: Forward Request Context
+    activate Controller
     
-    Server->>Server: Prepare Document Object<br/>(Refine Tone with OpenRouter if needed)
+    %% Tone formatting if requested
+    Controller->>Service: invoke ToneService
+    activate Service
+    Service->>AIService: OpenRouter Request
+    activate AIService
+    AIService-->>Service: Structured Tone Constraints
+    deactivate AIService
+    Service-->>Controller: Refined Instructions
+    deactivate Service
     
-    Server->>Storage: Read Prompt Template<br/>(prompts.txt)
-    activate Storage
-    Storage-->>Server: Return Template text
-    deactivate Storage
+    %% Prompt generation 
+    Controller->>Service: invoke DocService (Build Prompt)
+    activate Service
+    Service->>AIService: Cerebras API Gen Request
+    activate AIService
+    AIService-->>Service: AI Generated JSON Text
+    deactivate AIService
+    Service-->>Controller: Parse and Return Structured Payload
+    deactivate Service
     
-    Server->>Server: Insert Placeholders<br/>(Inject docData into Template)
+    %% Document Delegation
+    Controller->>Python: Internal HTTP Request to Python Routes
+    activate Python
+    Python-->>Controller: Compiled Native File (e.g., PPTX)
+    deactivate Python
     
-    Server->>AI: Call AI Generation<br/>(Send compiled prompt to Cerebras)
-    activate AI
-    AI-->>Server: Return AI Generated Text
-    deactivate AI
+    Controller-->>Route: Formulate Delivery Payload
+    deactivate Controller
     
-    Server-->>User: HTTP 200 OK<br/>(AI Result JSON)
-    deactivate Server
+    Route-->>User: HTTP 200 OK File Delivered
+    deactivate Route
 ```
 
 ## Step-by-Step Breakdown
 
-1. **User Request Initiation**: The user uploads a file and submits the structured configuration (`docData`) via the frontend wizard.
-2. **Payload Validation**: The backend utilizes `multer` to validate the uploaded file, enforcing size limits and verifying allowed MIME types/extensions.
-3. **Data Preparation**: The system prepares the `docData` object. If the user provided tone rules, the backend may call **OpenRouter** to refine these instructions into precise LLM constraints.
-4. **Template Retrieval**: The specific prompt template (`prompts.txt`) is read from the local file system.
-5. **Prompt Compilation**: The system maps the properties of `docData` into the template placeholders to formulate a comprehensive set of instructions.
-6. **AI Content Generation**: The finalized prompt string is dispatched to the **Cerebras AI** API for rapid, high-quality content generation.
-7. **Response Delivery**: The generated markdown or structured text is wrapped in a JSON response and returned to the frontend.
+1. **User Request Initiation**: The frontend submits a compiled JSON of all user preferences (`docData`) and optionally attached files via a `POST /generate` request.
+2. **Routing the Request**: The `routes` layer (e.g., `generateRoute.js`) securely captures the HTTP traffic and passes the parameters onward.
+3. **Controller Orchestration**: The `generateController.js` governs the overall workflow. It evaluates the uploaded parameters.
+4. **Tone Service Refinement**: If stylistic rules (`rulesForDoc`) are provided, the controller delegates them to `toneService.js`. The service relies on the `aiService/openrouter.js` module to parse generic user statements into precise formatting directives.
+5. **Content Generation Service**: The main body of work moves to `docService.js`. Here, templated prompts are constructed. It invokes `aiService/cerebras.js` to securely generate the content, returning structured JSON blocks.
+6. **Microservice Delegation**: The core data is finalized as structured JSON. The controller then forwards the rendering responsibilities to the FastAPI-powered **DocCreator** service over its internal route endpoints.
+7. **Document Compilation**: A specific service script (e.g., `services/ppt_service.py` inside the Python environment) translates the JSON hierarchy into actual slides and titles.
+8. **Delivery**: The binary data flows back from DocCreator, to the Express controller, through the router, and ultimately back to the user's browser for download.
