@@ -10,9 +10,6 @@ Strict Rules:
 6. Do NOT write paragraphs.
 7. Do NOT include numbering or labels.
 
-Tone Instructions:
-{{toneGuideline}}
-
 Important:
 - Each page represents ONE slide
 - Content must be optimized for slide presentation
