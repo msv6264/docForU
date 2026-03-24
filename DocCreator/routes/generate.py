@@ -14,9 +14,3 @@ async def jsonToDoc(dataJSON, docType):
 # func created to convert json to document
     if docType == "ppt":
         return create_ppt(dataJSON)
-
-    # if docType == "docx":
-    #     return create_docx(dataJSON)
-
-    # if docType == "pdf":
-    #     return create_pdf(dataJSON)

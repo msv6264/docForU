@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 import uvicorn
 from services.ppt_service import create_ppt
+from services.docx_service import create_docx
 
 app = FastAPI()
 
@@ -27,7 +28,10 @@ def genDoc(req: docRequest):
     if req.docType == "Presentation":
         file_path = create_ppt(data)
 
-
+    if req.docType == "document":
+        print("i will go to doc service")
+        return create_docx(data)
+        
     return {
         "status": "success",
         "received_type": "req.docType",
