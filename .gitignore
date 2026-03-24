@@ -1,0 +1,7 @@
+Backend/prompts/
+DocCreator/services/__pycache__/
+__pycache__/
+*.pyc
+venv/
+generated_files/
+DocCreator/test_*.py
