@@ -1,6 +1,4 @@
 import axios from "axios";
-import FormData from "form-data";
-import fs from "fs";
 
 import { prepareDocObject } from "../services/docService.js";
 import { prmptToCerbras } from "../aiService/cerebras.js";
@@ -38,8 +36,6 @@ export async function generateDoc(req, res) {
         responseType: "arraybuffer",
       },
     );
-
-    fs.writeFileSync("test.docx", fastApiPost.data);
 
     res.setHeader("Content-Type", fastApiPost.headers["content-type"]);
 
