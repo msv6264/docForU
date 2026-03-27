@@ -2,10 +2,8 @@ from pptx import Presentation
 from pptx.util import Inches, Pt
 from pptx.dml.color import RGBColor
 from pptx.enum.text import PP_ALIGN
-import os
 import uuid
-
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+from io import BytesIO
 
 def create_ppt(data):
 
@@ -74,10 +72,8 @@ def create_ppt(data):
                 # alignment
                 p.alignment = PP_ALIGN.LEFT
 
-    file_name = f"{uuid.uuid4()}.pptx"
-    output_path = os.path.abspath(
-        os.path.join(BASE_DIR, "..", "generated_files", file_name)
-    )
-
-    os.makedirs(os.path.dirname(output_path), exist_ok=True)
-    prs.save(output_path)
+    # file_name = f"{uuid.uuid4()}.pptx"
+    ppt_stream = BytesIO()
+    prs.save(ppt_stream)
+    ppt_stream.seek(0)
+    return ppt_stream

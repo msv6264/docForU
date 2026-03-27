@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
-import uvicorn
 from services.ppt_service import create_ppt
 from services.docx_service import create_docx
+from fastapi.responses import StreamingResponse
 
 app = FastAPI()
 
@@ -18,22 +18,25 @@ def home():
 def genDoc(req: docRequest):
 
     import json
-
-    print(req.docType)
-    print(req.dataJSON)
-    print("fastAPI received data")
-
     data = json.loads(req.dataJSON)
 
     if req.docType == "Presentation":
-        file_path = create_ppt(data)
+        file_stream = create_ppt(data)
+        file_name = "presentation.pptx"
+        media_type = "application/vnd.openxmlformats-officedocument.presentationml.presentation"
 
-    if req.docType == "document":
-        print("i will go to doc service")
-        return create_docx(data)
-        
-    return {
-        "status": "success",
-        "received_type": "req.docType",
-        "message": "Document data received by Python!"
-    }
+    elif req.docType == "document":
+        file_stream = create_docx(data)
+        file_name = "document.docx"
+        media_type = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+
+    else:
+        return {"error": "Invalid docType"}
+
+    return StreamingResponse(
+        file_stream,
+        media_type=media_type,
+        headers={
+            "Content-Disposition": f"attachment; filename={file_name}"
+        }
+    )

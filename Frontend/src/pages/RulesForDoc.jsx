@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import Loader from "../components/loadingComp/Loader";
 import {
   ArrowRight,
   ArrowLeft,
@@ -12,7 +10,6 @@ import {
   AlertCircle,
   Check,
   Zap,
-  PlayCircle,
 } from "lucide-react";
 
 export default function RulesForDoc({ docData, setDocData }) {
@@ -20,6 +17,7 @@ export default function RulesForDoc({ docData, setDocData }) {
   const [isDragging, setIsDragging] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedData, setGeneratedData] = useState(null);
+  const [genFailed, setGenFailed] = useState(false);
   const [error, setError] = useState(null);
   const Navigate = useNavigate();
 
@@ -78,18 +76,6 @@ export default function RulesForDoc({ docData, setDocData }) {
     setUploadedFile(null);
   };
 
-  useEffect(() => {
-    if (isGenerating) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
-
-    return () => {
-      document.body.style.overflow = "auto";
-    };
-  }, [isGenerating])
-
   const handleGenerate = async () => {
     const formData = new FormData();
     if (uploadedFile) {
@@ -97,6 +83,7 @@ export default function RulesForDoc({ docData, setDocData }) {
     }
     formData.append("docData", JSON.stringify(docData));
     setIsGenerating(true);
+    setGenFailed(false);
     setError(null);
 
     try {
@@ -104,12 +91,36 @@ export default function RulesForDoc({ docData, setDocData }) {
         method: "POST",
         body: formData,
       });
-      const data = await response.json();
-      setGeneratedData(data);
 
+      if (!response.ok) {
+        throw new Error("Generation failed");
+      }
+
+      const blob = await response.blob();
+      setGeneratedData(blob);
     } catch (error) {
+      setIsGenerating(false);
+      setGenFailed(true);
       console.log("Error sending data: ", error);
     }
+  };
+
+  const downloadDoc = async () => {
+    if (!generatedData) return;
+
+    const url = window.URL.createObjectURL(generatedData);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download =
+      docData.docType === "document"
+        ? `${docData.topicName}.docx`
+        : `${docData.topicName}.pptx`;
+    document.body.appendChild(a);
+    a.click();
+
+    a.remove();
+    window.URL.revokeObjectURL(url);
   };
 
   return (
@@ -378,10 +389,16 @@ export default function RulesForDoc({ docData, setDocData }) {
               {generatedData && (
                 <button
                   className="flex items-center space-x-2 px-8 py-3 rounded-xl font-semibold bg-gradient-to-r from-blue-500 to-cyan-500 text-white hover:shadow-lg transition transform hover:scale-105"
-                  onClick={() => Navigate("../StrucOfDoc")}
+                  onClick={() => downloadDoc()}
                 >
                   <span>Download File</span>
                 </button>
+              )}
+
+              {genFailed && (
+                <div className="mt-3 px-4 py-2 rounded-lg bg-red-50 border border-red-200 text-red-600 font-medium">
+                  Failed to generate document. Please try again.
+                </div>
               )}
             </div>
           </div>

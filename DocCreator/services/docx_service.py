@@ -1,10 +1,11 @@
 from docx import Document
 from docx.shared import Pt, RGBColor
 from docx.enum.text import WD_ALIGN_PARAGRAPH
-import os
-import uuid
+# import os
+# import uuid
+from io import BytesIO
 
-BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+# BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 
 def create_docx(response):
     
@@ -59,10 +60,13 @@ def create_docx(response):
                 
         doc.add_page_break()
 
-    file_name = f"{uuid.uuid4()}.docx"
-    output_path = os.path.join(BASE_DIR, "generated_files", file_name)
+    # file_name = f"{uuid.uuid4()}.docx"
+    # output_path = os.path.join(BASE_DIR, "generated_files", file_name)
     
-    os.makedirs(os.path.dirname(output_path), exist_ok=True)
-    doc.save(output_path)
+    # os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    # doc.save(output_path)
 
-    return output_path
+    doc_stream = BytesIO()
+    doc.save(doc_stream)
+    doc_stream.seek(0)
+    return doc_stream
