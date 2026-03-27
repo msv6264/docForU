@@ -1,0 +1,27 @@
+{
+  "name": "docforu",
+  "version": "1.0.0",
+  "description": "**docForU** is an AI-powered document generation platform that helps users create **structured presentations and documents** with precise control over content organization.",
+  "main": "index.js",
+  "scripts": {
+    "frontend": "cd frontend && npm run dev",
+    "backend": "cd backend && node server.js",
+    "fastapi": "cd DocCreator && .\\venv\\Scripts\\activate && uvicorn main:app --port 8000",
+    "dev": "concurrently \"npm run frontend\" \"npm run backend\" \"npm run fastapi\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/msv6264/docForU.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/msv6264/docForU/issues"
+  },
+  "homepage": "https://github.com/msv6264/docForU#readme",
+  "dependencies": {
+    "concurrently": "^9.2.1"
+  }
+}

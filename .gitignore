@@ -5,3 +5,4 @@ __pycache__/
 venv/
 generated_files/
 DocCreator/test_*.py
+node_modules/

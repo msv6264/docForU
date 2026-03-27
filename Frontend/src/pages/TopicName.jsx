@@ -5,63 +5,12 @@ import {
   ArrowLeft,
   Lightbulb,
   Sparkles,
-  BookOpen,
-  Briefcase,
-  GraduationCap,
-  FlaskConical,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 export default function TopicName({ docData, setDocData }) {
   const Navigate = useNavigate();
-  const selectedCategory = docData.categoryOfFile;
   const topic = docData.topicName || "";
-
-  const categories = [
-    {
-      icon: <GraduationCap className="w-5 h-5" />,
-      name: "Academic",
-      color: "blue",
-    },
-    {
-      icon: <Briefcase className="w-5 h-5" />,
-      name: "Business",
-      color: "cyan",
-    },
-    {
-      icon: <FlaskConical className="w-5 h-5" />,
-      name: "Research",
-      color: "indigo",
-    },
-    {
-      icon: <BookOpen className="w-5 h-5" />,
-      name: "Educational",
-      color: "purple",
-    },
-  ];
-
-  const colorMap = {
-    blue: {
-      border: "border-blue-500",
-      bg: "bg-blue-50",
-      text: "text-blue-600",
-    },
-    cyan: {
-      border: "border-cyan-500",
-      bg: "bg-cyan-50",
-      text: "text-cyan-600",
-    },
-    indigo: {
-      border: "border-indigo-500",
-      bg: "bg-indigo-50",
-      text: "text-indigo-600",
-    },
-    purple: {
-      border: "border-purple-500",
-      bg: "bg-purple-50",
-      text: "text-purple-600",
-    },
-  };
 
   const suggestions = [
     "Climate Change and Its Global Impact",
@@ -76,13 +25,6 @@ export default function TopicName({ docData, setDocData }) {
     setDocData({
       ...docData,
       topicName: suggestion,
-    });
-  };
-
-  const handleCategory = (categoryName) => {
-    setDocData({
-      ...docData,
-      categoryOfFile: categoryName,
     });
   };
 
@@ -121,37 +63,6 @@ export default function TopicName({ docData, setDocData }) {
               Tell us what your presentation or document is about. Be as
               specific or general as you like.
             </p>
-          </div>
-
-          {/* Category Selection */}
-          <div className="mb-8">
-            <label className="block text-sm font-semibold text-gray-700 mb-3">
-              Select Category (Optional)
-            </label>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-              {categories.map((categoryOfFile, index) => (
-                <button
-                  key={index}
-                  onClick={() => handleCategory(categoryOfFile.name)}
-                  className={`p-4 rounded-xl border-2 transition transform hover:scale-105 ${
-                    selectedCategory === categoryOfFile.name
-                      ? `${colorMap[categoryOfFile.color].border} ${colorMap[categoryOfFile.color].bg}`
-                      : "border-gray-200 hover:border-blue-300 bg-white"
-                  }`}
-                >
-                  <div
-                    className={`flex flex-col items-center space-y-2 ${
-                      selectedCategory === categoryOfFile.name
-                        ? colorMap[categoryOfFile.color].text
-                        : "text-gray-600"
-                    }`}
-                  >
-                    {categoryOfFile.icon}
-                    <span className="text-sm font-medium">{categoryOfFile.name}</span>
-                  </div>
-                </button>
-              ))}
-            </div>
           </div>
 
           {/* Topic Input */}
@@ -217,8 +128,7 @@ export default function TopicName({ docData, setDocData }) {
                 <h3 className="font-semibold text-gray-900 mb-1">Pro Tip</h3>
                 <p className="text-sm text-gray-600">
                   The more specific your topic, the better our AI can generate
-                  relevant content. Include key terms or focus areas for best
-                  results!
+                  relevant content.
                 </p>
               </div>
             </div>

@@ -8,7 +8,6 @@ import RulesForDoc from "./pages/RulesForDoc";
 
 function App() {
   const [docData, setDocData] = useState({
-    categoryOfFile: "",
     topicName: "",
     focusAreaOfTopic: "",
     docType: "",

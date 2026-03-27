@@ -25,7 +25,7 @@ export default function HeroSec() {
       icon: <FileText className="w-6 h-6" />,
       title: "Multiple Formats",
       description:
-        "Support for presentations, reports, essays, and various document types",
+        "Support for presentations, and various document",
     },
     {
       icon: <Zap className="w-6 h-6" />,
@@ -52,21 +52,6 @@ export default function HeroSec() {
       number: "02",
       title: "Select Document Type & Size",
       description: "Choose your document type and specify how many slides you need.",
-    },
-    {
-      number: "03",
-      title: "Define your structure",
-      description: "Select sections: intro, contents, body, conclusion, etc.",
-    },
-    {
-      number: "04",
-      title: "Customize",
-      description: "Upload templates or set specific rules to follow",
-    },
-    {
-      number: "05",
-      title: "Generate",
-      description: "Let AI create your perfect document in seconds",
     },
   ];
 

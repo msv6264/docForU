@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import {Presentation, Menu, X } from 'lucide-react';
 import { useNavigate } from "react-router-dom";
+import logo from "../assets/logo.png"
 
 export default function NavBar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -15,13 +16,7 @@ export default function NavBar() {
           <div className="flex justify-between items-center h-16">
 
             <div className="flex items-center space-x-2">
-              <div className="bg-gradient-to-br from-blue-500 to-cyan-500 p-2 rounded-lg">
-                <Presentation className="w-6 h-6 text-white" />
-              </div>
-
-              <div onClick={() => navigate('/')} className="text-2xl cursor-pointer font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
-                docForU
-              </div>
+              <img className="w-54 h-36 text-white" src={logo} alt="" />
             </div>
             
             {/* Desktop Menu */}

@@ -107,23 +107,13 @@ export default function RulesForDoc({ docData, setDocData }) {
       const data = await response.json();
       setGeneratedData(data);
 
-      console.log("Response from backend: ", data);
     } catch (error) {
       console.log("Error sending data: ", error);
     }
   };
 
-  const handleSkipAndGenerate = () => {
-    handleGenerate();
-  };
-
   return (
     <div>
-      { isGenerating && (
-        <div className="fixed inset-0 bg-white/80 overflow-hidden backdrop-blur-sm flex items-center justify-center z-50">
-          <Loader />
-        </div>
-      )}
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-cyan-50 to-blue-100">
         {/* Progress Bar */}
         <div className="bg-white border-b border-blue-100">
@@ -345,18 +335,6 @@ export default function RulesForDoc({ docData, setDocData }) {
                 <span>Generate My Document</span>
                 <ArrowRight className="w-6 h-6" />
               </button>
-
-              {/* Skip Button */}
-              {!uploadedFile && !docData.rulesForDoc && (
-                <button
-                  onClick={handleSkipAndGenerate}
-                  disabled={isGenerating}
-                  className="w-full bg-white border-2 border-gray-200 text-gray-700 px-8 py-4 rounded-xl font-semibold hover:border-blue-300 hover:bg-blue-50 transition flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  <PlayCircle className="w-5 h-5" />
-                  <span>Skip & Generate with Defaults</span>
-                </button>
-              )}
             </div>
 
             {/* Summary Card */}
@@ -396,6 +374,15 @@ export default function RulesForDoc({ docData, setDocData }) {
                 <ArrowLeft className="w-5 h-5" />
                 <span className="font-medium">Back</span>
               </button>
+
+              {generatedData && (
+                <button
+                  className="flex items-center space-x-2 px-8 py-3 rounded-xl font-semibold bg-gradient-to-r from-blue-500 to-cyan-500 text-white hover:shadow-lg transition transform hover:scale-105"
+                  onClick={() => Navigate("../StrucOfDoc")}
+                >
+                  <span>Download File</span>
+                </button>
+              )}
             </div>
           </div>
         </main>

@@ -7,8 +7,6 @@ import {
   ArrowLeft,
   Sparkles,
   Layers,
-  FileBarChart,
-  FileSpreadsheet,
   Plus,
   Minus,
 } from "lucide-react";
@@ -45,26 +43,8 @@ export default function DocTypeSize({ docData, setDocData }) {
       icon: <FileText className="w-6 h-6" />,
       description: "Word document",
       unit: "pages",
-      color: "blue",
+      color: "green",
       recommended: [3, 5, 8, 10, 15, 20],
-    },
-    {
-      id: "report",
-      name: "Report",
-      icon: <FileBarChart className="w-6 h-6" />,
-      description: "Detailed report",
-      unit: "pages",
-      color: "blue",
-      recommended: [5, 10, 15, 20, 25, 30],
-    },
-    {
-      id: "handout",
-      name: "Handout",
-      icon: <FileSpreadsheet className="w-6 h-6" />,
-      description: "Reference material",
-      unit: "pages",
-      color: "blue",
-      recommended: [2, 4, 6, 8, 10, 12],
     },
   ];
 
@@ -335,7 +315,7 @@ export default function DocTypeSize({ docData, setDocData }) {
                   </h3>
                   <p className="text-sm text-gray-600">
                     For {currentDocType?.name.toLowerCase()}s, we recommend{" "}
-                    {presetCounts[1]}-{presetCounts[3]} {unitName}
+                    {presetCounts[1]}-{presetCounts[3]} {unitName}{" "}
                     for optimal content depth and audience engagement.
                   </p>
                 </div>
@@ -390,7 +370,7 @@ export default function DocTypeSize({ docData, setDocData }) {
           <div className="flex items-center justify-between pt-6 border-t border-gray-200">
             <button
               className="flex items-center space-x-2 px-6 py-3 text-gray-600 hover:text-white hover:bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full transition"
-              onClick={() => Navigate("../TopicName")}
+              onClick={() => navigate("../TopicName")}
             >
               <ArrowLeft className="w-5 h-5" />
               <span className="font-medium">Back</span>
