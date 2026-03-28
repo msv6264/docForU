@@ -12,14 +12,43 @@ import {
   Zap,
 } from "lucide-react";
 
-export default function RulesForDoc({ docData, setDocData }) {
+export default function RulesForDoc() {
   const [uploadedFile, setUploadedFile] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedData, setGeneratedData] = useState(null);
   const [genFailed, setGenFailed] = useState(false);
   const [error, setError] = useState(null);
+
   const Navigate = useNavigate();
+  
+    const defaultDocData = {
+      topicName: "",
+      focusAreaOfTopic: "",
+      docType: "",
+      noOfSlides: "",
+      sections: [
+        { id: 1, name: "Title Slide", count: 1, locked: true },
+        { id: 2, name: "Introduction", count: 1, locked: false },
+        { id: 3, name: "Main Content", count: 1, locked: false },
+        { id: 4, name: "Conclusion", count: 1, locked: false },
+        { id: 5, name: "References", count: 1, locked: false },
+      ],
+      rulesForDoc: "",
+    };
+
+  const [docData, setDocData] = useState(() => {
+    const storedData = localStorage.getItem("docData");
+
+    if (!storedData) return defaultDocData; 
+
+    const parsed =  JSON.parse(storedData);
+
+    return {
+      ...defaultDocData,
+      ...parsed,
+    };
+  });
 
   const updateRulesForDoc = (value) => {
     setDocData((prev) => ({

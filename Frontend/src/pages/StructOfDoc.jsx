@@ -12,7 +12,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 
-export default function DocTypeSize({ docData, setDocData }) {
+export default function DocTypeSize() {
   const navigate = useNavigate();
   const [slideCount, setSlideCount] = useState(0); //update from prev section
   const [allocatedSlideCount, setAllocatedSlideCount] = useState(0);
@@ -22,6 +22,34 @@ export default function DocTypeSize({ docData, setDocData }) {
   const [newSectionName, setNewSectionName] = useState("");
   const [isValid, setIsValid] = useState(false);
   const [draggedId, setDraggedId] = useState(null); //which item is being dragged
+
+  const defaultDocData = {
+      topicName: "",
+      focusAreaOfTopic: "",
+      docType: "",
+      noOfSlides: "",
+      sections: [
+        { id: 1, name: "Title Slide", count: 1, locked: true },
+        { id: 2, name: "Introduction", count: 1, locked: false },
+        { id: 3, name: "Main Content", count: 1, locked: false },
+        { id: 4, name: "Conclusion", count: 1, locked: false },
+        { id: 5, name: "References", count: 1, locked: false },
+      ],
+      rulesForDoc: "",
+    };
+
+  const [docData, setDocData] = useState(() => {
+    const storedData = localStorage.getItem("docData");
+
+    if (!storedData) return defaultDocData; 
+
+    const parsed =  JSON.parse(storedData);
+
+    return {
+      ...defaultDocData,
+      ...parsed,
+    };
+  });
 
   const handleDragStart = (id) => {
     setDraggedId(id);

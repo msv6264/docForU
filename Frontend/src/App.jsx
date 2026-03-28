@@ -7,20 +7,6 @@ import StrucOfDoc from "./pages/StructOfDoc";
 import RulesForDoc from "./pages/RulesForDoc";
 
 function App() {
-  const [docData, setDocData] = useState({
-    topicName: "",
-    focusAreaOfTopic: "",
-    docType: "",
-    noOfSlides: "",
-    sections: [
-      { id: 1, name: "Title Slide", count: 1, locked: true },
-      { id: 2, name: "Introduction", count: 1, locked: false },
-      { id: 3, name: "Main Content", count: 1, locked: false },
-      { id: 4, name: "Conclusion", count: 1, locked: false },
-      { id: 5, name: "References", count: 1, locked: false },
-    ],
-    rulesForDoc: "",
-  });
 
   return (
     <Router>
@@ -28,19 +14,19 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route
           path="/TopicName"
-          element={<TopicName docData={docData} setDocData={setDocData} />}
+          element={<TopicName />}
         />
         <Route
           path="/DocTypeSize"
-          element={<DocTypeSize docData={docData} setDocData={setDocData} />}
+          element={<DocTypeSize />}
         />
         <Route
           path="/StrucOfDoc"
-          element={<StrucOfDoc docData={docData} setDocData={setDocData} />}
+          element={<StrucOfDoc />}
         />
         <Route
           path="/RulesForDoc"
-          element={<RulesForDoc docData={docData} setDocData={setDocData} />}
+          element={<RulesForDoc />}
         />
       </Routes>
     </Router>
