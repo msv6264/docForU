@@ -24,19 +24,31 @@ export default function DocTypeSize() {
   const [draggedId, setDraggedId] = useState(null); //which item is being dragged
 
   const defaultDocData = {
-  topicName: "",
-  focusAreaOfTopic: "",
-  docType: "",
-  noOfSlides: "",
-  sections: [
-    { id: 1, name: "Title Slide", count: 1, locked: true },
-    { id: 2, name: "Introduction", count: 1, locked: false },
-    { id: 3, name: "Main Content", count: 1, locked: false },
-    { id: 4, name: "Conclusion", count: 1, locked: false },
-    { id: 5, name: "References", count: 1, locked: false },
-  ],
-  rulesForDoc: "",
-};
+    topicName: "",
+    focusAreaOfTopic: "",
+    docType: "",
+    noOfSlides: "",
+    sections: [
+      { id: 1, name: "Title Slide", count: 1, locked: true },
+      { id: 2, name: "Introduction", count: 1, locked: false },
+      { id: 3, name: "Main Content", count: 1, locked: false },
+      { id: 4, name: "Conclusion", count: 1, locked: false },
+      { id: 5, name: "References", count: 1, locked: false },
+    ],
+    rulesForDoc: "",
+  };
+
+  const recommendations = [
+    { id: 1, name: "Table of Contents" },
+    { id: 2, name: "Background" },
+    { id: 3, name: "Methodology" },
+    { id: 4, name: "Analysis" },
+    { id: 5, name: "Results" },
+    { id: 6, name: "Discussion" },
+    { id: 7, name: "Recommendations" },
+    { id: 8, name: "Q&A" },
+    { id: 9, name: "Appendix" },
+  ];
 
   const [docData, setDocData] = useState(() => {
     const storedData = localStorage.getItem("docData");
@@ -399,26 +411,22 @@ export default function DocTypeSize() {
                 </p>
 
                 <div className="flex flex-wrap gap-2">
-                  {[
-                    "Table of Contents",
-                    "Background",
-                    "Methodology",
-                    "Analysis",
-                    "Results",
-                    "Discussion",
-                    "Recommendations",
-                    "Q&A",
-                    "Appendix",
-                  ].map((item) => (
+                  {recommendations.map((item) => (
                     <button
-                      key={item}
-                      className="px-3 py-1.5 border border-blue-300 rounded-full text-sm text-blue-700 hover:bg-blue-100"
+                      key={item.id}
+                      disabled={sections.some((sec) => sec.name === item.name)}
+                      className={`px-3 py-1.5 border rounded-full text-sm 
+                      ${
+                        sections.some((sec) => sec.name === item.name)
+                          ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                          : "border-blue-300 text-blue-700 hover:bg-blue-100"
+                      }`}
                       onClick={() => {
                         updateSections([
                           ...sections,
                           {
                             id: Date.now(),
-                            name: item,
+                            name: item.name,
                             count: 1,
                             locked: false,
                           },
@@ -427,7 +435,7 @@ export default function DocTypeSize() {
                         setShowAddSection(false);
                       }}
                     >
-                      + {item}
+                      + {item.name}
                     </button>
                   ))}
                 </div>

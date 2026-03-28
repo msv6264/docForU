@@ -189,7 +189,7 @@ export default function DocTypeSize() {
             <label className="block text-sm font-semibold text-gray-700 mb-4">
               Select Document Type <span className="text-red-500">*</span>
             </label>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 ">
               {documentTypes.map((type) => (
                 <button
                   key={type.id}
