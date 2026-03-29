@@ -9,8 +9,6 @@ from io import BytesIO
 
 def create_docx(response):
     
-    print("i came to doc service")
-    
     def style_run(run, bold=False, fSize=12, color=None):
         run.bold = bold
         run.font.size = Pt(fSize)

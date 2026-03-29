@@ -336,7 +336,7 @@ export default function RulesForDoc() {
               <span className="text-sm font-medium text-blue-600">
                 Step 4 of 4
               </span>
-              <span className="text-sm text-gray-500">Document Structure</span>
+              <span className="text-sm text-gray-500">Document Generation</span>
             </div>
             <div className="w-full bg-gray-200 rounded-full h-2">
               <div className="bg-gradient-to-r from-blue-500 to-cyan-500 h-2 rounded-full transition-all duration-500"></div>
@@ -352,23 +352,22 @@ export default function RulesForDoc() {
                 <Sparkles className="w-8 h-8 text-white" />
               </div>
               <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
-                Almost Done! 🎉
+                You will get your document now! 🎉
               </h1>
               <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                Add your own template or set custom rules (both optional). Or
-                skip and let AI handle everything!
+                {/* Add your own template or set custom rules (both optional). Or
+                skip and let AI handle everything! */}
               </p>
             </div>
 
-            <div className="flex justify-center mb-8">
+            {/* <div className="flex justify-center mb-8">
               <span className="inline-flex items-center space-x-2 bg-green-100 text-green-700 px-4 py-2 rounded-full text-sm font-semibold">
                 <Check className="w-4 h-4" />
                 <span>Both sections are completely optional</span>
               </span>
-            </div>
+            </div> */}
 
-            {/* Template Upload — unchanged */}
-            <div className="mb-8">
+            {/* <div className="mb-8">
               <div className="flex items-center justify-between mb-4">
                 <div>
                   <h2 className="text-xl font-bold text-gray-900">
@@ -469,7 +468,6 @@ export default function RulesForDoc() {
               </div>
             </div>
 
-            {/* Custom Rules — unchanged */}
             <div className="mb-10">
               <div className="flex items-center justify-between mb-4">
                 <div>
@@ -523,9 +521,8 @@ export default function RulesForDoc() {
                   ))}
                 </div>
               </div>
-            </div>
+            </div> */}
 
-            {/* ── ONLY THESE FOUR STATES ARE NEW ── */}
 
             {/* State: idle */}
             {!isGenerating && !generatedData && !genFailed && (
@@ -644,12 +641,12 @@ export default function RulesForDoc() {
                     AI will generate your document based on all your preferences
                   </span>
                 </div>
-                <div className="flex items-start space-x-2">
+                {/* <div className="flex items-start space-x-2">
                   <Check className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
                   <span>
                     You'll be able to preview and edit before downloading
                   </span>
-                </div>
+                </div> */}
                 <div className="flex items-start space-x-2">
                   <Check className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
                   <span>Download in .pptx or .docx format</span>

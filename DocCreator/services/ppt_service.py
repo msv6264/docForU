@@ -1,79 +1,85 @@
 from pptx import Presentation
-from pptx.util import Inches, Pt
+from pptx.util import Pt
 from pptx.dml.color import RGBColor
 from pptx.enum.text import PP_ALIGN
-import uuid
 from io import BytesIO
+
 
 def create_ppt(data):
 
+    def style_run(run, size, bold=False, color=None):
+        run.font.size = Pt(size)
+        run.font.bold = bold
+        if color:
+            run.font.color.rgb = color
+
+    def style_para(p, align):
+        p.alignment = align
+
     prs = Presentation()
 
-    # Define colors
-    TITLE_COLOR = RGBColor(0, 102, 204)     # Blue
-    TEXT_COLOR = RGBColor(50, 50, 50)       # Dark gray
+    BLUE = RGBColor(0, 102, 204)
+    DARK = RGBColor(60, 60, 60)
+    BLACK = RGBColor(0, 0, 0)
 
-    # ------------------- TITLE SLIDE -------------------
-    slide_layout = prs.slide_layouts[0]  # better title layout
-    slide = prs.slides.add_slide(slide_layout)
+    # ---------------- TITLE SLIDE ----------------
+    slide = prs.slides.add_slide(prs.slide_layouts[0])
 
     title = slide.shapes.title
     subtitle = slide.placeholders[1]
 
     title.text = data["title"]
-    subtitle.text = "Generated Presentation"
+    subtitle.text = ""
 
-    # Style title
-    title_tf = title.text_frame
-    title_run = title_tf.paragraphs[0].runs[0]
-    title_run.font.size = Pt(40)
-    title_run.font.bold = True
-    title_run.font.color.rgb = TITLE_COLOR
+    p = title.text_frame.paragraphs[0]
+    style_para(p, PP_ALIGN.CENTER)
+    run = p.runs[0]
+    style_run(run, 44, True, BLUE)
 
-    # ------------------- CONTENT SLIDES -------------------
+    # ---------------- CONTENT ----------------
     for section in data["sections"]:
 
-        if section["sectionName"] == "Title Slide":
-            continue
+        for i, page in enumerate(section["pages"]):
 
-        for page in section["pages"]:
+            slide = prs.slides.add_slide(prs.slide_layouts[1])
 
-            slide_layout = prs.slide_layouts[1]
-            slide = prs.slides.add_slide(slide_layout)
-
-            # TITLE
-            title = slide.shapes.title
-            title.text = page["pageTitle"]
-
-            title_tf = title.text_frame
-            title_run = title_tf.paragraphs[0].runs[0]
-            title_run.font.size = Pt(30)
-            title_run.font.bold = True
-            title_run.font.color.rgb = TITLE_COLOR
-
-            # CONTENT BOX
+            title_box = slide.shapes.title
             content_box = slide.placeholders[1]
+
+            # -------- SECTION NAME ALWAYS IN TITLE --------
+            title_box.text = section["sectionName"]
+
+            p = title_box.text_frame.paragraphs[0]
+            style_para(p, PP_ALIGN.CENTER)
+            run = p.runs[0]
+            style_run(run, 34, True, BLUE)
+
+            # -------- CONTENT BOX --------
             tf = content_box.text_frame
             tf.clear()
 
-            for i, bullet in enumerate(page["content"]):
+            # -------- PAGE TITLE (SIDE HEADING) --------
+            p = tf.paragraphs[0]
+            p.text = page["pageTitle"]
+            p.level = 0
+            style_para(p, PP_ALIGN.LEFT)
 
-                if i == 0:
-                    p = tf.paragraphs[0]
-                else:
-                    p = tf.add_paragraph()
+            run = p.runs[0]
+            style_run(run, 24, True, DARK)
 
+            # -------- BULLET CONTENT --------
+            for j, bullet in enumerate(page["content"]):
+
+                p = tf.add_paragraph()
                 p.text = bullet
                 p.level = 0
-                p.font.size = Pt(20)
-                p.font.color.rgb = TEXT_COLOR
-                p.font.name = "Calibri"
+                style_para(p, PP_ALIGN.LEFT)
 
-                # alignment
-                p.alignment = PP_ALIGN.LEFT
+                run = p.runs[0]
+                style_run(run, 20, False, BLACK)
 
-    # file_name = f"{uuid.uuid4()}.pptx"
     ppt_stream = BytesIO()
     prs.save(ppt_stream)
     ppt_stream.seek(0)
+
     return ppt_stream
