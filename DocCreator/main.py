@@ -20,18 +20,20 @@ def genDoc(req: docRequest):
     import json
     data = json.loads(req.dataJSON)
 
-    if req.docType == "Presentation":
+    if req.docType.lower() == "presentation":
         file_stream = create_ppt(data)
         file_name = "presentation.pptx"
         media_type = "application/vnd.openxmlformats-officedocument.presentationml.presentation"
 
-    elif req.docType == "document":
+    elif req.docType.lower() == "document":
         file_stream = create_docx(data)
         file_name = "document.docx"
         media_type = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
 
     else:
         return {"error": "Invalid docType"}
+    
+    print("doc generated with name ", file_name)
 
     return StreamingResponse(
         file_stream,

@@ -22,6 +22,7 @@ export async function generateDoc(req, res) {
     console.log("final doc obj in genController: ", finalDocObj);
 
     const filledPrompt = await plcHoldrsOfPrmtTmplt(finalDocObj);
+    console.log("the filled prompt is: ", filledPrompt);
 
     const aiResponse = await prmptToCerbras(filledPrompt);
     console.log("AI responded:", aiResponse);
@@ -37,16 +38,22 @@ export async function generateDoc(req, res) {
       },
     );
 
-    res.setHeader("Content-Type", fastApiPost.headers["content-type"]);
-
     res.setHeader(
-      "Content-Disposition",
-      fastApiPost.headers["content-disposition"],
+      "Content-Type",
+      fastApiPost.headers["content-type"] || "application/octet-stream",
     );
 
+    if (fastApiPost.headers["content-disposition"]) {
+      res.setHeader(
+        "Content-Disposition",
+        fastApiPost.headers["content-disposition"],
+      );
+    }
+
     return res.send(fastApiPost.data);
+
   } catch (err) {
     console.error("ERROR:", err.response?.data || err.message);
-    return res.status(500).json({ error: "Generation failed" });
+    return res.status(500).json({ error: err.message });
   }
 }

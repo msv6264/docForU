@@ -29,25 +29,27 @@ export default function DocTypeSize() {
     docType: "",
     noOfSlides: "",
     sections: [
-      { id: 1, name: "Title Slide", count: 1, locked: true },
-      { id: 2, name: "Introduction", count: 1, locked: false },
-      { id: 3, name: "Main Content", count: 1, locked: false },
-      { id: 4, name: "Conclusion", count: 1, locked: false },
-      { id: 5, name: "References", count: 1, locked: false },
+      { id: 1, name: "Introduction", count: 1, locked: true },
+      { id: 2, name: "Main Content", count: 1, locked: false },
+      { id: 3, name: "Conclusion", count: 1, locked: false },
+      { id: 4, name: "References", count: 1, locked: false },
     ],
     rulesForDoc: "",
   };
 
   const recommendations = [
     { id: 1, name: "Table of Contents" },
-    { id: 2, name: "Background" },
-    { id: 3, name: "Methodology" },
-    { id: 4, name: "Analysis" },
-    { id: 5, name: "Results" },
-    { id: 6, name: "Discussion" },
-    { id: 7, name: "Recommendations" },
-    { id: 8, name: "Q&A" },
-    { id: 9, name: "Appendix" },
+    { id: 2, name: "Main Content" },
+    { id: 3, name: "Conclusion" },
+    { id: 4, name: "References" },
+    { id: 5, name: "Background" },
+    { id: 6, name: "Methodology" },
+    { id: 7, name: "Analysis" },
+    { id: 8, name: "Results" },
+    { id: 9, name: "Discussion" },
+    { id: 10, name: "Recommendations" },
+    { id: 11, name: "Q&A" },
+    { id: 12, name: "Appendix" },
   ];
 
   const [docData, setDocData] = useState(() => {
@@ -345,7 +347,7 @@ export default function DocTypeSize() {
                       />
 
                       <div
-                        className={`flex items-center justify-center text-[20px] border-2 rounded-md h-8 w-8${obj.locked ? "border-gray-200 text-gray-300 cursor-not-allowed" : "border-gray-300 cursor-pointer"}`}
+                        className={`flex items-center justify-center text-[20px] border-2 rounded-md h-8 w-8 ${obj.locked ? "border-gray-200 text-gray-300 cursor-not-allowed" : "border-gray-300 cursor-pointer"}`}
                         onClick={() => !obj.locked && handleIncrement(obj.id)}
                       >
                         <Plus className="h-4 w-4" />

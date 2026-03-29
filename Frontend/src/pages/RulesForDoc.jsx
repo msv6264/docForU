@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   ArrowRight,
@@ -10,7 +10,20 @@ import {
   AlertCircle,
   Check,
   Zap,
+  Download,
+  RefreshCw,
+  CheckCircle2,
+  FileText,
+  Presentation,
+  AlertTriangle,
 } from "lucide-react";
+
+const GEN_STEPS = [
+  "Analyzing your settings…",
+  "Writing content…",
+  "Applying layout & design…",
+  "Finalizing document…",
+];
 
 export default function RulesForDoc() {
   const [uploadedFile, setUploadedFile] = useState(null);
@@ -18,6 +31,11 @@ export default function RulesForDoc() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedData, setGeneratedData] = useState(null);
   const [genFailed, setGenFailed] = useState(false);
+  const [genStep, setGenStep] = useState(0);
+  const [progress, setProgress] = useState(0);
+  const [genTime, setGenTime] = useState(null);
+  const progressRef = useRef(null);
+  const startTimeRef = useRef(null);
   const [error, setError] = useState(null);
 
   const Navigate = useNavigate();
@@ -28,22 +46,18 @@ export default function RulesForDoc() {
     docType: "",
     noOfSlides: "",
     sections: [
-      { id: 1, name: "Title Slide", count: 1, locked: true },
-      { id: 2, name: "Introduction", count: 1, locked: false },
-      { id: 3, name: "Main Content", count: 1, locked: false },
-      { id: 4, name: "Conclusion", count: 1, locked: false },
-      { id: 5, name: "References", count: 1, locked: false },
+      { id: 1, name: "Introduction", count: 1, locked: true },
+      { id: 2, name: "Main Content", count: 1, locked: false },
+      { id: 3, name: "Conclusion", count: 1, locked: false },
+      { id: 4, name: "References", count: 1, locked: false },
     ],
     rulesForDoc: "",
   };
 
   const [docData, setDocData] = useState(() => {
     const storedData = localStorage.getItem("docData");
-
     if (!storedData) return defaultDocData;
-
     const parsed = JSON.parse(storedData);
-
     return {
       ...defaultDocData,
       ...parsed,
@@ -58,58 +72,59 @@ export default function RulesForDoc() {
   }, [docData]);
 
   const updateRulesForDoc = (value) => {
-    setDocData((prev) => ({
-      ...prev,
-      rulesForDoc: value,
-    }));
+    setDocData((prev) => ({ ...prev, rulesForDoc: value }));
   };
 
   const handleDragOver = (e) => {
     e.preventDefault();
     setIsDragging(true);
   };
-
   const handleDragLeave = (e) => {
     e.preventDefault();
     setIsDragging(false);
   };
-
   const handleDrop = (e) => {
     e.preventDefault();
     setIsDragging(false);
-
-    const files = e.dataTransfer.files;
-    if (files.length > 0) {
-      handleFileUpload(files[0]);
-    }
+    if (e.dataTransfer.files.length > 0)
+      handleFileUpload(e.dataTransfer.files[0]);
   };
 
   const handleFileUpload = (file) => {
     const validTypes = [".pptx", ".docx", ".pdf"];
-    const fileExtension = "." + file.name.split(".").pop().toLowerCase();
-
+    const ext = "." + file.name.split(".").pop().toLowerCase();
     if (file.size > 10 * 1024 * 1024) {
       alert("Please upload file of maximum 10MB");
       return;
     }
-
-    if (!validTypes.includes(fileExtension)) {
+    if (!validTypes.includes(ext)) {
       alert("Please upload a .pptx, .docx, or .pdf file");
       return;
     }
-
     setUploadedFile(file);
   };
 
   const handleFileInputChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      handleFileUpload(file);
-    }
+    if (e.target.files[0]) handleFileUpload(e.target.files[0]);
   };
 
-  const removeFile = () => {
-    setUploadedFile(null);
+  const removeFile = () => setUploadedFile(null);
+
+  const startProgressAnimation = () => {
+    let pct = 0;
+    let step = 0;
+    setProgress(0);
+    setGenStep(0);
+    clearInterval(progressRef.current);
+    progressRef.current = setInterval(() => {
+      pct = Math.min(pct + Math.random() * 3.5 + 0.5, 92);
+      setProgress(Math.round(pct));
+      const newStep = Math.min(Math.floor(pct / 25), 3);
+      if (newStep !== step) {
+        step = newStep;
+        setGenStep(newStep);
+      }
+    }, 250);
   };
 
   const handleGenerate = async () => {
@@ -121,48 +136,200 @@ export default function RulesForDoc() {
     setIsGenerating(true);
     setGenFailed(false);
     setError(null);
+    setGeneratedData(null);
+    setGenTime(null);
+    startTimeRef.current = Date.now();
+    startProgressAnimation();
+    
+    console.log('docdata from frontend', docData);
 
     try {
       const response = await fetch("http://localhost:5000/generate", {
         method: "POST",
         body: formData,
       });
-
+      
       if (!response.ok) {
-        throw new Error("Generation failed");
+        const text = await response.text();
+        throw new Error(text);
       }
 
       const blob = await response.blob();
-      setGeneratedData(blob);
-    } catch (error) {
+      clearInterval(progressRef.current);
+      setProgress(100);
+      const elapsed = ((Date.now() - startTimeRef.current) / 1000).toFixed(1);
+      setTimeout(() => {
+        setGeneratedData(blob);
+        setIsGenerating(false);
+        setGenTime(elapsed);
+      }, 400);
+    } catch (err) {
+      clearInterval(progressRef.current);
       setIsGenerating(false);
       setGenFailed(true);
-      console.log("Error sending data: ", error);
+      console.error("Error:", err);
     }
   };
 
-  const downloadDoc = async () => {
+  const downloadDoc = () => {
     if (!generatedData) return;
-
     const url = window.URL.createObjectURL(generatedData);
-
     const a = document.createElement("a");
     a.href = url;
     a.download =
       docData.docType === "document"
-        ? `${docData.topicName}.docx`
-        : `${docData.topicName}.pptx`;
+        ? `${docData.topicName || "document"}.docx`
+        : `${docData.topicName || "presentation"}.pptx`;
     document.body.appendChild(a);
     a.click();
-
     a.remove();
     window.URL.revokeObjectURL(url);
   };
 
+  const resetGeneration = () => {
+    setGeneratedData(null);
+    setGenFailed(false);
+    setProgress(0);
+    setGenTime(null);
+  };
+
+  const fileExt = docData.docType === "document" ? "docx" : "pptx";
+  const fileName = `${docData.topicName || "My Document"}.${fileExt}`;
+  const FileIcon = docData.docType === "document" ? FileText : Presentation;
+
   return (
     <div>
+      <style>{`
+        @keyframes rfd-spin { to { transform: rotate(360deg); } }
+        @keyframes rfd-shimmer {
+          0% { background-position: -200% center; }
+          100% { background-position: 200% center; }
+        }
+        @keyframes rfd-fadeUp {
+          from { opacity: 0; transform: translateY(10px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes rfd-scaleIn {
+          from { opacity: 0; transform: scale(0.97); }
+          to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Generating box */
+        .rfd-gen-box {
+          background: white; border-radius: 16px;
+          border: 1px solid #dbeafe; padding: 24px 28px;
+          animation: rfd-scaleIn 0.3s ease;
+        }
+        .rfd-gen-top {
+          display: flex; align-items: center; gap: 12px; margin-bottom: 16px;
+        }
+        .rfd-gen-spinner {
+          width: 20px; height: 20px; border-radius: 50%;
+          border: 2.5px solid #bfdbfe; border-top-color: #3b82f6;
+          animation: rfd-spin 0.7s linear infinite; flex-shrink: 0;
+        }
+        .rfd-gen-step-text { font-size: 14px; font-weight: 500; color: #1e3a5f; flex: 1; }
+        .rfd-gen-pct { font-size: 13px; color: #3b82f6; font-weight: 600; }
+        .rfd-track {
+          height: 6px; background: #dbeafe;
+          border-radius: 99px; overflow: hidden; margin-bottom: 14px;
+        }
+        .rfd-fill {
+          height: 100%; border-radius: 99px;
+          background: linear-gradient(90deg, #3b82f6, #06b6d4);
+          background-size: 200% 100%;
+          animation: rfd-shimmer 1.5s linear infinite;
+          transition: width 0.35s ease;
+        }
+        .rfd-dots-row {
+          display: flex; border-top: 1px solid #eff6ff; padding-top: 14px;
+        }
+        .rfd-dot-step {
+          flex: 1; display: flex; flex-direction: column;
+          align-items: center; gap: 5px;
+          font-size: 10px; color: #bfdbfe;
+          transition: color 0.3s; text-align: center;
+        }
+        .rfd-dot-step.active { color: #3b82f6; }
+        .rfd-dot-step.done { color: #22c55e; }
+        .rfd-dot-pip { width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+
+        /* Success box */
+        .rfd-success-box {
+          border-radius: 16px; overflow: hidden;
+          border: 1px solid #bfdbfe;
+          animation: rfd-scaleIn 0.35s ease;
+        }
+        .rfd-success-top {
+          background: linear-gradient(to right, #3b82f6, #06b6d4);
+          padding: 20px 24px; display: flex; align-items: center; gap: 14px;
+        }
+        .rfd-success-check {
+          width: 40px; height: 40px; border-radius: 50%;
+          background: rgba(255,255,255,0.2);
+          display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+        }
+        .rfd-success-title { font-size: 16px; font-weight: 700; color: white; margin: 0 0 2px; }
+        .rfd-success-sub { font-size: 12px; color: rgba(255,255,255,0.75); margin: 0; }
+        .rfd-success-body { background: white; padding: 20px 24px; }
+        .rfd-file-row {
+          display: flex; align-items: center; gap: 12px;
+          background: #eff6ff; border: 1px solid #bfdbfe;
+          border-radius: 12px; padding: 14px 16px; margin-bottom: 14px;
+        }
+        .rfd-file-icon-box {
+          width: 40px; height: 40px; border-radius: 10px;
+          background: linear-gradient(135deg, #3b82f6, #06b6d4);
+          display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+        }
+        .rfd-file-name { font-size: 14px; font-weight: 600; color: #1e3a5f; }
+        .rfd-file-meta { font-size: 12px; color: #60a5fa; margin-top: 2px; }
+        .rfd-dl-btn {
+          width: 100%; display: flex; align-items: center;
+          justify-content: center; gap: 8px; padding: 14px;
+          border: none; border-radius: 12px;
+          background: linear-gradient(to right, #3b82f6, #06b6d4);
+          color: white; font-size: 15px; font-weight: 700;
+          cursor: pointer; transition: opacity 0.15s, transform 0.1s;
+          margin-bottom: 10px;
+        }
+        .rfd-dl-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+        .rfd-gen-again-btn {
+          width: 100%; display: flex; align-items: center;
+          justify-content: center; gap: 7px; padding: 11px;
+          border: 1px solid #bfdbfe; border-radius: 10px;
+          background: white; color: #3b82f6;
+          font-size: 13px; font-weight: 500; cursor: pointer;
+          transition: background 0.15s;
+        }
+        .rfd-gen-again-btn:hover { background: #eff6ff; }
+
+        /* Error box */
+        .rfd-error-box {
+          background: #fef2f2; border: 1px solid #fca5a5;
+          border-radius: 16px; padding: 20px 24px;
+          display: flex; gap: 14px;
+          animation: rfd-fadeUp 0.3s ease;
+        }
+        .rfd-error-icon-box {
+          width: 36px; height: 36px; background: #fee2e2;
+          border-radius: 50%; display: flex;
+          align-items: center; justify-content: center; flex-shrink: 0;
+        }
+        .rfd-error-title { font-size: 14px; font-weight: 600; color: #991b1b; margin: 0 0 4px; }
+        .rfd-error-desc { font-size: 13px; color: #b91c1c; margin: 0 0 12px; line-height: 1.5; }
+        .rfd-retry-btn {
+          display: inline-flex; align-items: center; gap: 6px;
+          padding: 8px 16px; border: 1.5px solid #fca5a5;
+          border-radius: 8px; background: white; color: #dc2626;
+          font-size: 13px; font-weight: 500; cursor: pointer;
+          transition: background 0.15s;
+        }
+        .rfd-retry-btn:hover { background: #fee2e2; }
+      `}</style>
+
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-cyan-50 to-blue-100">
-        {/* Progress Bar */}
+        {/* Progress Bar — unchanged */}
         <div className="bg-white border-b border-blue-100">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
             <div className="flex items-center justify-between mb-2">
@@ -177,10 +344,9 @@ export default function RulesForDoc() {
           </div>
         </div>
 
-        {/* Main Content */}
+        {/* Main Content — unchanged */}
         <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12 border border-blue-100">
-            {/* Title Section */}
             <div className="text-center mb-10">
               <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full mb-4">
                 <Sparkles className="w-8 h-8 text-white" />
@@ -194,7 +360,6 @@ export default function RulesForDoc() {
               </p>
             </div>
 
-            {/* Optional Badge */}
             <div className="flex justify-center mb-8">
               <span className="inline-flex items-center space-x-2 bg-green-100 text-green-700 px-4 py-2 rounded-full text-sm font-semibold">
                 <Check className="w-4 h-4" />
@@ -202,7 +367,7 @@ export default function RulesForDoc() {
               </span>
             </div>
 
-            {/* Template Upload Section */}
+            {/* Template Upload — unchanged */}
             <div className="mb-8">
               <div className="flex items-center justify-between mb-4">
                 <div>
@@ -268,8 +433,7 @@ export default function RulesForDoc() {
                           {uploadedFile.name}
                         </p>
                         <p className="text-sm text-gray-600">
-                          {uploadedFile.size} MB •{" "}
-                          {uploadedFile.type.toUpperCase()}
+                          {(uploadedFile.size / 1024 / 1024).toFixed(2)} MB
                         </p>
                       </div>
                     </div>
@@ -283,7 +447,6 @@ export default function RulesForDoc() {
                 </div>
               )}
 
-              {/* Template Info */}
               <div className="mt-4 bg-blue-50 rounded-lg p-4 border border-blue-100">
                 <div className="flex items-start space-x-3">
                   <AlertCircle className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
@@ -306,7 +469,7 @@ export default function RulesForDoc() {
               </div>
             </div>
 
-            {/* Custom Rules Section */}
+            {/* Custom Rules — unchanged */}
             <div className="mb-10">
               <div className="flex items-center justify-between mb-4">
                 <div>
@@ -321,26 +484,16 @@ export default function RulesForDoc() {
                   Optional
                 </span>
               </div>
-
               <textarea
                 value={docData.rulesForDoc}
                 onChange={(e) => updateRulesForDoc(e.target.value)}
-                placeholder="Example rules:
-                • Use company colors: #003366 (blue) and #FFB81C (yellow)
-                • Include our logo on every slide
-                • Keep fonts: Arial for headings, Calibri for body
-                • Maximum 5 bullet points per slide
-                • Add page numbers
-                • Include data sources at bottom of charts"
+                placeholder={`Example rules:\n• Use company colors: #003366 (blue) and #FFB81C (yellow)\n• Include our logo on every slide\n• Keep fonts: Arial for headings, Calibri for body\n• Maximum 5 bullet points per slide\n• Add page numbers\n• Include data sources at bottom of charts`}
                 rows="8"
                 className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none resize-none font-mono text-sm"
-              ></textarea>
-
+              />
               <p className="text-sm text-gray-500 mt-2">
                 {docData.rulesForDoc.length}/1000 characters
               </p>
-
-              {/* Rules Examples */}
               <div className="mt-4">
                 <p className="text-sm font-medium text-gray-700 mb-2">
                   Quick examples to copy:
@@ -372,19 +525,114 @@ export default function RulesForDoc() {
               </div>
             </div>
 
-            <div className="space-y-4">
-              <button
-                onClick={handleGenerate}
-                disabled={isGenerating}
-                className="w-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-8 py-5 rounded-xl font-bold text-lg hover:shadow-xl transition transform hover:scale-105 flex items-center justify-center space-x-3 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
-              >
-                <Zap className="w-6 h-6" />
-                <span>Generate My Document</span>
-                <ArrowRight className="w-6 h-6" />
-              </button>
-            </div>
+            {/* ── ONLY THESE FOUR STATES ARE NEW ── */}
 
-            {/* Summary Card */}
+            {/* State: idle */}
+            {!isGenerating && !generatedData && !genFailed && (
+              <div className="space-y-4">
+                <button
+                  onClick={handleGenerate}
+                  className="w-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-8 py-5 rounded-xl font-bold text-lg hover:shadow-xl transition transform hover:scale-105 flex items-center justify-center space-x-3"
+                >
+                  <Zap className="w-6 h-6" />
+                  <span>Generate My Document</span>
+                  <ArrowRight className="w-6 h-6" />
+                </button>
+              </div>
+            )}
+
+            {/* State: generating */}
+            {isGenerating && (
+              <div className="rfd-gen-box">
+                <div className="rfd-gen-top">
+                  <div className="rfd-gen-spinner" />
+                  <span className="rfd-gen-step-text">
+                    {GEN_STEPS[genStep]}
+                  </span>
+                  <span className="rfd-gen-pct">{progress}%</span>
+                </div>
+                <div className="rfd-track">
+                  <div className="rfd-fill" style={{ width: `${progress}%` }} />
+                </div>
+                <div className="rfd-dots-row">
+                  {GEN_STEPS.map((label, i) => (
+                    <div
+                      key={i}
+                      className={`rfd-dot-step${i === genStep ? " active" : i < genStep ? " done" : ""}`}
+                    >
+                      <div className="rfd-dot-pip" />
+                      {label.replace("…", "")}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* State: success */}
+            {generatedData && !isGenerating && (
+              <div className="rfd-success-box">
+                <div className="rfd-success-top">
+                  <div className="rfd-success-check">
+                    <CheckCircle2 size={22} color="white" />
+                  </div>
+                  <div>
+                    <p className="rfd-success-title">Document ready!</p>
+                    <p className="rfd-success-sub">
+                      Generated in {genTime}s · ready to download
+                    </p>
+                  </div>
+                </div>
+                <div className="rfd-success-body">
+                  <div className="rfd-file-row">
+                    <div className="rfd-file-icon-box">
+                      <FileIcon size={20} color="white" />
+                    </div>
+                    <div style={{ flex: 1 }}>
+                      <div className="rfd-file-name">{fileName}</div>
+                      <div className="rfd-file-meta">
+                        {docData.noOfSlides
+                          ? `${docData.noOfSlides} slides · `
+                          : ""}
+                        {fileExt.toUpperCase()} file
+                      </div>
+                    </div>
+                  </div>
+                  <button className="rfd-dl-btn" onClick={downloadDoc}>
+                    <Download size={18} />
+                    Download {fileExt.toUpperCase()}
+                  </button>
+                  <button
+                    className="rfd-gen-again-btn"
+                    onClick={resetGeneration}
+                  >
+                    <RefreshCw size={14} />
+                    Generate again
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* State: error */}
+            {genFailed && !isGenerating && (
+              <div className="rfd-error-box">
+                <div className="rfd-error-icon-box">
+                  <AlertTriangle size={18} color="#ef4444" />
+                </div>
+                <div>
+                  <p className="rfd-error-title">Generation failed</p>
+                  <p className="rfd-error-desc">
+                    The server couldn't be reached. Check your connection and
+                    try again.
+                  </p>
+                  <button className="rfd-retry-btn" onClick={handleGenerate}>
+                    <RefreshCw size={13} />
+                    Try again
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* Summary Card — unchanged */}
             <div className="mt-8 bg-gradient-to-r from-blue-50 to-cyan-50 rounded-xl p-6 border border-blue-100">
               <h3 className="font-semibold text-gray-900 mb-3">
                 What happens next?
@@ -408,7 +656,7 @@ export default function RulesForDoc() {
                 </div>
                 <div className="flex items-start space-x-2">
                   <Check className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
-                  <span>Typically takes 5 -10 seconds to generate</span>
+                  <span>Typically takes 5–10 seconds to generate</span>
                 </div>
               </div>
             </div>
@@ -421,21 +669,6 @@ export default function RulesForDoc() {
                 <ArrowLeft className="w-5 h-5" />
                 <span className="font-medium">Back</span>
               </button>
-
-              {generatedData && (
-                <button
-                  className="flex items-center space-x-2 px-8 py-3 rounded-xl font-semibold bg-gradient-to-r from-blue-500 to-cyan-500 text-white hover:shadow-lg transition transform hover:scale-105"
-                  onClick={() => downloadDoc()}
-                >
-                  <span>Download File</span>
-                </button>
-              )}
-
-              {genFailed && (
-                <div className="mt-3 px-4 py-2 rounded-lg bg-red-50 border border-red-200 text-red-600 font-medium">
-                  Failed to generate document. Please try again.
-                </div>
-              )}
             </div>
           </div>
         </main>

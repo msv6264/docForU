@@ -17,11 +17,10 @@ export default function TopicName() {
     docType: "",
     noOfSlides: "",
     sections: [
-      { id: 1, name: "Title Slide", count: 1, locked: true },
-      { id: 2, name: "Introduction", count: 1, locked: false },
-      { id: 3, name: "Main Content", count: 1, locked: false },
-      { id: 4, name: "Conclusion", count: 1, locked: false },
-      { id: 5, name: "References", count: 1, locked: false },
+      { id: 1, name: "Introduction", count: 1, locked: true },
+      { id: 2, name: "Main Content", count: 1, locked: false },
+      { id: 3, name: "Conclusion", count: 1, locked: false },
+      { id: 4, name: "References", count: 1, locked: false },
     ],
     rulesForDoc: "",
   };

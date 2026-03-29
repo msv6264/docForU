@@ -2,7 +2,7 @@ import { refineTone } from "./toneService.js";
 
 export async function prepareDocObject(rawData) {
   if (!rawData.docType) {
-    rawData.docType = "Presentation";
+    rawData.docType = "presentation";
   }
 
   if (rawData.rulesForDoc) {
@@ -12,7 +12,7 @@ export async function prepareDocObject(rawData) {
     );
     console.log("refine prompt replaced, value is: ", rawData.rulesForDoc);
   } else {
-    if (rawData.docType == "Presentation") {
+    if (rawData.docType == "presentation") {
       rawData.rulesForDoc =
         "Use 4–6 bullet points per slide, Keep sentences short and concise, Avoid long paragraphs, Maintain simple language for audience, Emphasize key concepts";
     } else if (rawData.docType == "document") {
@@ -24,8 +24,6 @@ export async function prepareDocObject(rawData) {
   const formattedSec = (rawData.sections || [])
     .map((section) => `${section.name} : ${section.count}`)
     .join("\n");
-
-  console.log("formatted section in docService: ", formattedSec);
 
   return {
     ...rawData,

@@ -11,7 +11,7 @@ export async function fillPromptTemplate(template, obj, docType) {
   const templatePathDoc = path.join(dirName, "..", "prompts", "doc_prompt.txt");
   const templatePathPPT = path.join(dirName, "..", "prompts", "ppt_prompt.txt");
 
-  if (docType === "Presentation") {
+  if (docType === "presentation") {
     addInfo = await fs.promises.readFile(templatePathPPT, "utf8");
   } else {
     addInfo = await fs.promises.readFile(templatePathDoc, "utf8");
