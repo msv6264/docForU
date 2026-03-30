@@ -1,5 +1,5 @@
 
-import { Presentation} from 'lucide-react';
+import logo from "../assets/logo.png"
 
 export default function Footer() {
   return (
@@ -9,7 +9,7 @@ export default function Footer() {
             <div>
               <div className="flex items-center space-x-2 mb-4">
                 <div className="bg-gradient-to-br from-blue-500 to-cyan-500 p-2 rounded-lg">
-                  <Presentation className="w-5 h-5 text-white" />
+                  <img className="w-54 h-36 text-white" src={logo} alt="" />
                 </div>
                 <span className="text-xl font-bold text-white">docForU</span>
               </div>
