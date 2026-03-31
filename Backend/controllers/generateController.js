@@ -3,6 +3,8 @@ import axios from "axios";
 import { prepareDocObject } from "../services/docService.js";
 import { prmptToCerbras } from "../aiService/cerebras.js";
 import { plcHoldrsOfPrmtTmplt } from "../utils/promptPlaceHolders.js";
+import dotenv from "dotenv";
+dotenv.config();
 
 export async function generateDoc(req, res) {
   try {
@@ -28,7 +30,7 @@ export async function generateDoc(req, res) {
     console.log("AI responded:", aiResponse);
 
     const fastApiPost = await axios.post(
-      "http://127.0.0.1:8000/genDoc",
+      `${process.env.FASTAPI_URL}/genDoc`,
       {
         dataJSON: aiResponse,
         docType: docData.docType,
