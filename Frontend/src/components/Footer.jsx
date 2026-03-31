@@ -8,10 +8,9 @@ export default function Footer() {
           <div className="grid md:grid-cols-4 gap-8">
             <div>
               <div className="flex items-center space-x-2 mb-4">
-                <div className="bg-gradient-to-br from-blue-500 to-cyan-500 p-2 rounded-lg">
-                  <img className="w-54 h-36 text-white" src={logo} alt="" />
+                <div className="bg-white h-20 w-44 flex items-center rounded-lg">
+                  <img className="w-72 h-36 mt-2 text-white" src={logo} alt="" />
                 </div>
-                <span className="text-xl font-bold text-white">docForU</span>
               </div>
               <p className="text-sm">AI-powered document generation for students</p>
             </div>
