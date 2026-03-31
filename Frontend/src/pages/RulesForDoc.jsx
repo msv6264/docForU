@@ -137,7 +137,7 @@ export default function RulesForDoc() {
     startTimeRef.current = Date.now();
     startProgressAnimation();
     
-    console.log('docdata from frontend', docData);
+    // console.log('docdata from frontend', docData);
     const API_URL = import.meta.env.VITE_API_URL;
 
     try {

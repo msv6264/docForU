@@ -10,7 +10,7 @@ export async function prepareDocObject(rawData) {
       rawData.rulesForDoc,
       rawData.docType,
     );
-    console.log("refine prompt replaced, value is: ", rawData.rulesForDoc);
+    // console.log("refine prompt replaced, value is: ", rawData.rulesForDoc);
   } else {
     if (rawData.docType == "presentation") {
       rawData.rulesForDoc =

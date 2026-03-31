@@ -17,17 +17,17 @@ export async function generateDoc(req, res) {
       return res.status(400).json({ error: "Invalid JSON in docData" });
     }
 
-    console.log("FILE:", file?.originalname);
-    console.log("Hi, I am generateController.js, docData:", docData);
+    // console.log("FILE:", file?.originalname);
+    // console.log("Hi, I am generateController.js, docData:", docData);
 
     const finalDocObj = await prepareDocObject(docData);
-    console.log("final doc obj in genController: ", finalDocObj);
+    // console.log("final doc obj in genController: ", finalDocObj);
 
     const filledPrompt = await plcHoldrsOfPrmtTmplt(finalDocObj);
-    console.log("the filled prompt is: ", filledPrompt);
+    // console.log("the filled prompt is: ", filledPrompt);
 
     const aiResponse = await prmptToCerbras(filledPrompt);
-    console.log("AI responded:", aiResponse);
+    // console.log("AI responded:", aiResponse);
 
     const fastApiPost = await axios.post(
       `${process.env.FASTAPI_URL}/genDoc`,

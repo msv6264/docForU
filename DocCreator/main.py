@@ -32,8 +32,6 @@ def genDoc(req: docRequest):
 
     else:
         return {"error": "Invalid docType"}
-    
-    print("doc generated with name ", file_name)
 
     return StreamingResponse(
         file_stream,
