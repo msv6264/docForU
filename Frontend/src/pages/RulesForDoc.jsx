@@ -4,10 +4,6 @@ import {
   ArrowRight,
   ArrowLeft,
   Sparkles,
-  Upload,
-  X,
-  FileCheck,
-  AlertCircle,
   Check,
   Zap,
   Download,
@@ -142,9 +138,10 @@ export default function RulesForDoc() {
     startProgressAnimation();
     
     console.log('docdata from frontend', docData);
+    const API_URL = import.meta.env.VITE_API_URL;
 
     try {
-      const response = await fetch("http://localhost:5000/generate", {
+      const response = await fetch(`${API_URL}/generate`, {
         method: "POST",
         body: formData,
       });
