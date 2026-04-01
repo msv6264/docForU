@@ -12,7 +12,7 @@ const upload = multer({ dest: "uploads/" });
 // TO DO: this queue implementation is only for now, needs to use different techniques later
 let queue = [];
 let activeJobs = 0;
-const MAX = 2;
+const MAX = 1;
 
 const processQueue = () => {
   if (queue.length == 0 || activeJobs > MAX){
