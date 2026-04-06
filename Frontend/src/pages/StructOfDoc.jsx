@@ -297,7 +297,7 @@ export default function DocTypeSize() {
 
             <div>
               {sections.map((obj, idx) => {
-                return (
+                return obj.count > 0 && (
                   <div
                     key={obj.id}
                     draggable={!obj.locked}
