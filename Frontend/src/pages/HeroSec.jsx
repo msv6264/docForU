@@ -183,7 +183,7 @@ export default function HeroSec() {
 
       {/* Features Section */}
       <section id="features" className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 max-sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
               Why Choose <span className="text-blue-600">docForU</span>?
@@ -218,7 +218,7 @@ export default function HeroSec() {
         id="how-it-works"
         className="py-20 bg-gradient-to-br from-blue-50 to-cyan-50"
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 max-sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
               Simple. Smart. <span className="text-blue-600">Effective.</span>
@@ -256,7 +256,7 @@ export default function HeroSec() {
 
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-r from-blue-500 to-cyan-600">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className="max-w-4xl mx-auto px-4 max-sm:px-6 lg:px-8 text-center">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
             Ready to Stop Stressing About Presentations?
           </h2>

@@ -16,13 +16,12 @@ export default function NavBar() {
           <div className="flex justify-between items-center h-16">
 
             <div className="flex items-center space-x-2">
-              <img className="w-54 h-36 text-white" src={logo} alt="" />
+              <img className="h-10 sm:h-12 w-auto object-contain" src={logo} alt="docForU Logo" />
             </div>
             
             {/* Desktop Menu */}
             <div className="hidden md:flex items-center space-x-8">
               <a href="#features" className="text-gray-700 hover:text-blue-600 transition">Features</a>
-              <a href="#how-it-works" className="text-gray-700 hover:text-blue-600 transition">How It Works</a>
               <a href="#pricing" className="text-gray-700 hover:text-blue-600 transition">Pricing</a>
               <button
                 className="bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-6 py-2 rounded-lg hover:shadow-lg transition transform hover:scale-105"
