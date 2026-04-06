@@ -228,7 +228,7 @@ export default function DocTypeSize() {
 
       {/* Main Content */}
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12 border border-blue-100">
+        <div className="bg-white rounded-2xl shadow-xl p-5 sm:p-8 md:p-12 border border-blue-100">
           {/* Title Section */}
           <div className="text-center mb-10">
             <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full mb-4">
@@ -246,7 +246,7 @@ export default function DocTypeSize() {
           <div
             className={`rounded-lg border-2 ${statusColorMap[status].bg} ${statusColorMap[status].border || "border-gray-500"} flex flex-col p-3 pl-5 pr-5`}
           >
-            <div className=" flex justify-between">
+            <div className="flex flex-col sm:flex-row justify-between gap-4 sm:gap-0">
               <div className="flex flex-col">
                 <span className="text-gray-700 font-medium">
                   Allocation status
@@ -262,11 +262,11 @@ export default function DocTypeSize() {
               </div>
               <div className="font-medium flex flex-col">
                 <span className="text-gray-700 font-medium">Remaining</span>
-                <div
-                  className={`${statusColorMap[status].text} text-[35px] font-medium  `}
-                >
-                  {remainingSlides}
-                </div>
+                  <div
+                    className={`${statusColorMap[status].text} text-[35px] font-medium`}
+                  >
+                    {remainingSlides}
+                  </div>
               </div>
             </div>
             <div
@@ -304,9 +304,9 @@ export default function DocTypeSize() {
                     onDragStart={() => handleDragStart(obj.id)}
                     onDragOver={(e) => e.preventDefault()}
                     onDrop={(e) => handleDrop(e, obj.id)}
-                    className="mt-3 border border-gray-200 bg-slate-50 rounded-lg flex justify-between p-3"
+                    className="mt-3 border border-gray-200 bg-slate-50 rounded-lg flex flex-col sm:flex-row justify-between items-start sm:items-center p-3 gap-3 sm:gap-0"
                   >
-                    <div className="flex gap-3 items-center">
+                    <div className="flex gap-2 sm:gap-3 items-center w-full sm:w-auto">
                       <GripVertical
                         className={`${obj.locked
                             ? "text-gray-300 cursor-not-allowed"
@@ -327,7 +327,7 @@ export default function DocTypeSize() {
                         </span>
                       </div>
                     </div>
-                    <div className="flex gap-2 items-center">
+                    <div className="flex gap-2 items-center justify-end w-full sm:w-auto pl-8 sm:pl-0">
                       <div
                         className={`flex items-center justify-center text-[20px] border-2 rounded-md h-8 w-8 ${obj.locked ? "border-gray-200 text-gray-300 cursor-not-allowed" : "border-gray-300 cursor-pointer"}`}
                         onClick={() => !obj.locked && handleDecrement(obj.id)}
