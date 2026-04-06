@@ -95,7 +95,10 @@ export default function HeroSec() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <button
               className="bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:shadow-xl transition transform hover:scale-105 flex items-center cursor-pointer space-x-2"
-              onClick={() => Navigate("/TopicName")}
+              onClick={() => {
+                localStorage.removeItem("docData");
+                Navigate("/TopicName");
+              }}
             >
               <span>Start Free</span>
               <ArrowRight className="w-5 h-5" />
@@ -262,7 +265,10 @@ export default function HeroSec() {
           </p>
           <button
             className="bg-white text-blue-600 px-10 py-4 rounded-lg text-lg font-semibold hover:shadow-2xl transition transform hover:scale-105 inline-flex items-center space-x-2 cursor-pointer"
-            onClick={() => Navigate("/TopicName")}
+            onClick={() => {
+              localStorage.removeItem("docData");
+              Navigate("/TopicName");
+            }}
           >
             <span>Start Creating Now</span>
             <ArrowRight className="w-5 h-5" />

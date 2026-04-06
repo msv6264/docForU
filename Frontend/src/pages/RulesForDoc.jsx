@@ -46,6 +46,7 @@ export default function RulesForDoc() {
       { id: 2, name: "Main Content", count: 1, locked: false },
       { id: 3, name: "Conclusion", count: 1, locked: false },
       { id: 4, name: "References", count: 1, locked: false },
+      { id: 5, name: "Q&A", count: 1, locked: false },
     ],
     rulesForDoc: "",
   };

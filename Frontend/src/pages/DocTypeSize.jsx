@@ -26,6 +26,7 @@ export default function DocTypeSize() {
       { id: 2, name: "Main Content", count: 1, locked: false },
       { id: 3, name: "Conclusion", count: 1, locked: false },
       { id: 4, name: "References", count: 1, locked: false },
+      { id: 5, name: "Q&A", count: 1, locked: false },
     ],
     rulesForDoc: "",
   };
@@ -137,6 +138,32 @@ export default function DocTypeSize() {
   };
 
   const sendingSlideCount = () => {
+    let updatedSections = [...docData.sections].map((s, idx) => ({
+      ...s,
+      count: idx < slideCount ? 1 : 0,
+    }));
+    
+    const currentlyAllocated = updatedSections.reduce((sum, s) => sum + s.count, 0);
+    if (slideCount > currentlyAllocated && updatedSections.length > 0) {
+      const remaining = slideCount - currentlyAllocated;
+      const mainIdx = updatedSections.findIndex(s => s.name === "Main Content");
+      if (mainIdx !== -1) {
+        updatedSections[mainIdx].count += remaining;
+      } else {
+        const firstUnlocked = updatedSections.findIndex(s => !s.locked);
+        updatedSections[firstUnlocked !== -1 ? firstUnlocked : 0].count += remaining;
+      }
+    }
+
+    const newDocData = {
+      ...docData,
+      noOfSlides: slideCount,
+      sections: updatedSections,
+    };
+    
+    setDocData(newDocData);
+    localStorage.setItem("docData", JSON.stringify(newDocData));
+
     navigate("/StrucOfDoc", {
       state: {
         cnt: slideCount,

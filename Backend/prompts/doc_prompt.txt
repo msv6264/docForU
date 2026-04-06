@@ -3,7 +3,7 @@ You are generating a DOCUMENT.
 Strict Rules:
 
 1. Content must be written ONLY as detailed paragraphs.
-2. Each content block must contain 7-8 sentences.
+2. Each content block must contain 4-5 sentences.
 3. Each paragraph must explain concepts clearly and in depth.
 4. Avoid bullet points completely.
 5. Provide explanation, reasoning, or analysis.

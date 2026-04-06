@@ -24,7 +24,13 @@ export default function NavBar() {
               <a href="#features" className="text-gray-700 hover:text-blue-600 transition">Features</a>
               <a href="#how-it-works" className="text-gray-700 hover:text-blue-600 transition">How It Works</a>
               <a href="#pricing" className="text-gray-700 hover:text-blue-600 transition">Pricing</a>
-              <button className="bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-6 py-2 rounded-lg hover:shadow-lg transition transform hover:scale-105">
+              <button
+                className="bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-6 py-2 rounded-lg hover:shadow-lg transition transform hover:scale-105"
+                onClick={() => {
+                  localStorage.removeItem("docData");
+                  navigate("/TopicName");
+                }}
+              >
                 Get Started
               </button>
             </div>
@@ -44,7 +50,13 @@ export default function NavBar() {
               <a href="#features" className="block text-gray-700 hover:text-blue-600">Features</a>
               <a href="#how-it-works" className="block text-gray-700 hover:text-blue-600">How It Works</a>
               <a href="#pricing" className="block text-gray-700 hover:text-blue-600">Pricing</a>
-              <button className="w-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-6 py-2 rounded-lg">
+              <button
+                className="w-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-6 py-2 rounded-lg"
+                onClick={() => {
+                  localStorage.removeItem("docData");
+                  navigate("/TopicName");
+                }}
+              >
                 Get Started
               </button>
             </div>

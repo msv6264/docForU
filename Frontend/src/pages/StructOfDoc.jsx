@@ -33,6 +33,7 @@ export default function DocTypeSize() {
       { id: 2, name: "Main Content", count: 1, locked: false },
       { id: 3, name: "Conclusion", count: 1, locked: false },
       { id: 4, name: "References", count: 1, locked: false },
+      { id: 5, name: "Q&A", count: 1, locked: false },
     ],
     rulesForDoc: "",
   };
@@ -280,11 +281,10 @@ export default function DocTypeSize() {
             <div className="flex justify-between">
               <div>Document Sections</div>
               <div
-                className={`flex gap-1 ${
-                  status === "red"
+                className={`flex gap-1 ${status === "red"
                     ? "text-gray-400 cursor-not-allowed"
                     : "text-blue-700 cursor-pointer"
-                }`}
+                  }`}
                 onClick={() => {
                   if (status === "red") return;
                   setShowAddSection(true);
@@ -308,11 +308,10 @@ export default function DocTypeSize() {
                   >
                     <div className="flex gap-3 items-center">
                       <GripVertical
-                        className={`${
-                          obj.locked
+                        className={`${obj.locked
                             ? "text-gray-300 cursor-not-allowed"
                             : "text-gray-400 cursor-grab"
-                        }`}
+                          }`}
                       />
 
                       <span className="inline-flex items-center justify-center min-w-[2rem] h-8 px-2 bg-gradient-to-br from-blue-500 to-cyan-500 font-medium text-[16px] text-white rounded-lg">
@@ -418,11 +417,10 @@ export default function DocTypeSize() {
                       key={item.id}
                       disabled={sections.some((sec) => sec.name === item.name)}
                       className={`px-3 py-1.5 border rounded-full text-sm 
-                      ${
-                        sections.some((sec) => sec.name === item.name)
+                      ${sections.some((sec) => sec.name === item.name)
                           ? "bg-gray-200 text-gray-400 cursor-not-allowed"
                           : "border-blue-300 text-blue-700 hover:bg-blue-100"
-                      }`}
+                        }`}
                       onClick={() => {
                         updateSections([
                           ...sections,
@@ -487,11 +485,10 @@ export default function DocTypeSize() {
             <button
               onClick={() => navigate("../RulesForDoc")}
               disabled={!isValid}
-              className={`flex items-center space-x-2 px-8 py-3 rounded-xl font-semibold transition transform ${
-                isValid
+              className={`flex items-center space-x-2 px-8 py-3 rounded-xl font-semibold transition transform ${isValid
                   ? "bg-gradient-to-r from-blue-500 to-cyan-500 text-white hover:shadow-lg hover:scale-105"
                   : "bg-gray-200 text-gray-400 cursor-not-allowed"
-              }`}
+                }`}
             >
               <span>Continue</span>
               <ArrowRight className="w-5 h-5" />
