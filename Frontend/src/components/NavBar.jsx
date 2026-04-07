@@ -16,7 +16,7 @@ export default function NavBar() {
           <div className="flex justify-between items-center h-16">
 
             <div className="flex items-center space-x-2">
-              <img className="h-10 sm:h-12 w-auto object-contain" src={logo} alt="docForU Logo" />
+              <img className="w-54 h-36 text-white" src={logo} alt="" />
             </div>
             
             {/* Desktop Menu */}
