@@ -1,4 +1,4 @@
-import axios from "axios";
+import { triggerDocGeneration } from "../api/docCreatorApi.js";
 
 import { prepareDocObject } from "../services/docService.js";
 import { prmptToCerbras } from "../aiService/cerebras.js";
@@ -29,16 +29,7 @@ export async function generateDoc(req, res) {
     const aiResponse = await prmptToCerbras(filledPrompt);
     // console.log("AI responded:", aiResponse);
 
-    const fastApiPost = await axios.post(
-      `${process.env.FASTAPI_URL}/genDoc`,
-      {
-        dataJSON: aiResponse,
-        docType: docData.docType,
-      },
-      {
-        responseType: "arraybuffer",
-      },
-    );
+    const fastApiPost = await triggerDocGeneration(aiResponse, docData.docType);
 
     res.setHeader(
       "Content-Type",
