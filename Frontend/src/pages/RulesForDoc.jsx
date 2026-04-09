@@ -13,6 +13,7 @@ import {
   Presentation,
   AlertTriangle,
 } from "lucide-react";
+import { generateDoc } from "../api/docApi";
 
 const GEN_STEPS = [
   "Analyzing your settings…",
@@ -137,30 +138,21 @@ export default function RulesForDoc() {
     setGenTime(null);
     startTimeRef.current = Date.now();
     startProgressAnimation();
-    
-    // console.log('docdata from frontend', docData);
-    const API_URL = import.meta.env.VITE_API_URL;
 
     try {
-      const response = await fetch(`${API_URL}/generate`, {
-        method: "POST",
-        body: formData,
-      });
-      
-      if (!response.ok) {
-        const text = await response.text();
-        throw new Error(text);
-      }
+      const blob = await generateDoc(formData);
 
-      const blob = await response.blob();
       clearInterval(progressRef.current);
       setProgress(100);
+
       const elapsed = ((Date.now() - startTimeRef.current) / 1000).toFixed(1);
+
       setTimeout(() => {
         setGeneratedData(blob);
         setIsGenerating(false);
         setGenTime(elapsed);
       }, 400);
+
     } catch (err) {
       clearInterval(progressRef.current);
       setIsGenerating(false);
