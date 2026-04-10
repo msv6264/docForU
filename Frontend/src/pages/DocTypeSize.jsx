@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   FileText,
@@ -10,46 +10,14 @@ import {
   Plus,
   Minus,
 } from "lucide-react";
+import { useDoc } from "../../context/docContext";
 
 export default function DocTypeSize() {
   const [customCount, setCustomCount] = useState("");
   const [showCustomInput, setShowCustomInput] = useState(false);
   const navigate = useNavigate();
 
-  const defaultDocData = {
-    topicName: "",
-    focusAreaOfTopic: "",
-    docType: "",
-    noOfSlides: "",
-    sections: [
-      { id: 1, name: "Introduction", count: 1, locked: true },
-      { id: 2, name: "Main Content", count: 1, locked: false },
-      { id: 3, name: "Conclusion", count: 1, locked: false },
-      { id: 4, name: "References", count: 1, locked: false },
-      { id: 5, name: "Q&A", count: 1, locked: false },
-    ],
-    rulesForDoc: "",
-  };
-
-  const [docData, setDocData] = useState(() => {
-    const storedData = localStorage.getItem("docData");
-
-    if (!storedData) return defaultDocData;
-
-    const parsed = JSON.parse(storedData);
-
-    return {
-      ...defaultDocData,
-      ...parsed,
-      sections: parsed.sections?.length
-        ? parsed.sections
-        : defaultDocData.sections,
-    };
-  });
-
-  useEffect(() => {
-    localStorage.setItem("docData", JSON.stringify(docData));
-  }, [docData]);
+  const { docData, setDocData } = useDoc();
 
   const slideCount = docData.noOfSlides || 10;
   const documentType = docData.docType || "presentation";
@@ -91,39 +59,39 @@ export default function DocTypeSize() {
 
   const handleIncrement = () => {
     if (slideCount < 30) {
-      setDocData({
-        ...docData,
-        noOfSlides: slideCount + 1,
-      });
+      setDocData((prev) => ({
+        ...prev,
+        noOfSlides: count + 1,
+      }));
       setShowCustomInput(false);
     }
   };
 
   const handleDecrement = () => {
     if (slideCount > 1) {
-      setDocData({
-        ...docData,
-        noOfSlides: slideCount - 1,
-      });
+      setDocData((prev) => ({
+        ...prev,
+        noOfSlides: count - 1,
+      }));
       setShowCustomInput(false);
     }
   };
 
   const handlePresetClick = (count) => {
-    setDocData({
-      ...docData,
+    setDocData((prev) => ({
+      ...prev,
       noOfSlides: count,
-    });
+    }));
     setShowCustomInput(false);
   };
 
   const handleCustomSubmit = () => {
     const count = parseInt(customCount);
     if (count >= 1 && count <= 30) {
-      setDocData({
-        ...docData,
+      setDocData((prev) => ({
+        ...prev,
         noOfSlides: count,
-      });
+      }));
       setShowCustomInput(false);
       setCustomCount("");
     }
@@ -142,16 +110,22 @@ export default function DocTypeSize() {
       ...s,
       count: idx < slideCount ? 1 : 0,
     }));
-    
-    const currentlyAllocated = updatedSections.reduce((sum, s) => sum + s.count, 0);
+
+    const currentlyAllocated = updatedSections.reduce(
+      (sum, s) => sum + s.count,
+      0,
+    );
     if (slideCount > currentlyAllocated && updatedSections.length > 0) {
       const remaining = slideCount - currentlyAllocated;
-      const mainIdx = updatedSections.findIndex(s => s.name === "Main Content");
+      const mainIdx = updatedSections.findIndex(
+        (s) => s.name === "Main Content",
+      );
       if (mainIdx !== -1) {
         updatedSections[mainIdx].count += remaining;
       } else {
-        const firstUnlocked = updatedSections.findIndex(s => !s.locked);
-        updatedSections[firstUnlocked !== -1 ? firstUnlocked : 0].count += remaining;
+        const firstUnlocked = updatedSections.findIndex((s) => !s.locked);
+        updatedSections[firstUnlocked !== -1 ? firstUnlocked : 0].count +=
+          remaining;
       }
     }
 
@@ -160,9 +134,8 @@ export default function DocTypeSize() {
       noOfSlides: slideCount,
       sections: updatedSections,
     };
-    
+
     setDocData(newDocData);
-    localStorage.setItem("docData", JSON.stringify(newDocData));
 
     navigate("/StrucOfDoc", {
       state: {
@@ -220,10 +193,10 @@ export default function DocTypeSize() {
                 <button
                   key={type.id}
                   onClick={() =>
-                    setDocData({
-                      ...docData,
+                    setDocData((prev) => ({
+                      ...prev,
                       docType: type.id,
-                    })
+                    }))
                   }
                   className={`p-5 rounded-xl border-2 transition transform hover:scale-105 ${
                     documentType === type.id
@@ -234,14 +207,14 @@ export default function DocTypeSize() {
                   <div
                     className={`flex flex-col items-center space-y-3 ${
                       documentType === type.id
-  ? colorMap.blue.text
+                        ? colorMap.blue.text
                         : "text-gray-600"
                     }`}
                   >
                     <div
                       className={`p-3 rounded-lg ${
                         documentType === type.id
-  ? colorMap.blue.softBg
+                          ? colorMap.blue.softBg
                           : "bg-gray-100"
                       }`}
                     >
@@ -377,8 +350,8 @@ export default function DocTypeSize() {
                   </h3>
                   <p className="text-sm text-gray-600">
                     For {currentDocType?.name.toLowerCase()}s, we recommend{" "}
-                    {presetCounts[1]}-{presetCounts[3]} {unitName}{" "}
-                    for optimal content depth and audience engagement.
+                    {presetCounts[1]}-{presetCounts[3]} {unitName} for optimal
+                    content depth and audience engagement.
                   </p>
                 </div>
               </div>

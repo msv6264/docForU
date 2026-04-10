@@ -1,4 +1,5 @@
 import env from "../config/env.js";
+import OpenAI from "openai";
 
 const client = new OpenAI({
   apiKey: env.OPEN_ROUTER_API_KEY,

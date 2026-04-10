@@ -1,4 +1,5 @@
 import axios from "axios";
+import env from "../config/env.js"
 
 /**
  * Communicates with Engine 1: Structured Generator (FastAPI / DocCreator)

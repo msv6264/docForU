@@ -1,5 +1,4 @@
 import { triggerDocGeneration } from "../api/docCreatorApi.js";
-
 import { prepareDocObject } from "../services/docService.js";
 import { prmptToCerbras } from "../ai/cerebras.js";
 import { plcHoldrsOfPrmtTmplt } from "../utils/promptPlaceHolders.js";

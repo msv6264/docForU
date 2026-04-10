@@ -11,6 +11,7 @@ import {
   ArrowLeft,
   ArrowRight,
 } from "lucide-react";
+import { useDoc } from "../../context/docContext";
 
 export default function DocTypeSize() {
   const navigate = useNavigate();
@@ -23,20 +24,7 @@ export default function DocTypeSize() {
   const [isValid, setIsValid] = useState(false);
   const [draggedId, setDraggedId] = useState(null); //which item is being dragged
 
-  const defaultDocData = {
-    topicName: "",
-    focusAreaOfTopic: "",
-    docType: "",
-    noOfSlides: "",
-    sections: [
-      { id: 1, name: "Introduction", count: 1, locked: true },
-      { id: 2, name: "Main Content", count: 1, locked: false },
-      { id: 3, name: "Conclusion", count: 1, locked: false },
-      { id: 4, name: "References", count: 1, locked: false },
-      { id: 5, name: "Q&A", count: 1, locked: false },
-    ],
-    rulesForDoc: "",
-  };
+   const { docData, setDocData } = useDoc();
 
   const recommendations = [
     { id: 1, name: "Table of Contents" },
@@ -52,26 +40,6 @@ export default function DocTypeSize() {
     { id: 11, name: "Q&A" },
     { id: 12, name: "Appendix" },
   ];
-
-  const [docData, setDocData] = useState(() => {
-    const storedData = localStorage.getItem("docData");
-
-    if (!storedData) return defaultDocData;
-
-    const parsed = JSON.parse(storedData);
-
-    return {
-      ...defaultDocData,
-      ...parsed,
-      sections: parsed.sections?.length
-        ? parsed.sections
-        : defaultDocData.sections,
-    };
-  });
-
-  useEffect(() => {
-    localStorage.setItem("docData", JSON.stringify(docData));
-  }, [docData]);
 
   const sections = docData.sections || [];
 

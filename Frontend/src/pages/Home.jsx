@@ -1,7 +1,7 @@
 import { FileText, Sparkles, CheckCircle, Target, Clock, Zap, ArrowRight } from "lucide-react";
 import Nav from "../components/NavBar";
 import Footer from "../components/Footer";
-import HeroSec from "./HeroSec";
+import HeroSec from "../components/HeroSec";
 
 export default function home() {
   return (
