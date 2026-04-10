@@ -9,11 +9,13 @@ Unlike traditional AI tools that generate generic text, docForU focuses on **con
 ## 🎯 Current Focus (v1)
 
 docForU currently supports:
+
 - ✅ AI-generated **structured JSON output**
 - ✅ Automatic **PowerPoint (PPTX) generation**
 - ✅ End-to-end flow: User Input → AI Orchestration → File Compilation → Download
 
 🚧 In Progress:
+
 - DOCX generation
 - PDF generation
 - Template-based generation
@@ -27,6 +29,7 @@ Most document generators:
 ❌ Offer limited control over section distribution.
 
 docForU solves this by:
+
 - Allowing users to define **structure, headings, and size**.
 - Generating content in a **strict JSON format**.
 - Abstracting complex data structures into an elegant multi-service MVC architecture.
@@ -48,18 +51,22 @@ docForU solves this by:
 ## 🧩 Tech Stack
 
 ### Frontend
+
 - **React + Vite**
 - TailwindCSS
 
 ### Backend
+
 - **Node.js + Express.js**
 - Structured using **MVC and Service** patterns.
 
 ### AI Integration
+
 - **Cerebras API** (Rapid content generation)
 - **OpenRouter API** (Instruction and tone refinement)
 
 ### Document Service (DocCreator)
+
 - **Python + FastAPI**
 - Python rendering libraries (`python-pptx`)
 
@@ -91,7 +98,7 @@ graph TD
 docForU
 │
 ├── Backend/                 # Express AI Orchestration
-│   ├── aiService/           # External LLM integrations (Cerebras, OpenRouter)
+│   ├── ai/           # External LLM integrations (Cerebras, OpenRouter)
 │   ├── controllers/         # Request handling and workflow management
 │   ├── prompts/             # System templates
 │   ├── routes/              # Express API endpoints

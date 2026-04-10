@@ -1,6 +1,4 @@
 import axios from "axios";
-import dotenv from "dotenv";
-dotenv.config();
 
 /**
  * Communicates with Engine 1: Structured Generator (FastAPI / DocCreator)
@@ -10,7 +8,7 @@ dotenv.config();
  */
 export const triggerDocGeneration = async (aiResponse, docType) => {
   return await axios.post(
-    `${process.env.FASTAPI_URL}/genDoc`,
+    `${env.FASTAPI_URL}/genDoc`,
     {
       dataJSON: aiResponse,
       docType: docType,

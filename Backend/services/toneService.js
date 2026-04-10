@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { sendToOpenRouter } from "../aiService/openrouter.js";
+import { sendToOpenRouter } from "../ai/openrouter.js";
 import { fileURLToPath } from "url";
 
 const fileName = fileURLToPath(import.meta.url);

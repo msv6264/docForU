@@ -1,7 +1,7 @@
 import { triggerDocGeneration } from "../api/docCreatorApi.js";
 
 import { prepareDocObject } from "../services/docService.js";
-import { prmptToCerbras } from "../aiService/cerebras.js";
+import { prmptToCerbras } from "../ai/cerebras.js";
 import { plcHoldrsOfPrmtTmplt } from "../utils/promptPlaceHolders.js";
 import dotenv from "dotenv";
 dotenv.config();
@@ -44,7 +44,6 @@ export async function generateDoc(req, res) {
     }
 
     return res.send(fastApiPost.data);
-
   } catch (err) {
     console.error("ERROR:", err.response?.data || err.message);
     return res.status(500).json({ error: err.message });

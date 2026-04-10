@@ -1,10 +1,7 @@
-import dotenv from "dotenv";
-import Cerebras from "@cerebras/cerebras_cloud_sdk";
-
-dotenv.config();
+import env from "../config/env.js";
 
 const client = new Cerebras({
-  apiKey: process.env.CEREBRAS_API_KEY,
+  apiKey: env.CEREBRAS_API_KEY,
 });
 
 export async function prmptToCerbras(prompt) {
