@@ -24,7 +24,7 @@ export default function DocTypeSize() {
   const [isValid, setIsValid] = useState(false);
   const [draggedId, setDraggedId] = useState(null); //which item is being dragged
 
-   const { docData, setDocData } = useDoc();
+  const { docData, setDocData } = useDoc();
 
   const recommendations = [
     { id: 1, name: "Table of Contents" },
@@ -230,11 +230,11 @@ export default function DocTypeSize() {
               </div>
               <div className="font-medium flex flex-col">
                 <span className="text-gray-700 font-medium">Remaining</span>
-                  <div
-                    className={`${statusColorMap[status].text} text-[35px] font-medium`}
-                  >
-                    {remainingSlides}
-                  </div>
+                <div
+                  className={`${statusColorMap[status].text} text-[35px] font-medium`}
+                >
+                  {remainingSlides}
+                </div>
               </div>
             </div>
             <div
@@ -249,10 +249,11 @@ export default function DocTypeSize() {
             <div className="flex justify-between">
               <div>Document Sections</div>
               <div
-                className={`flex gap-1 ${status === "red"
+                className={`flex gap-1 ${
+                  status === "red"
                     ? "text-gray-400 cursor-not-allowed"
                     : "text-blue-700 cursor-pointer"
-                  }`}
+                }`}
                 onClick={() => {
                   if (status === "red") return;
                   setShowAddSection(true);
@@ -265,7 +266,7 @@ export default function DocTypeSize() {
 
             <div>
               {sections.map((obj, idx) => {
-                return obj.count > 0 && (
+                return (
                   <div
                     key={obj.id}
                     draggable={!obj.locked}
@@ -276,10 +277,11 @@ export default function DocTypeSize() {
                   >
                     <div className="flex gap-2 sm:gap-3 items-center w-full sm:w-auto">
                       <GripVertical
-                        className={`${obj.locked
+                        className={`${
+                          obj.locked
                             ? "text-gray-300 cursor-not-allowed"
                             : "text-gray-400 cursor-grab"
-                          }`}
+                        }`}
                       />
 
                       <span className="inline-flex items-center justify-center min-w-[2rem] h-8 px-2 bg-gradient-to-br from-blue-500 to-cyan-500 font-medium text-[16px] text-white rounded-lg">
@@ -383,22 +385,41 @@ export default function DocTypeSize() {
                   {recommendations.map((item) => (
                     <button
                       key={item.id}
-                      disabled={sections.some((sec) => sec.name === item.name)}
+                      disabled={sections.some(
+                        (sec) => sec.name === item.name && sec.count > 0,
+                      )}
                       className={`px-3 py-1.5 border rounded-full text-sm 
-                      ${sections.some((sec) => sec.name === item.name)
+                      ${
+                        sections.some(
+                          (sec) => sec.name === item.name && sec.count > 0,
+                        )
                           ? "bg-gray-200 text-gray-400 cursor-not-allowed"
                           : "border-blue-300 text-blue-700 hover:bg-blue-100"
-                        }`}
+                      }`}
                       onClick={() => {
-                        updateSections([
-                          ...sections,
-                          {
-                            id: Date.now(),
-                            name: item.name,
-                            count: 1,
-                            locked: false,
-                          },
-                        ]);
+                        const existingZeroCountSection = sections.find(
+                          (sec) => sec.name === item.name && sec.count === 0,
+                        );
+
+                        if (existingZeroCountSection) {
+                          updateSections(
+                            sections.map((sec) =>
+                              sec.name === item.name
+                                ? { ...sec, count: 1 }
+                                : sec,
+                            ),
+                          );
+                        } else {
+                          updateSections([
+                            ...sections,
+                            {
+                              id: Date.now(),
+                              name: item.name,
+                              count: 1,
+                              locked: false,
+                            },
+                          ]);
+                        }
 
                         setShowAddSection(false);
                       }}
@@ -453,10 +474,11 @@ export default function DocTypeSize() {
             <button
               onClick={() => navigate("../RulesForDoc")}
               disabled={!isValid}
-              className={`flex items-center space-x-2 px-8 py-3 rounded-xl font-semibold transition transform ${isValid
+              className={`flex items-center space-x-2 px-8 py-3 rounded-xl font-semibold transition transform ${
+                isValid
                   ? "bg-gradient-to-r from-blue-500 to-cyan-500 text-white hover:shadow-lg hover:scale-105"
                   : "bg-gray-200 text-gray-400 cursor-not-allowed"
-                }`}
+              }`}
             >
               <span>Continue</span>
               <ArrowRight className="w-5 h-5" />
