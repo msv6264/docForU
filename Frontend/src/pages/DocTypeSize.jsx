@@ -61,7 +61,7 @@ export default function DocTypeSize() {
     if (slideCount < 30) {
       setDocData((prev) => ({
         ...prev,
-        noOfSlides: count + 1,
+        noOfSlides: slideCount + 1,
       }));
       setShowCustomInput(false);
     }
@@ -71,7 +71,7 @@ export default function DocTypeSize() {
     if (slideCount > 1) {
       setDocData((prev) => ({
         ...prev,
-        noOfSlides: count - 1,
+        noOfSlides: slideCount - 1,
       }));
       setShowCustomInput(false);
     }
