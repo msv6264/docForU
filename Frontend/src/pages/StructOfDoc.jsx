@@ -265,74 +265,76 @@ export default function DocTypeSize() {
             </div>
 
             <div>
-              {sections.map((obj, idx) => {
-                return (
-                  <div
-                    key={obj.id}
-                    draggable={!obj.locked}
-                    onDragStart={() => handleDragStart(obj.id)}
-                    onDragOver={(e) => e.preventDefault()}
-                    onDrop={(e) => handleDrop(e, obj.id)}
-                    className="mt-3 border border-gray-200 bg-slate-50 rounded-lg flex flex-col sm:flex-row justify-between items-start sm:items-center p-3 gap-3 sm:gap-0"
-                  >
-                    <div className="flex gap-2 sm:gap-3 items-center w-full sm:w-auto">
-                      <GripVertical
-                        className={`${
-                          obj.locked
-                            ? "text-gray-300 cursor-not-allowed"
-                            : "text-gray-400 cursor-grab"
-                        }`}
-                      />
+              {sections
+                .filter((obj) => obj.count > 0)
+                .map((obj, idx) => {
+                  return (
+                    <div
+                      key={obj.id}
+                      draggable={!obj.locked}
+                      onDragStart={() => handleDragStart(obj.id)}
+                      onDragOver={(e) => e.preventDefault()}
+                      onDrop={(e) => handleDrop(e, obj.id)}
+                      className="mt-3 border border-gray-200 bg-slate-50 rounded-lg flex flex-col sm:flex-row justify-between items-start sm:items-center p-3 gap-3 sm:gap-0"
+                    >
+                      <div className="flex gap-2 sm:gap-3 items-center w-full sm:w-auto">
+                        <GripVertical
+                          className={`${
+                            obj.locked
+                              ? "text-gray-300 cursor-not-allowed"
+                              : "text-gray-400 cursor-grab"
+                          }`}
+                        />
 
-                      <span className="inline-flex items-center justify-center min-w-[2rem] h-8 px-2 bg-gradient-to-br from-blue-500 to-cyan-500 font-medium text-[16px] text-white rounded-lg">
-                        {idx + 1}
-                      </span>
+                        <span className="inline-flex items-center justify-center min-w-[2rem] h-8 px-2 bg-gradient-to-br from-blue-500 to-cyan-500 font-medium text-[16px] text-white rounded-lg">
+                          {idx + 1}
+                        </span>
 
-                      <div className="flex flex-col leading-tight">
-                        <span className="text-[16px] font-medium">
-                          {obj.name}
-                        </span>
-                        <span className="text-sm text-gray-600">
-                          {obj.count} slides
-                        </span>
+                        <div className="flex flex-col leading-tight">
+                          <span className="text-[16px] font-medium">
+                            {obj.name}
+                          </span>
+                          <span className="text-sm text-gray-600">
+                            {obj.count} slides
+                          </span>
+                        </div>
+                      </div>
+                      <div className="flex gap-2 items-center justify-end w-full sm:w-auto pl-8 sm:pl-0">
+                        <div
+                          className={`flex items-center justify-center text-[20px] border-2 rounded-md h-8 w-8 ${obj.locked ? "border-gray-200 text-gray-300 cursor-not-allowed" : "border-gray-300 cursor-pointer"}`}
+                          onClick={() => !obj.locked && handleDecrement(obj.id)}
+                        >
+                          <Minus className="h-4 w-4" />
+                        </div>
+
+                        <input
+                          type="number"
+                          value={obj.count}
+                          disabled={obj.locked}
+                          onChange={(e) =>
+                            handleManualChange(obj.id, Number(e.target.value))
+                          }
+                          className={`bg-white text-center border-2 font-medium rounded-md h-8 w-14 outline-none ${obj.locked ? "border-gray-200 text-gray-400" : "border-gray-300"}`}
+                        />
+
+                        <div
+                          className={`flex items-center justify-center text-[20px] border-2 rounded-md h-8 w-8 ${obj.locked ? "border-gray-200 text-gray-300 cursor-not-allowed" : "border-gray-300 cursor-pointer"}`}
+                          onClick={() => !obj.locked && handleIncrement(obj.id)}
+                        >
+                          <Plus className="h-4 w-4" />
+                        </div>
+
+                        <button
+                          disabled={obj.locked}
+                          onClick={() => handleDeleteSection(obj.id)}
+                          className={`w-8 h-8 rounded-lg transition flex items-center justify-center ${obj.locked ? "text-gray-300 cursor-not-allowed" : "text-gray-400 hover:bg-red-50 hover:text-red-600"}`}
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
                       </div>
                     </div>
-                    <div className="flex gap-2 items-center justify-end w-full sm:w-auto pl-8 sm:pl-0">
-                      <div
-                        className={`flex items-center justify-center text-[20px] border-2 rounded-md h-8 w-8 ${obj.locked ? "border-gray-200 text-gray-300 cursor-not-allowed" : "border-gray-300 cursor-pointer"}`}
-                        onClick={() => !obj.locked && handleDecrement(obj.id)}
-                      >
-                        <Minus className="h-4 w-4" />
-                      </div>
-
-                      <input
-                        type="number"
-                        value={obj.count}
-                        disabled={obj.locked}
-                        onChange={(e) =>
-                          handleManualChange(obj.id, Number(e.target.value))
-                        }
-                        className={`bg-white text-center border-2 font-medium rounded-md h-8 w-14 outline-none ${obj.locked ? "border-gray-200 text-gray-400" : "border-gray-300"}`}
-                      />
-
-                      <div
-                        className={`flex items-center justify-center text-[20px] border-2 rounded-md h-8 w-8 ${obj.locked ? "border-gray-200 text-gray-300 cursor-not-allowed" : "border-gray-300 cursor-pointer"}`}
-                        onClick={() => !obj.locked && handleIncrement(obj.id)}
-                      >
-                        <Plus className="h-4 w-4" />
-                      </div>
-
-                      <button
-                        disabled={obj.locked}
-                        onClick={() => handleDeleteSection(obj.id)}
-                        className={`w-8 h-8 rounded-lg transition flex items-center justify-center ${obj.locked ? "text-gray-300 cursor-not-allowed" : "text-gray-400 hover:bg-red-50 hover:text-red-600"}`}
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
-                    </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
             </div>
 
             {showAddSection && (
