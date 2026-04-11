@@ -65,9 +65,50 @@ export default function HeroSec() {
 
   const Navigate = useNavigate();
 
+  const tools = [
+    {
+      id: 1,
+      icon: FileText,
+      iconColor: "#2563EB",
+      iconBg: "linear-gradient(135deg, #EFF6FF, #CFFAFE)",
+      accentGradient: "linear-gradient(90deg, #3B82F6, #06B6D4)",
+      badge: "Most popular",
+      badgeStyle: { background: "#EFF6FF", color: "#1D4ED8" },
+      name: "Generate Document",
+      desc: "Specify a topic, number of slides or pages, and section titles — AI handles the rest.",
+      highlights: [
+        "Custom structure & slide count",
+        "PPTX & DOCX output",
+        "Rule-based content control",
+      ],
+      button: "Start generating",
+      dotColor: "#3B82F6",
+      route: "/TopicName",
+    },
+    {
+      id: 2,
+      icon: Zap,
+      iconColor: "#7C3AED",
+      iconBg: "linear-gradient(135deg, #F5F3FF, #FDF2F8)",
+      accentGradient: "linear-gradient(90deg, #8B5CF6, #EC4899)",
+      badge: "Upload & fill",
+      badgeStyle: { background: "#F5F3FF", color: "#6D28D9" },
+      name: "Template Injection",
+      desc: "Upload your own DOCX or PPT template — AI reads the structure and fills every section intelligently.",
+      highlights: [
+        "Preserves your formatting",
+        "Supports DOCX & PPT",
+        "Topic-aware content fill",
+      ],
+      button: "Upload template",
+      dotColor: "#8B5CF6",
+      route: "/TemplateUpload",
+    },
+  ];
+
   return (
     <>
-      <section className="max-w-7xl max-sm:h-100vh mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16">
+      <section className="max-w-7xl max-sm:h-100vh mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-16">
         <div className="text-center space-y-8">
           <div className="inline-flex items-center space-x-2 bg-blue-100 px-4 py-2 rounded-full">
             <Sparkles className="w-4 h-4 text-blue-600" />
@@ -76,36 +117,94 @@ export default function HeroSec() {
             </span>
           </div>
 
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 leading-tight">
-            Create Perfect
-            <br />
+          <h1 className="text-5xl md:text-2xl lg:text-4xl font-bold text-gray-900 leading-tight">
+            Create Perfect &nbsp;
             <span className="bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
-              Presentations & Docs
+              Presentations & Docs &nbsp;
             </span>
-            <br />
-            In Minutes
+            in Seconds
           </h1>
 
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-lg text-gray-600 max-w-full mx-auto">
             Stop struggling with last-minute assignments. docForU uses advanced
             AI to generate customized presentations and documents that follow
             YOUR template and YOUR rules.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <button
-              className="bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:shadow-xl transition transform hover:scale-105 flex items-center cursor-pointer space-x-2"
-              onClick={() => {
-                localStorage.removeItem("docData");
-                Navigate("/TopicName");
-              }}
-            >
-              <span>Start Free</span>
-              <ArrowRight className="w-5 h-5" />
-            </button>
-            <button className="bg-white text-blue-600 px-8 py-4 rounded-lg text-lg font-semibold border-2 border-blue-200 hover:border-blue-400 transition">
-              Watch Demo
-            </button>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-5xl mx-auto mt-10">
+            {tools.map((tool) => {
+              const Icon = tool.icon;
+              return (
+                <div
+                  key={tool.id}
+                  className="relative bg-white rounded-2xl border border-gray-100 p-7 flex flex-col gap-4 overflow-hidden hover:-translate-y-1 hover:shadow-blue-100 hover:shadow-xl transition-all duration-200 cursor-pointer"
+                  style={{
+                    borderTop: `3px solid transparent`,
+                    backgroundImage: `linear-gradient(white, white), ${tool.accentGradient}`,
+                    backgroundOrigin: "border-box",
+                    backgroundClip: "padding-box, border-box",
+                  }}
+                >
+                  {/* Header */}
+                  <div className="flex items-start justify-between">
+                    <div
+                      className="w-12 h-12 rounded-xl flex items-center justify-center"
+                      style={{ background: tool.iconBg }}
+                    >
+                      <Icon
+                        style={{ color: tool.iconColor }}
+                        className="w-6 h-6"
+                      />
+                    </div>
+                    <span
+                      className="text-xs font-medium px-3 py-1 rounded-full"
+                      style={tool.badgeStyle}
+                    >
+                      {tool.badge}
+                    </span>
+                  </div>
+
+                  {/* Text */}
+                  <div>
+                    <h2 className="text-lg font-semibold text-gray-900 mb-1">
+                      {tool.name}
+                    </h2>
+                    <p className="text-gray-500 text-sm leading-relaxed">
+                      {tool.desc}
+                    </p>
+                  </div>
+
+                  {/* Highlights */}
+                  <ul className="flex flex-col gap-1.5">
+                    {tool.highlights.map((h, i) => (
+                      <li
+                        key={i}
+                        className="flex items-center gap-2 text-sm text-gray-500"
+                      >
+                        <span
+                          className="w-1.5 h-1.5 rounded-full flex-shrink-0"
+                          style={{ background: tool.dotColor }}
+                        />
+                        {h}
+                      </li>
+                    ))}
+                  </ul>
+
+                  {/* Button */}
+                  <button
+                    onClick={() => {
+                      localStorage.removeItem("docData");
+                      Navigate(tool.route);
+                    }}
+                    className="mt-auto flex items-center justify-between px-4 py-3 rounded-xl text-sm font-medium text-white transition hover:opacity-90"
+                    style={{ background: tool.accentGradient }}
+                  >
+                    <span>{tool.button}</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </button>
+                </div>
+              );
+            })}
           </div>
 
           <div className="flex justify-center items-center space-x-8 text-sm text-gray-600 pt-8">
