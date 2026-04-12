@@ -108,7 +108,7 @@ docForU
 ├── Frontend/                # React Web Client
 │   ├── src/
 │   │   ├── components/
-│   │   ├── pages/
+│   │   ├── genDoc/
 │   │   ├── App.jsx
 │   │   └── main.jsx
 │   └── ...
