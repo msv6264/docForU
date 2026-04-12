@@ -69,6 +69,7 @@ export default function HeroSec() {
     {
       id: 1,
       icon: FileText,
+      disabled: false,
       iconColor: "#2563EB",
       iconBg: "linear-gradient(135deg, #EFF6FF, #CFFAFE)",
       accentGradient: "linear-gradient(90deg, #3B82F6, #06B6D4)",
@@ -88,6 +89,7 @@ export default function HeroSec() {
     {
       id: 2,
       icon: Zap,
+      disabled: true,
       iconColor: "#7C3AED",
       iconBg: "linear-gradient(135deg, #F5F3FF, #FDF2F8)",
       accentGradient: "linear-gradient(90deg, #8B5CF6, #EC4899)",
@@ -192,14 +194,16 @@ export default function HeroSec() {
 
                   {/* Button */}
                   <button
+                    disabled={tool.disabled}
                     onClick={() => {
                       localStorage.removeItem("docData");
                       Navigate(tool.route);
                     }}
-                    className="mt-auto flex items-center justify-between px-4 py-3 rounded-xl text-sm font-medium text-white transition hover:opacity-90"
+                    className={`mt-auto flex items-center justify-between px-4 py-3 rounded-xl text-sm font-medium text-white transition 
+  ${tool.disabled ? "opacity-50 cursor-not-allowed" : "hover:opacity-90"}`}
                     style={{ background: tool.accentGradient }}
                   >
-                    <span>{tool.button}</span>
+                    <span>{tool.disabled ? "Coming Soon 🚧" : tool.button}</span>
                     <ArrowRight className="w-4 h-4" />
                   </button>
                 </div>
