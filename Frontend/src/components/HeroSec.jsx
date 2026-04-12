@@ -117,7 +117,7 @@ export default function HeroSec() {
             </span>
           </div>
 
-          <h1 className="text-5xl md:text-2xl lg:text-4xl font-bold text-gray-900 leading-tight">
+          <h1 className="text-7xl md:text-2xl lg:text-4xl font-bold text-gray-900 leading-tight">
             Create Perfect &nbsp;
             <span className="bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
               Presentations & Docs &nbsp;
