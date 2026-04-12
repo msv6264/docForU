@@ -6,6 +6,11 @@ const client = new OpenAI({
   baseURL: "https://openrouter.ai/api/v1"
 });
 
+/**
+ * Sends a prompt to OpenRouter to get a response from a selected free-tier model
+ * @param {string} prompt - The prompt string to send
+ * @returns {Promise<string>} The generated text content from the AI
+ */
 export async function sendToOpenRouter(prompt) {
 
   const completion = await client.chat.completions.create({
