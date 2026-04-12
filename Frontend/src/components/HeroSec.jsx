@@ -89,7 +89,7 @@ export default function HeroSec() {
     {
       id: 2,
       icon: Zap,
-      disabled: true,
+      disabled: false,
       iconColor: "#7C3AED",
       iconBg: "linear-gradient(135deg, #F5F3FF, #FDF2F8)",
       accentGradient: "linear-gradient(90deg, #8B5CF6, #EC4899)",
