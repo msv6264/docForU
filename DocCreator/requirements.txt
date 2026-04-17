@@ -3,6 +3,7 @@ pydantic
 python-pptx
 python-docx
 uvicorn
+python-dotenv
 annotated-doc
 annotated-types
 click
@@ -10,7 +11,6 @@ colorama
 fastapi
 pydantic
 pydantic_core
-python-pptx
 starlette
 typing-inspection
 typing_extensions

@@ -3,3 +3,6 @@ venv/
 generated_files/
 *.pyc 
 services/__pycache__/
+.env
+output.docx
+output.pptx

@@ -5,9 +5,8 @@
   "main": "index.js",
   "scripts": {
     "frontend": "cd frontend && npm run dev",
-    "backend": "cd backend && node server.js",
     "fastapi": "cd DocCreator && .\\venv\\Scripts\\activate && uvicorn main:app --port 8000",
-    "dev": "concurrently \"npm run frontend\" \"npm run backend\" \"npm run fastapi\""
+    "dev": "concurrently \"npm run frontend\" \"npm run fastapi\""
   },
   "repository": {
     "type": "git",
