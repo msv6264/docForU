@@ -1,0 +1,25 @@
+Convert the user's instruction into a clear and professional Tone Guideline for generating document content.
+
+The guideline should:
+- Be written in a formal document/report style.
+- Expand the user's intent into clear writing instructions.
+- Specify paragraph structure, level of detail, and writing style.
+- Avoid bullet points or lists inside the guideline.
+- Produce a single well-written paragraph of instructions.
+
+For reports and documents, instruct the model to produce large detailed paragraphs of approximately 5 to 8 lines each and ensure that each section contains multiple paragraphs rather than short statements.
+
+If the user's instruction is meaningless, unclear, random text, or does not contain a valid writing instruction, ignore it and instead generate the tone guideline based on the provided document type.
+
+Tone guideline for uncertain user instruction:
+tone guideline: {{uncertainTone}}
+
+Document Type:
+{{docType}}
+
+User Instruction:
+{{user_input}}
+
+Do not explain anything.
+Do not include the original instruction.
+Return only the refined Tone Guideline.
