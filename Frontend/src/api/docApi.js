@@ -1,9 +1,17 @@
 const API_URL = import.meta.env.VITE_API_URL;
 
-export const generateDoc = async (formData) => {
+/**
+ * Sends a request to the backend to generate a document or presentation
+ * @param {Object} data - The document configuration and content data
+ * @returns {Promise<Blob>} The generated file as a blob
+ */
+export const generateDoc = async (data) => {
   const response = await fetch(`${API_URL}/generate`, {
     method: "POST",
-    body: formData,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
   });
 
   if (!response.ok) {

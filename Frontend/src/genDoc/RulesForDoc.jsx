@@ -58,21 +58,19 @@ export default function RulesForDoc() {
   };
 
   const handleGenerate = async () => {
-    const formData = new FormData();
-    if (uploadedFile) {
-      formData.append("file", uploadedFile);
-    }
-    formData.append("docData", JSON.stringify(docData));
     setIsGenerating(true);
     setGenFailed(false);
     setError(null);
     setGeneratedData(null);
     setGenTime(null);
+
     startTimeRef.current = Date.now();
     startProgressAnimation();
 
     try {
-      const blob = await generateDoc(formData);
+      const blob = await generateDoc({
+        docData,
+      });
 
       clearInterval(progressRef.current);
       setProgress(100);
@@ -84,7 +82,6 @@ export default function RulesForDoc() {
         setIsGenerating(false);
         setGenTime(elapsed);
       }, 400);
-
     } catch (err) {
       clearInterval(progressRef.current);
       setIsGenerating(false);
