@@ -1,13 +1,13 @@
 import fs from "fs";
 import path from "path";
-import { sendToOpenRouter } from "../ai/openrouter.js";
 import { fileURLToPath } from "url";
+import { fillPromptTemplate } from "../utils/templateUtils.js";
 
 const fileName = fileURLToPath(import.meta.url);
 const dirName = path.dirname(fileName);
 
 export async function refineTone(tone, type) {
-  const refPrompt = path.join(dirName, "prompts", "promptRefinement.txt");
+  const refPrompt = path.join(dirName, "..", "prompts", "promptRefinement.txt");
 
   const readPrompt = await fs.promises.readFile(refPrompt, "utf8");
 
@@ -16,7 +16,5 @@ export async function refineTone(tone, type) {
     type,
   });
 
-  const finalTone = await sendToOpenRouter(finPrompt);
-
-  return finalTone;
+  return finPrompt;
 }

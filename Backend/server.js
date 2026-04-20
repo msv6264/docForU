@@ -10,7 +10,7 @@ const upload = multer({ dest: "uploads/" });
 app.use(cors({ origin: env.FRONTEND_URL }));
 const PORT = env.PORT;
 
-app.post("/generate", (req, res) => {
+app.post("/generate", upload.single("file"), (req, res) => {
   addToQueue({ req, res });
 });
 

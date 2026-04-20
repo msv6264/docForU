@@ -2,13 +2,7 @@ You are generating a PRESENTATION.
 
 Strict Rules:
 
-1. Content must be written ONLY as bullet points.
-2. Each slide must contain 4–6 bullet points.
-3. Each bullet should express a clear idea.
-4. Avoid long paragraphs.
-5. Maintain simple and clear language for audience.
-6. Do NOT write paragraphs.
-7. Do NOT include numbering or labels.
+Use 4–6 bullet points per slide, Keep sentences short and concise, Avoid long paragraphs, Maintain simple language for audience, Emphasize key concepts
 
 Important:
 - Each page represents ONE slide
