@@ -12,8 +12,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 const PORT = env.PORT;
 
-app.post("/generate", upload.single("file"), (req, res) => {
-  addToQueue({ req, res });
+app.post("/generate", (req, res) => {
+  console.log(req.body);
+  console.log(req.file);
+  addToQueue({ docData: req.body.docData, res });
 });
 
 /**

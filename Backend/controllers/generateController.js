@@ -20,7 +20,7 @@ export async function generateDoc(docData, res) {
       return res.status(400).json({ error: "docData is required" });
     }
 
-    console.log("Hi, I am generateController.js, docData:", docData);
+    // console.log("Hi, I am generateController.js, docData:", docData)
 
     // 1. Prepare the document data with refined tone and formatting
     const finalDocObj = await prepareDocObject(docData);

@@ -96,7 +96,7 @@ graph TD
 - **Structural Layout:**
   - **`routes/` (e.g., `generateRoute.js`):** Intercepts API payloads from the Frontend and routes them to particular controller actions.
   - **`controllers/` (e.g., `generateController.js`):** Directs the overall request logic, ensuring data passes safely across different application units.
-  - **`services/` (e.g., `toneService.js`, `docService.js`):** Contains pure business operations such as preparing generation templates (`prompts/`) and compiling instructions based on user choices.
+  - **`services/` (e.g.`docService.js`):** Contains pure business operations such as preparing generation templates (`prompts/`) and compiling instructions based on user choices.
   - **`ai/` (e.g., `openrouter.js`, `cerebras.js`):** Exclusively manages external LLM providers and HTTP requests fetching AI results.
 
 ## 3. DocCreator Microservice (Python + FastAPI)

@@ -4,7 +4,17 @@ from services.ppt_service import create_ppt
 from services.docx_service import create_docx
 from fastapi.responses import StreamingResponse
 
+from fastapi.middleware.cors import CORSMiddleware
+
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 class docRequest(BaseModel):
     dataJSON: str

@@ -54,7 +54,6 @@ The backend is structured into specialized modules to enforce a clean separation
 - **`controllers/`**: Coordinates the request logic, parsing inputs and delegating tasks.
 - **`services/`**: Core business logic.
   - `docService.js`: Prepares templates and handles prompt building.
-  - `toneService.js`: Interprets user styling rules and refines them.
 - **`ai/`**: Interfaces with external LLM providers.
   - `cerebras.js`: Manages rapid content generation.
   - `openrouter.js`: Handles tone/instruction refinement.
