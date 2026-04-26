@@ -10,6 +10,7 @@ Strict Rules:
 6. Generate ATLEAST 3 paragraphs for each page
 7. Don't give "Title Slide" as pageTitle or sectionName
 8. sectionName and pageTitle should NEVER BE SAME
+Write in formal paragraph format with detailed explanations. Maintain logical flow between sections and avoid bullet points.
 
 Important:
 - Each page represents a structured section of the document

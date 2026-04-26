@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function TemplateUpload() {
   const Navigate = useNavigate();
+  const API_URL = import.meta.env.VITE_API_URL;
 
   const [uploadedFile, setUploadedFile] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
@@ -54,7 +55,7 @@ export default function TemplateUpload() {
     formData.append("file", uploadedFile);
 
     try {
-      const response = await fetch("http://localhost:5000/api/upload", {
+      const response = await fetch(`${API_URL}/process`, {
         method: "POST",
         body: formData,
       });

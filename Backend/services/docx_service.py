@@ -28,10 +28,18 @@ def create_docx(response):
         para.paragraph_format.first_line_indent = Pt(first_indent)
     
     doc = Document()
+    
+    # Reduce margins (Standard is 1 inch, we'll set to 0.5 inch)
+    from docx.shared import Inches
+    for section in doc.sections:
+        section.top_margin = Inches(0.5)
+        section.bottom_margin = Inches(0.5)
+        section.left_margin = Inches(1)
+        section.right_margin = Inches(1)
 
     title = doc.add_paragraph()
     tRun = title.add_run(response["title"])
-    style_para(title, "center", 15, 1.5, 0)
+    style_para(title, "center", 10, 1.15, 0)
     style_run(tRun, True, 22, "FF0000")
     
     for section in response["sections"]:
@@ -39,7 +47,7 @@ def create_docx(response):
         
         secHeading = doc.add_paragraph()
         secHeadRun = secHeading.add_run(section["sectionName"])
-        style_para(secHeading, "center", 12, 1.5)
+        style_para(secHeading, "center", 8, 1.15)
         style_run(secHeadRun, True, 18, "FF0000")
         
         pages = section["pages"]
@@ -47,13 +55,13 @@ def create_docx(response):
         for i, page in enumerate(pages):
             pageHeading = doc.add_paragraph()
             pageRun = pageHeading.add_run(page["pageTitle"])
-            style_para(pageHeading, "center", 6, 2)
+            style_para(pageHeading, "center", 4, 1.15)
             style_run(pageRun, True, 14, "0000FF")
             
             for page_txt in page["content"]:
                 pagePara = doc.add_paragraph()
                 pageParaRun = pagePara.add_run(page_txt)
-                style_para(pagePara, "justify", 10, 1.5, 24)
+                style_para(pagePara, "justify", 6, 1.15, 24)
                 style_run(pageParaRun, False, 12)
                 
         doc.add_page_break()

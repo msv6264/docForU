@@ -1,0 +1,10 @@
+fastapi
+pydantic
+python-pptx
+python-docx
+uvicorn
+python-dotenv
+cerebras_cloud_sdk
+xlsxwriter
+starlette
+typing-extensions

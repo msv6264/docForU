@@ -30,7 +30,7 @@ graph TD
         end
     end
 
-    subgraph DocCreator [DocCreator: Python + FastAPI]
+    subgraph Backend [Backend: Python + FastAPI]
         DocAPIRoute[Routes: API Endpoints]
         subgraph PythonServices [Document Compilers]
             PDF[pdf_service.py]
@@ -72,12 +72,12 @@ graph TD
     %% Styling
     classDef frontend fill:#61DAFB,stroke:#333,stroke-width:2px,color:#000;
     classDef backend fill:#8CC84B,stroke:#333,stroke-width:2px,color:#000;
-    classDef doccreator fill:#3776AB,stroke:#333,stroke-width:2px,color:#fff;
+    classDef Backend fill:#3776AB,stroke:#333,stroke-width:2px,color:#fff;
     classDef external fill:#F9A826,stroke:#333,stroke-width:2px,color:#000;
 
     class Frontend frontend;
     class Backend backend;
-    class DocCreator doccreator;
+    class Backend Backend;
     class OpenRouterAPI,CerebrasAPI external;
 ```
 
@@ -96,10 +96,10 @@ graph TD
 - **Structural Layout:**
   - **`routes/` (e.g., `generateRoute.js`):** Intercepts API payloads from the Frontend and routes them to particular controller actions.
   - **`controllers/` (e.g., `generateController.js`):** Directs the overall request logic, ensuring data passes safely across different application units.
-  - **`services/` (e.g., `toneService.js`, `docService.js`):** Contains pure business operations such as preparing generation templates (`prompts/`) and compiling instructions based on user choices.
+  - **`services/` (e.g.`docService.js`):** Contains pure business operations such as preparing generation templates (`prompts/`) and compiling instructions based on user choices.
   - **`ai/` (e.g., `openrouter.js`, `cerebras.js`):** Exclusively manages external LLM providers and HTTP requests fetching AI results.
 
-## 3. DocCreator Microservice (Python + FastAPI)
+## 3. Backend Microservice (Python + FastAPI)
 
 - **Role:** A dedicated worker service for building native documents. Utilizing Python explicitly takes advantage of its robust native rendering libraries.
 - **Tech Stack:** Python, FastAPI.

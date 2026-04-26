@@ -24,8 +24,6 @@ const GEN_STEPS = [
 ];
 
 export default function RulesForDoc() {
-  const [uploadedFile, setUploadedFile] = useState(null);
-  const [isDragging, setIsDragging] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedData, setGeneratedData] = useState(null);
   const [genFailed, setGenFailed] = useState(false);

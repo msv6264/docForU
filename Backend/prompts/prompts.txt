@@ -23,9 +23,6 @@ Document Type
 Total Slides or Pages Required
 {{noOfSlides}}
 
-Tone Guideline
-{{rulesForDoc}}
-
 Sections Breakdown
 {{sectionBreakdown}}
 

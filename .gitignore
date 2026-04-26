@@ -1,8 +1,10 @@
 Backend/notes/
-DocCreator/services/__pycache__/
+Backend/services/__pycache__/
 __pycache__/
 *.pyc
 venv/
 generated_files/
-DocCreator/test_*.py
+Backend/test_*.py
 node_modules/
+.env
+*.env

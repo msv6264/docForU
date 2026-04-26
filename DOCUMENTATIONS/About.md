@@ -54,7 +54,6 @@ The backend is structured into specialized modules to enforce a clean separation
 - **`controllers/`**: Coordinates the request logic, parsing inputs and delegating tasks.
 - **`services/`**: Core business logic.
   - `docService.js`: Prepares templates and handles prompt building.
-  - `toneService.js`: Interprets user styling rules and refines them.
 - **`ai/`**: Interfaces with external LLM providers.
   - `cerebras.js`: Manages rapid content generation.
   - `openrouter.js`: Handles tone/instruction refinement.
@@ -65,7 +64,7 @@ Ensures the output is returned in **strict structured JSON format**, abstracting
 
 ---
 
-## 3. DocCreator Service (Python + FastAPI)
+## 3. Backend Service (Python + FastAPI)
 
 ### Role
 
@@ -86,8 +85,8 @@ Document rendering engine (Structured Data → Native File format).
 1. **Input**: User inputs topic and requirements through the Frontend wizard.
 2. **Orchestration**: Express backend controller receives the request, delegates refinement and prompt building to respective services.
 3. **Generation**: `ai` communicates with LLM providers to return **structured JSON output**.
-4. **Compilation**: The Controller passes the generated structured JSON to the Python DocCreator service via internal API routing.
-5. **Rendering**: DocCreator's specific format service (e.g., `ppt_service.py`) generates the native file.
+4. **Compilation**: The Controller passes the generated structured JSON to the Python Backend service via internal API routing.
+5. **Rendering**: Backend's specific format service (e.g., `ppt_service.py`) generates the native file.
 6. **Delivery**: The compiled file is returned to the user for download.
 
 ---
