@@ -8,3 +8,4 @@ cerebras_cloud_sdk
 xlsxwriter
 starlette
 typing-extensions
+python-multipart
