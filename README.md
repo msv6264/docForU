@@ -1,5 +1,7 @@
 # 🚀 docForU
 
+> **Note:** The AI models used in this project were free during development, but they are now paid services on Cerebras. Because of this, certain AI-powered features may not work anymore. 
+
 **docForU** is an AI-powered document generation platform that helps users create **structured presentations and documents** with precise control over content organization.
 
 Unlike traditional AI tools that generate generic text, docForU focuses on **controlled, structured generation**, where content is created in a predefined format and directly converted into downloadable native files like PPTs and DOCs.
